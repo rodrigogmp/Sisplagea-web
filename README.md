@@ -1,4 +1,4 @@
-# sisplagea-web
+# SisPlagea - Web
 
 ## Project setup
 ```
