@@ -3,7 +3,7 @@
         <Navbar estaLogado/>
 
         <v-content>
-            <HelloWorld/>
+            <ModuloPrincipal/>
         </v-content>
 
         <Footer/>
@@ -11,14 +11,14 @@
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld'
+import ModuloPrincipal from '@/components/ModuloPrincipal'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export default {
     name: 'App',
     components: {
-        HelloWorld,
+        ModuloPrincipal,
         Navbar,
         Footer
     },
