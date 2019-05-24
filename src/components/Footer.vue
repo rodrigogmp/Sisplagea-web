@@ -1,5 +1,5 @@
 <template>
-    <v-footer dark height="auto">
+    <v-footer dark absolute dense app height="auto">
         <v-card flat tile class="flex light-blue darken-3 white--text text-xs-center">
             <v-card-text class="white--text pt-3">
                 Trabalho de programação web.

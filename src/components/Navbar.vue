@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar app dark class="light-blue darken-3">
+    <v-toolbar app dark clipped-left dense fixed absolute class="light-blue darken-3">
         <v-toolbar-title class="headline">
             <v-icon large>business</v-icon>
             <span> SisPlagea</span>
