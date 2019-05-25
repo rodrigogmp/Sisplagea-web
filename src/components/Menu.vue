@@ -1,21 +1,21 @@
 <template>
-    <v-navigation-drawer width="280" dark class="grey darken-4" clipped fixed app>
+    <v-navigation-drawer width="250" dark class="grey darken-4" mobile-break-point="991" clipped fixed app>
         <v-toolbar flat class="transparent">
-            <v-list class="pa-0">
+            <v-list>
                 <v-list-tile avatar>
-                    <v-list-tile-avatar>
-                        <img src="@/assets/durelli.png">
+                    <v-list-tile-avatar color="white">
+                        <img contain src="@/assets/durelli.png">
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>Rafael Durelli</v-list-tile-title>
+                        <v-list-tile-title class="title">Rafael Durelli</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
         </v-toolbar>
 
-        <v-list class="pt-0" dense>
+        <v-list three-line>
             <v-divider></v-divider>
-            <v-list-tile v-for="(opcao, i) in opcoes" :to="opcao.para" :key="i" class="v-list-item">
+            <v-list-tile v-for="(opcao, i) in opcoes" :key="i" :href="opcao.para" class="v-list-item">
                 <v-list-tile-action>
                     <v-icon>{{ opcao.icone }}</v-icon>
                 </v-list-tile-action>
@@ -27,7 +27,7 @@
                         <v-list-tile-title>Cadastrar</v-list-tile-title>
                     </v-list-tile>
                 </template>
-                <v-list-tile v-for="(cadastro, i) in cadastrar" :to="cadastro.para" :key="i" class="v-list-item">
+                <v-list-tile v-for="(cadastro, i) in cadastrar" :key="i" :href="cadastro.para" class="v-list-item">
                     <v-list-tile-title v-text="cadastro.titulo"></v-list-tile-title>
                     <v-list-tile-action>
                         <v-icon>{{ cadastro.icone }}</v-icon>
@@ -42,16 +42,16 @@
   export default {
     data: () => ({
       opcoes: [
-        { titulo: 'Adicionar Aluno', icone: 'person_add', para: '/adicionarAluno' },
-        { titulo: 'Editar Info Pessoais', icone: 'settings', para: '/infoPessoais' },
-        { titulo: 'Lista de Alunos', icone: 'supervisor_account', para: '/listarAlunos' },
-        { titulo: 'Buscar atividades', icone: 'zoom_in', para: '/listarAlunos' },
+        { titulo: 'Adicionar Aluno', icone: 'person_add', para: '/adicionarAluno.html' },
+        { titulo: 'Lista de Alunos', icone: 'supervisor_account', para: '/listarAlunos.html' },
+        { titulo: 'Buscar atividades', icone: 'search', para: '/buscarAtividades.html' },
+        { titulo: 'Editar Info Pessoais', icone: 'settings', para: '/infoPessoais.html' }
       ],
       cadastrar: [
-        { titulo: 'Publicação', icone: 'import_contacts', para: '/adicionarAluno' },
-        { titulo: 'disciplina', icone: 'border_color', para: '/adicionarAluno' },
-        { titulo: 'grupo pesq.', icone: 'group_add', para: '/adicionarAluno' },
-        { titulo: 'projeto pesq.', icone: 'attachment', para: '/adicionarAluno' },
+        { titulo: 'Publicação', icone: 'import_contacts', para: '/cadastrarPublicacao.html' },
+        { titulo: 'Grupo pesq.', icone: 'group_add', para: '/cadastrarGrupoPesq.html' },
+        { titulo: 'Projeto pesq.', icone: 'attachment', para: '/cadastrarProjPesq.html' },
+        { titulo: 'Disciplina', icone: 'border_color', para: '/cadastrarDisciplina.html' }
       ]
     })
   }

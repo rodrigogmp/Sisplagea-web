@@ -83,6 +83,18 @@ module.exports = {
             template: 'public/index.html',
             title: 'Informações da disciplina',
             chunks: ['chunk-vendors', 'chunk-common', 'espacoDisciplina']
+        },
+        'buscarAtividades': {
+            entry: './src/pages/buscarAtividades/main.js',
+            template: 'public/index.html',
+            title: 'Buscar atividades do professor',
+            chunks: ['chunk-vendors', 'chunk-common', 'buscarAtividades']
+        },
+        'atualizarDadosAluno': {
+            entry: './src/pages/atualizarDadosAluno/main.js',
+            template: 'public/index.html',
+            title: 'Atualizar dados do aluno',
+            chunks: ['chunk-vendors', 'chunk-common', 'atualizarDadosAluno']
         }
     }
 }
