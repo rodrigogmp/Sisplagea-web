@@ -1,16 +1,13 @@
 <template>
     <v-container fluid>
-        <v-layout align-center justify-center fill-height row wrap>
-            <v-flex xs2 offset-xs1 grow>
+        <v-layout align-center justify-center fill-height row>
+            <v-flex xs2 offset-xs1>
                 <strong class="title" wrap>Nome:</strong>
                 <p>Lorem ipsum dolor sit amet consectetus</p>
-                <br />
                 <strong class="title" wrap>Formação:</strong>
                 <p>Lorem ipsum dolor sit amet consectetus Lorem ipsum</p>
-                <br />
                 <strong class="title" wrap>Departamento:</strong>
                 <p>DCC</p>
-                <br />
                 <strong class="title" wrap>Sala:</strong>
                 <p>04</p>
             </v-flex>

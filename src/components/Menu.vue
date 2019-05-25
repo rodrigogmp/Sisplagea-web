@@ -13,7 +13,7 @@
             </v-list>
         </v-toolbar>
 
-        <v-list three-line>
+        <v-list two-line>
             <v-divider></v-divider>
             <v-list-tile v-for="(opcao, i) in opcoes" :key="i" :href="opcao.para" class="v-list-item">
                 <v-list-tile-action>
@@ -27,7 +27,7 @@
                         <v-list-tile-title>Cadastrar</v-list-tile-title>
                     </v-list-tile>
                 </template>
-                <v-list-tile v-for="(cadastro, i) in cadastrar" :key="i" :href="cadastro.para" class="v-list-item">
+                <v-list-tile v-for="(cadastro, i) in cadastros" :key="i" :href="cadastro.para" class="v-list-item">
                     <v-list-tile-title v-text="cadastro.titulo"></v-list-tile-title>
                     <v-list-tile-action>
                         <v-icon>{{ cadastro.icone }}</v-icon>
@@ -42,12 +42,13 @@
   export default {
     data: () => ({
       opcoes: [
+        { titulo: 'Home', icone: 'home', para: '/home.html' },
         { titulo: 'Adicionar Aluno', icone: 'person_add', para: '/adicionarAluno.html' },
         { titulo: 'Lista de Alunos', icone: 'supervisor_account', para: '/listarAlunos.html' },
         { titulo: 'Buscar atividades', icone: 'search', para: '/buscarAtividades.html' },
         { titulo: 'Editar Info Pessoais', icone: 'settings', para: '/infoPessoais.html' }
       ],
-      cadastrar: [
+      cadastros: [
         { titulo: 'Publicação', icone: 'import_contacts', para: '/cadastrarPublicacao.html' },
         { titulo: 'Grupo pesq.', icone: 'group_add', para: '/cadastrarGrupoPesq.html' },
         { titulo: 'Projeto pesq.', icone: 'attachment', para: '/cadastrarProjPesq.html' },

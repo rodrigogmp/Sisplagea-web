@@ -8,7 +8,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn v-if="estaLogado" flat href="/home.html">
+        <v-btn v-if="estaLogado" flat href="/paginaPrincipal.html">
             <span class="mr-2">Sair</span>
             <v-icon>input</v-icon>
         </v-btn>
