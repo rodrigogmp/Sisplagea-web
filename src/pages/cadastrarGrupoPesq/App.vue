@@ -1,28 +1,27 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="@/assets/logo.png">
-    <HelloWorld msg="teste Cadastrar grupo pesquisa"/>
-  </div>
+    <v-app>
+        <Menu/>
+        <Navbar estaLogado/>
+        <v-content>
+            <ModuloCadastrarGrupo/>
+        </v-content>
+        <Footer/>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
+    import Navbar from '@/components/Navbar.vue'
+    import Footer from '@/components/Footer.vue'
+    import Menu from '@/components/Menu.vue'
+    import ModuloCadastrarGrupo from '@/components/ModuloCadastrarGrupo.vue'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'app',
+        components: {
+            Navbar,
+            Footer,
+            Menu,
+            ModuloCadastrarGrupo
+        }
+    }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

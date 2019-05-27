@@ -72,12 +72,6 @@ module.exports = {
             title: 'Cadastrar novo projeto pesquisa',
             chunks: ['chunk-vendors', 'chunk-common', 'cadastrarProjPesq']
         },
-        'atividadesProfessor': {
-            entry: './src/pages/atividadesProfessor/main.js',
-            template: 'public/index.html',
-            title: 'Atividades Realizadas pelo professor',
-            chunks: ['chunk-vendors', 'chunk-common', 'atividadesProfessor']
-        },
         'espacoDisciplina': {
             entry: './src/pages/espacoDisciplina/main.js',
             template: 'public/index.html',
@@ -89,12 +83,6 @@ module.exports = {
             template: 'public/index.html',
             title: 'Buscar atividades do professor',
             chunks: ['chunk-vendors', 'chunk-common', 'buscarAtividades']
-        },
-        'atualizarDadosAluno': {
-            entry: './src/pages/atualizarDadosAluno/main.js',
-            template: 'public/index.html',
-            title: 'Atualizar dados do aluno',
-            chunks: ['chunk-vendors', 'chunk-common', 'atualizarDadosAluno']
         }
     }
 }
