@@ -19,7 +19,7 @@
                 @blur="$v.sala.$touch()"
                 ></v-text-field>
                 <v-textarea name="input-7-1" label="Sobre" v-model="sobre" :error-messages="sobre"></v-textarea>
-                <v-btn @click="submit" outline color="indigo" :right="true" value="Atualizar">Atualadfasizar</v-btn>
+                <v-btn @click="submit" outline color="indigo" :right="true">Atualadfasizar</v-btn>
             </form>
         </v-flex>
     </v-layout>
