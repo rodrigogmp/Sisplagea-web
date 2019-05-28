@@ -3,7 +3,7 @@
         <v-toolbar-title class="headline">
             <v-icon large>business</v-icon>
             <span> SisPlagea</span>
-            <span class="font-weight-light text-uppercase"> - Sistema de Planejamento de Atividades</span>
+            <span class="font-weight-light text-uppercase"> - Sistema de Planejamento e Gestão de Atividades</span>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
