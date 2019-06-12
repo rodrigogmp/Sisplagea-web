@@ -2,6 +2,7 @@
     <v-layout justify-center>
         <v-flex xs12 sm10 md8 lg6>
             <h1>Cadastrar Disciplina</h1>
+            <v-divider></v-divider>
             <form>
                 <v-text-field v-model="nome" :error-messages="nomeErrors" :counter="254" label="Nome" required
                 @input="$v.nome.$touch()"

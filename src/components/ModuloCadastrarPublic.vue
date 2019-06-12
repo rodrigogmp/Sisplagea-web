@@ -2,6 +2,7 @@
     <v-layout justify-center>
         <v-flex xs12 sm10 md8 lg6>
             <h1>Cadastrar Publicações</h1>
+            <v-divider></v-divider>
             <form>
                 <v-text-field v-model="titulo" :error-messages="tituloErrors" :counter="254" label="Título" required
                 @input="$v.titulo.$touch()"

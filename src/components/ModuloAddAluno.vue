@@ -1,7 +1,8 @@
 <template>
     <v-layout justify-center>
         <v-flex xs12 sm10 md8 lg6>
-            <h1>Adicionar Alunos</h1>
+            <h1>Adicionar Aluno</h1>
+            <v-divider></v-divider>
             <form>
                 <v-text-field v-model="name" :error-messages="nameErrors" :counter="254" label="Nome" required
                 @input="$v.name.$touch()"
