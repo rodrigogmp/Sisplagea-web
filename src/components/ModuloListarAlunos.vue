@@ -34,7 +34,7 @@
                             </v-layout>
                         </template>
                     </v-data-iterator>
-                    <v-dialog v-model="dialog" persistent max-width="600px">
+                    <v-dialog v-model="dialog" persistent max-width="680px">
                         <v-card>
                             <v-card-title>
                                 <span class="headline">Aluno "Nome do aluno"</span>
@@ -49,6 +49,9 @@
                                             <v-text-field label="matrícula" value="1234567" disabled></v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
+                                            <br />
+                                            <br />
+                                            <br />
                                             <v-divider />
                                         </v-flex>
                                         <v-flex xs12 offset-xs3>

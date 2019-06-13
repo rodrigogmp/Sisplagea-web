@@ -1,3 +1,7 @@
 <template>
-    <p>Página Buscar Atividades</p>
+    <v-container fluid>
+        <v-layout justify-center align-center>
+
+        </v-layout>
+    </v-container>
 </template>
