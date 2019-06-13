@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer width="250" dark class="grey darken-4" mobile-break-point="991" clipped fixed app>
+    <v-navigation-drawer width="250" dark class="grey darken-4" mobile-break-point="700" clipped fixed app>
         <v-toolbar flat class="transparent">
             <v-list>
                 <v-list-tile avatar>

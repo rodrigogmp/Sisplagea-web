@@ -21,7 +21,7 @@
                             </v-layout>
                             <v-layout justify-center>
                                 <v-card-actions>
-                                    <v-btn @click="submit" outline color="indigo" :right="true">contatar</v-btn>
+                                    <v-btn @click="submit" outline color="info" :right="true">contatar</v-btn>
                                 </v-card-actions>
                             </v-layout>
                         </v-container>
