@@ -17,7 +17,7 @@
             <v-flex xs12 sm10 md8 lg6>
                 <template>
                     <div>
-                        <v-toolbar flat color="white">
+                        <v-toolbar flat color="#FAFAFA">
                             <v-toolbar-title>Participantes</v-toolbar-title>
                             <v-spacer></v-spacer>
                             <v-dialog v-model="dialog" max-width="500px">
@@ -30,14 +30,14 @@
                                     </v-card-title>
                                     <v-card-text>
                                         <v-container grid-list-md>
-                                        <v-layout column>
-                                            <v-flex xs12 sm6 md4>
-                                            <v-text-field v-model="editedItem.nome" label="Nome"></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12 sm6 md4>
-                                            <v-text-field v-model="editedItem.titulacao" label="Titulação"></v-text-field>
-                                            </v-flex>
-                                        </v-layout>
+                                            <v-layout column>
+                                                <v-flex xs12 sm12 md12>
+                                                    <v-text-field v-model="editedItem.nome" label="Nome"></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm12 md12>
+                                                    <v-text-field v-model="editedItem.titulacao" label="Titulação"></v-text-field>
+                                                </v-flex>
+                                            </v-layout>
                                         </v-container>
                                     </v-card-text>
                                     <v-card-actions>
@@ -48,11 +48,18 @@
                                 </v-card>
                             </v-dialog>
                         </v-toolbar>
-                        <v-data-table :headers="headers" :items="participantes" class="elevation-1" hide-actions>
+                        <v-data-table :headers="headers" :items="participantes" class="elevation-0" hide-actions>
                             <template v-slot:items="props">
                                 <td>{{ props.item.nome }}</td>
-                                <td class="text-xs-right">{{ props.item.titulacao }}</td>
-                                <td class="justify-center layout px-0"><v-icon small @click="deleteItem(props.item)">delete</v-icon></td>
+                                <td>{{ props.item.titulacao }}</td>
+                                <td class="text-xs-right">
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon @click="deleteItem(props.item)" v-on="on">delete</v-icon>
+                                        </template>
+                                        <span>Remover colaborador</span>
+                                    </v-tooltip>
+                                </td>
                             </template>
                             <template v-slot:no-data>
                                 <span>Nenhum participante neste projeto</span>
@@ -60,7 +67,8 @@
                         </v-data-table>
                     </div>
                 </template>
-                <v-btn @click="submit" outline color="info" :right="true">Cadastrar</v-btn>
+                <v-btn @click="alerta = !alerta" outline color="info" :right="true">Cadastrar</v-btn>
+                <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Projeto de pesquisa cadastrado com sucesso.</v-alert>
             </v-flex>
         </v-layout>
     </v-container>
@@ -69,91 +77,86 @@
 <script>
   export default {
     data: () => ({
+      alerta: false,
       dialog: false,
       headers: [
-        { text: 'Nome', align: 'left', sortable: false, value: 'nome' },
-        { text: 'Titulação', value: 'nome', sortable: false},
-        { text: 'Ações', value: 'titulacao', sortable: false, align: 'right' }
+        { text: 'Nome', value: 'nome', sortable: false, align: 'left' },
+        { text: 'Titulação', value: 'titulacão', sortable: false, align: 'left'},
+        { text: 'Ações', value: 'ação', sortable: false, align: 'right' }
       ],
       participantes: [],
       editedIndex: -1,
       editedItem: {
         nome: '',
-        titulacao: 0,
+        titulacao: '',
       },
       defaultItem: {
         nome: '',
-        titulacao: 0,
+        titulacao: '',
       }
     }),
-
     watch: {
       dialog (val) {
         val || this.close()
       }
     },
-
     created () {
       this.initialize()
     },
-
     methods: {
       initialize () {
         this.participantes = [
           {
             nome: 'Frozen Yogurt',
-            titulacao: 159,
+            titulacao: 'mestre',
           },
           {
             nome: 'Ice cream sandwich',
-            titulacao: 237,
+            titulacao: 'mestre',
           },
           {
             nome: 'Eclair',
-            titulacao: 262,
+            titulacao: 'mestre',
           },
           {
             nome: 'Cupcake',
-            titulacao: 305,
+            titulacao: 'mestre',
           },
           {
             nome: 'Gingerbread',
-            titulacao: 356,
+            titulacao: 'mestre',
           },
           {
             nome: 'Jelly bean',
-            titulacao: 375,
+            titulacao: 'lixo',
           },
           {
             nome: 'Lollipop',
-            titulacao: 392,
+            titulacao: 'aluno',
           },
           {
             nome: 'Honeycomb',
-            titulacao: 408,
+            titulacao: 'doutor',
           },
           {
             nome: 'Donut',
-            titulacao: 452,
+            titulacao: 'mestre',
           },
           {
             nome: 'KitKat',
-            titulacao: 518,
+            titulacao: 'mestre',
           }
         ]
       },
-
       editItem (item) {
         this.editedIndex = this.participantes.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
-
       deleteItem (item) {
         const index = this.participantes.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.participantes.splice(index, 1)
+        confirm('Tem certeza que deseja remover este colaborador?') && this.participantes.splice(index, 1)
       },
-
       close () {
         this.dialog = false
         setTimeout(() => {
@@ -161,7 +164,6 @@
           this.editedIndex = -1
         }, 300)
       },
-
       save () {
         if (this.editedIndex > -1) {
           Object.assign(this.participantes[this.editedIndex], this.editedItem)

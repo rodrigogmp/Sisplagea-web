@@ -24,9 +24,20 @@
                     <v-textarea name="input-7-1" label="Objetivos" v-model="objetivos" :error-messages="objetivos" 
                     required></v-textarea>
                     //Repensar adicionar pesquisador <br>
-                    <v-btn @click="submit" outline color="indigo" :right="true">Cadastrar</v-btn>
+                    <v-btn @click="alerta = !alerta" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
+                <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Grupo de pesquisa cadastrado com sucesso.</v-alert>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
+
+<script>
+export default {
+data () {
+        return {
+            alerta: false
+        }
+    }
+}
+</script>

@@ -46,9 +46,20 @@
                     <v-divider class="grey" />
                     <br />
                     <br />
-                    <v-btn @click="submit" outline color="indigo" :right="true">Cadastrar</v-btn>
+                    <v-btn @click="alerta = !alerta" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
+                <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Publicação cadastrada com sucesso.</v-alert>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
+
+<script>
+export default {
+data () {
+        return {
+            alerta: false
+        }
+    }
+}
+</script>

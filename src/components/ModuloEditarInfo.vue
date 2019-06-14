@@ -22,9 +22,20 @@
                     @blur="$v.sala.$touch()"
                     ></v-text-field>
                     <v-textarea name="input-7-1" label="Sobre" v-model="sobre" :error-messages="sobre"></v-textarea>
-                    <v-btn @click="submit" outline color="indigo" :right="true">Atualizar</v-btn>
+                    <v-btn @click="alerta = !alerta" outline color="info" :right="true">Atualizar</v-btn>
                 </form>
+                <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Informações pessoais alteradas com sucesso.</v-alert>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
+
+<script>
+export default {
+data () {
+        return {
+            alerta: false
+        }
+    }
+}
+</script>

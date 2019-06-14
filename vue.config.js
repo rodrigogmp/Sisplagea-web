@@ -42,12 +42,6 @@ module.exports = {
             title: 'Listar alunos',
             chunks: ['chunk-vendors', 'chunk-common', 'listarAlunos']
         },
-        'atualizarInfoAluno': {
-            entry: './src/pages/atualizarInfoAluno/main.js',
-            template: 'public/index.html',
-            title: 'Atualizar informações do aluno',
-            chunks: ['chunk-vendors', 'chunk-common', 'atualizarInfoAluno']
-        },
         'cadastrarPublicacao': {
             entry: './src/pages/cadastrarPublicacao/main.js',
             template: 'public/index.html',
