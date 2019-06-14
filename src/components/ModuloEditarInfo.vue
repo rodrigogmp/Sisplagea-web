@@ -9,18 +9,32 @@
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
                     ></v-text-field>
-                    <v-text-field v-model="formacao" :error-messages="formacaoErrors" label="Formacao" required
-                    @input="$v.formacao.$touch()"
-                    @blur="$v.formacao.$touch()"
-                    ></v-text-field>
-                    <v-text-field v-model="departamento" :error-messages="departamentoErrors" label="Departamento" required
-                    @input="$v.departamento.$touch()"
-                    @blur="$v.departamento.$touch()"
-                    ></v-text-field>
-                    <v-text-field v-model="sala" :error-messages="salaErrors" label="Sala" required
-                    @input="$v.sala.$touch()"
-                    @blur="$v.sala.$touch()"
-                    ></v-text-field>
+                    <v-layout justify-center>
+                        <v-flex xs12 md6 sm6 lg6>
+                            <v-text-field v-model="formacao" :error-messages="formacaoErrors" label="Formacao" required
+                            @input="$v.formacao.$touch()"
+                            @blur="$v.formacao.$touch()"
+                            ></v-text-field>
+                            <v-text-field v-model="departamento" :error-messages="departamentoErrors" label="Departamento" required
+                            @input="$v.departamento.$touch()"
+                            @blur="$v.departamento.$touch()"
+                            ></v-text-field>
+                            <v-text-field v-model="sala" :error-messages="salaErrors" label="Sala" required
+                            @input="$v.sala.$touch()"
+                            @blur="$v.sala.$touch()"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 md6 sm6 lg6>
+                            <v-layout justify-center column>
+                                <v-flex offset-xs3>
+                                    <v-avatar size="180"><v-img :src="require('@/assets/durelli.png')" contain></v-img></v-avatar>
+                                </v-flex>
+                                <v-flex offset-xs3>
+                                    <input type="file" accept="image/x-png,image/gif,image/jpeg">
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
                     <v-textarea name="input-7-1" label="Sobre" v-model="sobre" :error-messages="sobre"></v-textarea>
                     <v-btn @click="alerta = !alerta" outline color="info" :right="true">Atualizar</v-btn>
                 </form>
