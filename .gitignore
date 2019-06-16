@@ -1,2 +1,4 @@
 # Arquivos vscode
 .vscode/
+
+/node_modules
