@@ -10,7 +10,7 @@
                         <v-window-item>
                             <v-card-text>
                                 <v-text-field prepend-icon="mail" label="Email" type="text" v-model="email" required></v-text-field>
-                                <v-text-field prepend-icon="lock" label="Senha" type="password" v-modal="senha" required></v-text-field>
+                                <v-text-field prepend-icon="lock" label="Senha" type="password" v-model="senha" required></v-text-field>
                                 <span class="caption grey--text text--darken-1">Informe o email e a senha.</span>
                             </v-card-text>
                         </v-window-item>
@@ -19,7 +19,7 @@
                     <v-card-actions>
                         <v-btn color="secundary" outline depressed href="/paginaPrincipal.html">Voltar</v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" depressed href="/home.html">Logar</v-btn>
+                        <v-btn color="primary" depressed  @click="login">Logar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -28,10 +28,28 @@
 </template>
 
 <script>
+    // var client = ''
+    // var uid = ''
+    // var access_token = ''
+    import axios from 'axios'
     export default {
         data: () => ({
             email: '',
-            senha: ''
-        })
+            senha: '',
+        
+        }),
+    
+        methods: {
+        
+            login() {
+                axios
+                    .post('http://localhost:3000/api/v1/auth/sign_in', {email: this.email, password: this.senha})
+                    .then((response) => {
+                        if(response.status == 200){
+                            window.location.href = '/home.html'
+                        }
+                })
+            }
+        }
     }
 </script>
