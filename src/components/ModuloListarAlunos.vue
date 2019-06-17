@@ -1,3 +1,4 @@
+import axios from 'axios';
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center>
@@ -13,9 +14,9 @@
                                         <v-list three-line>
                                             <v-list-tile>
                                                 <v-list-tile-content>
-                                                    <v-list-tile-title><h3>Nome: {{ props.item.nome }}</h3></v-list-tile-title>
+                                                    <v-list-tile-title><h3>Nome: {{ props.item.name }}</h3></v-list-tile-title>
                                                     <v-list-tile-title><strong>Matricula:</strong> {{ props.item.matricula }}</v-list-tile-title>
-                                                    <v-list-tile-title><strong>Categoria:</strong> {{ props.item.categoria }}</v-list-tile-title>
+                                                    <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
                                                 </v-list-tile-content>
                                                 <v-list-content>
                                                     <v-list-tile-action class="align-end">
@@ -109,6 +110,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data: () => ({
         dataInicio: new Date().toISOString().substr(0, 10),
@@ -121,73 +123,19 @@ export default {
             rowsPerPage: 4,
             sortBy: 'nome'
         },
-      alunos: [
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 122343454,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 1224343454,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 1227867454,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'adfsd sdfsdf fsdf',
-              matricula: 1224908954,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 1224787654,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 1342245363454,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 1226765454,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 1220845454,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'bdfsd sdfsdf fsdf',
-              matricula: 12254554,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 4564564,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 5476879,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 34562234,
-              categoria: 'iniciação cientifica'
-          },
-          {
-              nome: 'dfsd sdfsdf fsdf',
-              matricula: 122546543454,
-              categoria: 'iniciação cientifica'
-          },
-      ]
-    })
+      alunos: []
+    }),
+    
+    mounted() {
+        axios
+            .get('http://localhost:3000/api/v1/students.json')
+            .then((response) => {
+                console.log(response.data.students)
+                this.alunos = response.data.students
+                
+            }).catch ((err) => {
+                console.log(err)
+            }) 
+    }
 }
 </script>
