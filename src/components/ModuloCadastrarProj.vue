@@ -10,6 +10,64 @@
                     @blur="$v.nome.$touch()"
                     ></v-text-field>
                     <v-textarea name="input-7-1" label="Descrição" v-model="descricao" :error-messages="descricao" required></v-textarea>
+                    <v-btn @click="cadastrarProjeto" outline color="info" :right="true">Cadastrar</v-btn>
+                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Projeto de pesquisa cadastrado com sucesso.</v-alert>
+                </form>
+            </v-flex>
+        </v-layout>
+    </v-container>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+    data () {
+        return {
+            alerta: false,
+            erro: false,
+            nome: '',
+            descricao: ''
+            
+        }
+    },
+    methods: {
+        cadastrarProjeto() {
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/v1/projects.json',
+                data: {
+                    name: this.nome,
+                    abstract: this.descricao,
+                    
+                }
+            }).then((response) => {
+                
+                this.alerta = !this.alerta
+                
+            }).catch((err)=>{
+                this.erro = true
+            })
+        }
+        
+    }
+}
+</script>
+
+
+<!--
+
+<template>
+    <v-container fluid>
+        <v-layout justify-center>
+            <v-flex xs12 sm10 md8 lg6>
+                <h1>Cadastrar Projeto de Pesquisa</h1>
+                <v-divider></v-divider>
+                <form>
+                    <v-text-field v-model="nome" :error-messages="nomeErrors" :counter="254" label="Nome do projeto" required
+                    @input="$v.nome.$touch()"
+                    @blur="$v.nome.$touch()"
+                    ></v-text-field>
+                    <v-textarea name="input-7-1" label="Descrição" v-model="descricao" :error-messages="descricao" required></v-textarea>
                 </form>
             </v-flex>
         </v-layout>
@@ -175,3 +233,5 @@
     }
   }
 </script>
+
+-->

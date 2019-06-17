@@ -15,12 +15,10 @@
                         @blur="$v.matricula.$touch()"
                         ></v-text-field>
                     </v-flex> -->
-                    <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
-                        @input="$v.email.$touch()"
-                        @blur="$v.email.$touch()"
-                        ></v-text-field>
-                    </v-flex>
+                    <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
+                    @input="$v.email.$touch()"
+                    @blur="$v.email.$touch()"
+                    ></v-text-field>
                     <v-radio-group v-model="radioGroup" label="Categoria:">
                         <v-radio label="Iniciação Cientifica" value="scientific_research"></v-radio>
                         <v-radio label="Mestrado" value="masters_degree"></v-radio>

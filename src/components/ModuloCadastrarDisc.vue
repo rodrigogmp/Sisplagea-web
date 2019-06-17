@@ -24,8 +24,8 @@
                         </v-flex>
                     </v-layout>
                     <v-radio-group v-model="radioGroup" label="Turma:">
-                        <v-radio label="Graduação" value="1"></v-radio>
-                        <v-radio label="Pós-Graduação" value="2"></v-radio>
+                        <v-radio label="Graduação" value="graduate"></v-radio>
+                        <v-radio label="Pós-Graduação" value="postgraduate"></v-radio>
                     </v-radio-group>
                     <v-text-field v-model="localAulas" :error-messages="localAulasErrors" label="Local das aulas" required
                     @input="$v.localAulas.$touch()"
@@ -33,20 +33,51 @@
                     ></v-text-field>
                     <v-textarea name="input-7-1" label="Descrição" v-model="descricao" :error-messages="descricao" 
                     required></v-textarea>
-                    <v-btn @click="alerta = !alerta" outline color="info" :right="true">Cadastrar</v-btn>
+                    <v-btn @click="cadastrarDisciplina" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
                 <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Disciplina cadastrada com sucesso.</v-alert>
+                <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">Erro ao cadastrar Disciplina.</v-alert>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-data () {
+    data () {
         return {
-            alerta: false
+            alerta: false,
+            erro: false,
+            nome: '',
+            codigo: '',
+            horas: '',
+            radioGroup: '',
+            localAulas: '',
+            descricao: ''
         }
+    },
+    methods: {
+        cadastrarDisciplina() {
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/v1/subjects.json',
+                data: {
+                    name: this.nome,
+                    category: this.radioGroup,
+                    code: this.codigo,
+                    workload: this.horas,
+                    class_location: this.localAulas,
+                    description: this.descricao
+                }
+            }).then((response) => {
+                this.alerta = !this.alerta
+                
+            }).catch((err)=>{
+                this.erro = true
+            })
+        }
+        
     }
 }
 </script>
