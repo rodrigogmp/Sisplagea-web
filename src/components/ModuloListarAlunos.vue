@@ -15,7 +15,7 @@ import axios from 'axios';
                                             <v-list-tile>
                                                 <v-list-tile-content>
                                                     <v-list-tile-title><h3>Nome: {{ props.item.name }}</h3></v-list-tile-title>
-                                                    <v-list-tile-title><strong>Matricula:</strong> {{ props.item.matricula }}</v-list-tile-title>
+                                                    <v-list-tile-title><strong>Matricula:</strong> {{ props.item.id }}</v-list-tile-title>
                                                     <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
                                                 </v-list-tile-content>
                                                 <v-list-content>

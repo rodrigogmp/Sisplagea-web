@@ -14,9 +14,9 @@
                     @blur="$v.journal.$touch()"
                     ></v-text-field>
                     <v-radio-group v-model="radioGroup" label="Tipo:">
-                        <v-radio label="Conferência" value="1"></v-radio>
-                        <v-radio label="Resumo" value="2"></v-radio>
-                        <v-radio label="Periódico" value="3"></v-radio>
+                        <v-radio label="Conferência" value="conference"></v-radio>
+                        <v-radio label="Resumo" value="abstract"></v-radio>
+                        <v-radio label="Periódico" value="periodic"></v-radio>
                     </v-radio-group>
                     <v-layout row wrap>
                         <v-flex xs3 sm3 md2 lg2>
@@ -46,20 +46,55 @@
                     <v-divider class="grey" />
                     <br />
                     <br />
-                    <v-btn @click="alerta = !alerta" outline color="info" :right="true">Cadastrar</v-btn>
+                    <v-btn @click="cadastrarPublicacao" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
                 <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Publicação cadastrada com sucesso.</v-alert>
+                <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">Erro ao cadastrar Publicação.</v-alert>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-data () {
+    data () {
         return {
-            alerta: false
+            alerta: false,
+            erro: false,
+            titulo: '',
+            journal: '',
+            radioGroup: '',
+            anoPublicacao: '',
+            volume: '',
+            paginas: '',
+            autores: ''
+            
         }
+    },
+    methods: {
+        cadastrarPublicacao() {
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/v1/publications.json',
+                data: {
+                    title: this.titulo,
+                    journal: this.journal,
+                    category: this.radioGroup,
+                    year: this.anoPublicacao,
+                    volume: this.volume,
+                    pages: this.paginas,
+                    authors: 'hueaeuaehuahueau'
+                }
+            }).then((response) => {
+                
+                this.alerta = !this.alerta
+                
+            }).catch((err)=>{
+                this.erro = true
+            })
+        }
+        
     }
 }
 </script>
