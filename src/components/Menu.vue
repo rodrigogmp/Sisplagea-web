@@ -34,6 +34,19 @@
                     </v-list-tile-action>
                 </v-list-tile>
             </v-list-group>
+            <v-list-group sub-group no-action>
+                <template v-slot:activator>
+                    <v-list-tile>
+                        <v-list-tile-title>Listar/Editar</v-list-tile-title>
+                    </v-list-tile>
+                </template>
+                <v-list-tile v-for="(lista, i) in listas" :key="i" :href="lista.para" class="v-list-item">
+                    <v-list-tile-title v-text="lista.titulo"></v-list-tile-title>
+                    <v-list-tile-action>
+                        <v-icon>{{ lista.icone }}</v-icon>
+                    </v-list-tile-action>
+                </v-list-tile>
+            </v-list-group>
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -44,7 +57,6 @@
       opcoes: [
         { titulo: 'Home', icone: 'home', para: '/home.html' },
         { titulo: 'Adicionar Aluno', icone: 'person_add', para: '/adicionarAluno.html' },
-        { titulo: 'Lista de Alunos', icone: 'supervisor_account', para: '/listarAlunos.html' },
         { titulo: 'Buscar atividades', icone: 'search', para: '/buscarAtividades.html' },
         { titulo: 'Editar Info Pessoais', icone: 'settings', para: '/infoPessoais.html' }
       ],
@@ -53,6 +65,13 @@
         { titulo: 'Grupo pesq.', icone: 'group_add', para: '/cadastrarGrupoPesq.html' },
         { titulo: 'Projeto pesq.', icone: 'attachment', para: '/cadastrarProjPesq.html' },
         { titulo: 'Disciplina', icone: 'border_color', para: '/cadastrarDisciplina.html' }
+      ],
+      listas: [
+        { titulo: 'Alunos', icone: 'supervisor_account', para: '/listarAlunos.html' },
+        { titulo: 'Publicação', icone: 'import_contacts', para: '/listarPublicacao.html' },
+        { titulo: 'Grupo pesq.', icone: 'group_add', para: '/listarGrupoPesq.html' },
+        { titulo: 'Projeto pesq.', icone: 'attachment', para: '/listarProjPesq.html' },
+        { titulo: 'Disciplina', icone: 'border_color', para: '/listarDisciplina.html' }
       ]
     })
   }

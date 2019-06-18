@@ -14,7 +14,7 @@
                                             <v-list-tile>
                                                 <v-list-tile-content>
                                                     <v-list-tile-title><h3>Nome: {{ props.item.name }}</h3></v-list-tile-title>
-                                                    <v-list-tile-title><strong>Matricula:</strong> {{ props.item.id }}</v-list-tile-title>
+                                                    <v-list-tile-title><strong>Matricula:</strong> {{ props.item.registration }}</v-list-tile-title>
                                                     <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
                                                 </v-list-tile-content>
                                                 <v-list-content>
@@ -32,76 +32,88 @@
                                     </v-card>
                                 </v-flex>
                             </v-layout>
+                            <v-dialog v-model="dialog" persistent max-width="680px">
+                                <v-card>
+                                    <v-card-title>
+                                        <span class="headline">Aluno: {{ props.item.name }} </span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-container grid-list-md>
+                                            <v-layout wrap>
+                                                <v-flex xs12 sm6 md6>
+                                                    <v-text-field label="Nome" v-bind:value="props.item.name" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md6>
+                                                    <v-text-field label="Email" v-bind:value="props.item.email" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md4>
+                                                    <v-text-field label="Matrícula" v-bind:value="props.item.registration" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md4>
+                                                    <v-text-field label="Categoria" v-bind:value="props.item.category" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md4>
+                                                    <v-text-field label="Lattes" v-bind:value="props.item.lattes_link" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-text-field label="Informações" v-bind:value="props.item.relevant_informations" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <br />
+                                                    <br />
+                                                    <br />
+                                                    <v-divider />
+                                                </v-flex>
+                                                <v-flex xs12 offset-xs3>
+                                                    <v-subheader >Adicionar o aluno a um projeto</v-subheader>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-text-field label="Nome do projeto"></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-textarea auto-grow rows="4" label="Resumo do projeto:"></v-textarea>
+                                                </v-flex>
+                                                <v-flex xs3>
+                                                    <v-menu ref="menuInicio" v-model="menuInicio" :close-on-content-click="false" :nudge-right="40" :return-value.sync="dataInicio" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-text-field v-model="dataInicio" label="Inicio" prepend-icon="event" readonly v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="dataInicio" no-title scrollable>
+                                                            <v-spacer></v-spacer>
+                                                            <v-btn flat outline @click="menuInicio = false">Cancel</v-btn>
+                                                            <v-btn flat outline color="info" @click="$refs.menuInicio.save(dataInicio)">OK</v-btn>
+                                                        </v-date-picker>
+                                                    </v-menu>
+                                                </v-flex>
+                                                <v-flex xs3>
+                                                    <v-menu ref="menuFim" v-model="menuFim" :close-on-content-click="false" :nudge-right="40" :return-value.sync="dataFim" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-text-field v-model="dataFim" label="Fim" prepend-icon="event" readonly v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="dataFim" no-title scrollable>
+                                                            <v-spacer></v-spacer>
+                                                            <v-btn flat outline @click="menuFim = false">Cancel</v-btn>
+                                                            <v-btn flat outline color="info" @click="$refs.menuFim.save(dataFim)">OK</v-btn>
+                                                        </v-date-picker>
+                                                    </v-menu>
+                                                </v-flex>
+                                                <v-flex xs5 offset-xs1>
+                                                    <v-card-text>
+                                                        <input type="file">
+                                                    </v-card-text>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
+                                    <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </template>
                     </v-data-iterator>
-                    <v-dialog v-model="dialog" persistent max-width="680px">
-                        <v-card>
-                            <v-card-title>
-                                <span class="headline">Aluno "Nome do aluno"</span>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-container grid-list-md>
-                                    <v-layout wrap>
-                                        <v-flex xs12>
-                                            <v-text-field label="Nome" value="João da Silva" disabled></v-text-field>
-                                        </v-flex>
-                                        <v-flex xs12 sm6 md4>
-                                            <v-text-field label="matrícula" value="1234567" disabled></v-text-field>
-                                        </v-flex>
-                                        <v-flex xs12>
-                                            <br />
-                                            <br />
-                                            <br />
-                                            <v-divider />
-                                        </v-flex>
-                                        <v-flex xs12 offset-xs3>
-                                            <v-subheader >Adicionar o aluno a um projeto</v-subheader>
-                                        </v-flex>
-                                        <v-flex xs12>
-                                            <v-text-field label="Nome do projeto"></v-text-field>
-                                        </v-flex>
-                                        <v-flex xs12>
-                                            <v-textarea auto-grow rows="4" label="Resumo do projeto:"></v-textarea>
-                                        </v-flex>
-                                        <v-flex xs3>
-                                            <v-menu ref="menuInicio" v-model="menuInicio" :close-on-content-click="false" :nudge-right="40" :return-value.sync="dataInicio" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                                <template v-slot:activator="{ on }">
-                                                    <v-text-field v-model="dataInicio" label="Inicio" prepend-icon="event" readonly v-on="on"></v-text-field>
-                                                </template>
-                                                <v-date-picker v-model="dataInicio" no-title scrollable>
-                                                    <v-spacer></v-spacer>
-                                                    <v-btn flat outline @click="menuInicio = false">Cancel</v-btn>
-                                                    <v-btn flat outline color="info" @click="$refs.menuInicio.save(dataInicio)">OK</v-btn>
-                                                </v-date-picker>
-                                            </v-menu>
-                                        </v-flex>
-                                        <v-flex xs3>
-                                            <v-menu ref="menuFim" v-model="menuFim" :close-on-content-click="false" :nudge-right="40" :return-value.sync="dataFim" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                                <template v-slot:activator="{ on }">
-                                                    <v-text-field v-model="dataFim" label="Fim" prepend-icon="event" readonly v-on="on"></v-text-field>
-                                                </template>
-                                                <v-date-picker v-model="dataFim" no-title scrollable>
-                                                    <v-spacer></v-spacer>
-                                                    <v-btn flat outline @click="menuFim = false">Cancel</v-btn>
-                                                    <v-btn flat outline color="info" @click="$refs.menuFim.save(dataFim)">OK</v-btn>
-                                                </v-date-picker>
-                                            </v-menu>
-                                        </v-flex>
-                                        <v-flex xs5 offset-xs1>
-                                            <v-card-text>
-                                                <input type="file">
-                                            </v-card-text>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
-                            <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
                 </v-container>
             </v-flex>
         </v-layout>
@@ -123,9 +135,9 @@ export default {
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,
-            sortBy: 'nome'
+            sortBy: 'name'
         },
-      alunos: []
+        alunos: []
     }),
     
     mounted() {
