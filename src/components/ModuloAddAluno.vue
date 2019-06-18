@@ -73,11 +73,11 @@ export default {
                     lattes_link: this.curriculo,
                     relevant_informations: this.informacoes
                 }
-            }).then((response) => {
+            }).then(() => {
                 
                 this.alerta = !this.alerta
                 
-            }).catch((err)=>{
+            }).catch(()=>{
                 this.erro = true
             })
         }

@@ -132,11 +132,10 @@ export default {
         axios
             .get('http://localhost:3000/api/v1/students.json', config)
             .then((response) => {
-                console.log(response.data.students)
                 this.alunos = response.data.students
                 
-            }).catch ((err) => {
-                console.log(err)
+            }).catch (() => {
+                alert("erro")
             }) 
     }
 }
