@@ -1,4 +1,3 @@
-import axios from 'axios';
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center>
@@ -111,6 +110,9 @@ import axios from 'axios';
 
 <script>
 import axios from 'axios'
+var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+}
 export default {
     data: () => ({
         dataInicio: new Date().toISOString().substr(0, 10),
@@ -128,7 +130,7 @@ export default {
     
     mounted() {
         axios
-            .get('http://localhost:3000/api/v1/students.json')
+            .get('http://localhost:3000/api/v1/students.json', config)
             .then((response) => {
                 console.log(response.data.students)
                 this.alunos = response.data.students

@@ -9,12 +9,12 @@
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
                     ></v-text-field>
-                    <!-- <v-flex xs3 sm3 md3 lg3>
+                    <v-flex xs3 sm3 md3 lg3>
                         <v-text-field v-model="matricula" :error-messages="matriculaErrors" label="Matricula" required
                         @input="$v.matricula.$touch()"
                         @blur="$v.matricula.$touch()"
                         ></v-text-field>
-                    </v-flex> -->
+                    </v-flex>
                     <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
@@ -52,7 +52,10 @@ export default {
             erro: false,
             name: '',
             radioGroup: '',
-            email: ''
+            email: '',
+            curriculo: '',
+            informacoes: '',
+            matricula: ''
 
         }
     },
@@ -61,10 +64,14 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/api/v1/students.json',
+                headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")},
                 data: {
                     name: this.name,
                     category: this.radioGroup,
-                    email: this.email
+                    email: this.email,
+                    registration: this.matricula,
+                    lattes_link: this.curriculo,
+                    relevant_informations: this.informacoes
                 }
             }).then((response) => {
                 

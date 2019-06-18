@@ -28,9 +28,7 @@
 </template>
 
 <script>
-    // var client = ''
-    // var uid = ''
-    // var access_token = ''
+
     import axios from 'axios'
     export default {
         data: () => ({
@@ -46,6 +44,11 @@
                     .post('http://localhost:3000/api/v1/auth/sign_in', {email: this.email, password: this.senha})
                     .then((response) => {
                         if(response.status == 200){
+                            localStorage.setItem("data['at']", response.headers["access-token"]);
+                            localStorage.setItem("data['c']", response.headers["client"]);
+                            localStorage.setItem("data['ct']", response.headers["content-type"]);
+                            localStorage.setItem("data['rt']", response.headers["resource-type"]);
+                            localStorage.setItem("data['uid']", response.headers["uid"]);
                             window.location.href = '/home.html'
                         }
                 })
