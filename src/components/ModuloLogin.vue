@@ -21,6 +21,7 @@
                         <v-spacer></v-spacer>
                         <v-btn color="primary" depressed  @click="login">Logar</v-btn>
                     </v-card-actions>
+                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">Usuário ou senha incorreto.</v-alert>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -32,6 +33,7 @@
     import axios from 'axios'
     export default {
         data: () => ({
+            erro: false,
             email: '',
             senha: '',
         
@@ -40,17 +42,24 @@
         methods: {
         
             login() {
-                axios
-                    .post('http://localhost:3000/api/v1/auth/sign_in', {email: this.email, password: this.senha})
-                    .then((response) => {
-                        if(response.status == 200){
-                            localStorage.setItem("data['at']", response.headers["access-token"]);
-                            localStorage.setItem("data['c']", response.headers["client"]);
-                            localStorage.setItem("data['ct']", response.headers["content-type"]);
-                            localStorage.setItem("data['rt']", response.headers["resource-type"]);
-                            localStorage.setItem("data['uid']", response.headers["uid"]);
-                            window.location.href = '/home.html'
-                        }
+                axios ({
+                    method: 'post',
+                    url: 'http://localhost:3000/api/v1/auth/sign_in',
+                    data: {
+                        email: this.email,
+                        password: this.senha
+                    }
+                }).then((response) => {
+                    if(response.status == 200){
+                        localStorage.setItem("data['at']", response.headers["access-token"]);
+                        localStorage.setItem("data['c']", response.headers["client"]);
+                        localStorage.setItem("data['ct']", response.headers["content-type"]);
+                        localStorage.setItem("data['rt']", response.headers["resource-type"]);
+                        localStorage.setItem("data['uid']", response.headers["uid"]);
+                        window.location.href = '/home.html'
+                    }
+                }).catch(()=>{
+                    this.erro = true
                 })
             }
         }

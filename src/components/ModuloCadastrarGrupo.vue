@@ -15,16 +15,12 @@
                         @blur="$v.anoCriacao.$touch()"
                         ></v-text-field>
                     </v-flex>
-                    <v-textarea name="input-7-1" label="Líder(es)" v-model="lideres" :error-messages="lideres" 
+                    <v-textarea v-model="lideres" name="input-7-1" label="Líder(es)" :error-messages="lideres" 
                     required></v-textarea>
-                    <v-flex xs6 sm6 md6 lg6>
-                        <v-select v-model="select" label="Área predominante"
-                        ></v-select>
-                    </v-flex>
-                    <v-textarea name="input-7-1" label="Objetivos" v-model="objetivos" :error-messages="objetivos" 
+                    <v-text-field v-model="area" :error-messages="areaErrors" label="Área predominante" required></v-text-field>
+                    <v-textarea name="input-7-1" v-model="objetivos" :error-messages="objetivos" label="Objetivos"
                     required></v-textarea>
-                    //Repensar adicionar pesquisador <br>
-                    <v-btn @click="alerta = !alerta" outline color="info" :right="true">Cadastrar</v-btn>
+                    <v-btn @click="cadastrarGrupo" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
                 <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Grupo de pesquisa cadastrado com sucesso.</v-alert>
             </v-flex>
@@ -33,11 +29,43 @@
 </template>
 
 <script>
+import axios from 'axios'
+var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+}
 export default {
-data () {
+    data () {
         return {
-            alerta: false
+            alerta: false,
+            erro: false,
+            nome: '',
+            anoCriacao: '',
+            lideres: '',
+            area: '',
+            objetivos: ''
+        }
+    },
+    methods: {
+        cadastrarGrupo(){
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/v1/study_groups.json',
+                headers: config.headers,
+                data: {
+                    name: this.nome,
+                    create_year: this.anoCriacao,
+                    leaders: this.lideres,
+                    predominant_area: this.area,
+                    objective: this.objetivos
+                }
+            }).then(() => {
+                this.alerta = !this.alerta
+                
+            }).catch(()=>{
+                this.erro = true
+            })
         }
     }
+
 }
 </script>

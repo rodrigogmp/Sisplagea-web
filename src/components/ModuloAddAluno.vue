@@ -45,6 +45,11 @@
 
 <script>
 import axios from 'axios'
+var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+}
+
+console.log(config.headers)
 export default {
     data () {
         return {
@@ -64,7 +69,7 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/api/v1/students.json',
-                headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")},
+                headers: config.headers,
                 data: {
                     name: this.name,
                     category: this.radioGroup,
