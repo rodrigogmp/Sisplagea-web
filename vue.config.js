@@ -77,6 +77,30 @@ module.exports = {
             template: 'public/index.html',
             title: 'Buscar atividades do professor',
             chunks: ['chunk-vendors', 'chunk-common', 'buscarAtividades']
+        },
+        'listarPublicacoes': {
+            entry: './src/pages/listarPublicacoes/main.js',
+            template: 'public/index.html',
+            title: 'Listar Publicações',
+            chunks: ['chunk-vendors', 'chunk-common', 'listarPublicacoes']
+        },
+        'listarGruposPesq': {
+            entry: './src/pages/listarGruposPesq/main.js',
+            template: 'public/index.html',
+            title: 'Listar Publicações',
+            chunks: ['chunk-vendors', 'chunk-common', 'listarGruposPesq']
+        },
+        'listarProjPesq': {
+            entry: './src/pages/listarProjPesq/main.js',
+            template: 'public/index.html',
+            title: 'Listar Projetos de Pesquisa',
+            chunks: ['chunk-vendors', 'chunk-common', 'listarProjPesq']
+        }, 
+        'listarDisciplinas': {
+            entry: './src/pages/listarDisciplinas/main.js',
+            template: 'public/index.html',
+            title: 'Listar Publicações',
+            chunks: ['chunk-vendors', 'chunk-common', 'listarDisciplinas']
         }
     }
 }

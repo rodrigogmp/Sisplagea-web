@@ -68,10 +68,10 @@
       ],
       listas: [
         { titulo: 'Alunos', icone: 'supervisor_account', para: '/listarAlunos.html' },
-        { titulo: 'Publicação', icone: 'import_contacts', para: '/listarPublicacao.html' },
-        { titulo: 'Grupo pesq.', icone: 'group_add', para: '/listarGrupoPesq.html' },
+        { titulo: 'Publicação', icone: 'import_contacts', para: '/listarPublicacoes.html' },
+        { titulo: 'Grupo pesq.', icone: 'group_add', para: '/listarGruposPesq.html' },
         { titulo: 'Projeto pesq.', icone: 'attachment', para: '/listarProjPesq.html' },
-        { titulo: 'Disciplina', icone: 'border_color', para: '/listarDisciplina.html' }
+        { titulo: 'Disciplina', icone: 'border_color', para: '/listarDisciplinas.html' }
       ]
     })
   }
