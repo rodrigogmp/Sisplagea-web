@@ -12,10 +12,9 @@
                                     <v-list three-line>
                                         <v-list-tile>
                                             <v-list-tile-content>
-                                                <v-list-tile-title>Nome: {{ props.item.name }}</v-list-tile-title>
-                                                <v-list-tile-subtitle>Ano de criação: {{ props.item.create_year }}</v-list-tile-subtitle>
-                                                <v-list-tile-subtitle>Líderes: {{ props.item.leaders }}</v-list-tile-subtitle>
-                                                <v-list-tile-subtitle>Área predominante: {{ props.item.predominant_area }}</v-list-tile-subtitle>
+                                                <v-list-tile-title><h3>Nome: {{ props.item.name }} </h3></v-list-tile-title>
+                                                <v-list-tile-title><strong>Líderes:</strong> {{ props.item.leaders }}</v-list-tile-title>
+                                                <v-list-tile-title><strong>Área predominante:</strong> {{ props.item.predominant_area }}</v-list-tile-title>
                                             </v-list-tile-content>
                                             <v-list-content>
                                                 <v-list-tile-action class="align-end">

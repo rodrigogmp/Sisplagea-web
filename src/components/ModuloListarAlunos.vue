@@ -13,7 +13,7 @@
                                         <v-list three-line>
                                             <v-list-tile>
                                                 <v-list-tile-content>
-                                                    <v-list-tile-title><h3>Nome: {{ props.item.name }}</h3></v-list-tile-title>
+                                                    <v-list-tile-title><h3>Nome: {{ props.item.name }} </h3></v-list-tile-title>
                                                     <v-list-tile-title><strong>Matricula:</strong> {{ props.item.registration }}</v-list-tile-title>
                                                     <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
                                                 </v-list-tile-content>
@@ -58,12 +58,8 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Informações" v-bind:value="props.item.relevant_informations" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12>
-                                                    <br />
-                                                    <br />
-                                                    <br />
-                                                    <v-divider />
-                                                </v-flex>
+                                                <v-spacer></v-spacer>
+                                                <v-btn outline flat rigth @click="dialog= false,dialog2 = true">Editar</v-btn>
                                                 <v-flex xs12 offset-xs3>
                                                     <v-subheader >Adicionar o aluno a um projeto</v-subheader>
                                                 </v-flex>
@@ -106,9 +102,45 @@
                                         </v-container>
                                     </v-card-text>
                                     <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
-                                    <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
+                                        <v-spacer></v-spacer>
+                                        <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialog2" persistent max-width="680px">
+                                <v-card>
+                                    <v-card-title>
+                                        <span class="headline">Aluno: {{ props.item.name }} </span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-container grid-list-md>
+                                            <v-layout wrap>
+                                                <v-flex xs12 sm6 md6>
+                                                    <v-text-field label="Nome" v-bind:value="props.item.name" ></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md6>
+                                                    <v-text-field label="Email" v-bind:value="props.item.email" ></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md4>
+                                                    <v-text-field label="Matrícula" v-bind:value="props.item.registration" ></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md4>
+                                                    <v-text-field label="Categoria" v-bind:value="props.item.category" ></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12 sm6 md4>
+                                                    <v-text-field label="Lattes" v-bind:value="props.item.lattes_link" ></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-text-field label="Informações" v-bind:value="props.item.relevant_informations" ></v-text-field>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn outline flat @click="dialog2 = false, dialog = true">Cancelar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog2 = false, dialog = true">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -132,6 +164,7 @@ export default {
         dataFim: new Date().toISOString().substr(0, 10),
         menuFim: false,
         dialog: false,
+        dialog2: false,
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,

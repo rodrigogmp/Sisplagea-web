@@ -49,7 +49,6 @@ var config = {
     headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
 }
 
-console.log(config.headers)
 export default {
     data () {
         return {

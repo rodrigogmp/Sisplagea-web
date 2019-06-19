@@ -12,8 +12,8 @@
                                     <v-list two-line>
                                         <v-list-tile>
                                             <v-list-tile-content>
-                                                <v-list-tile-title><strong>Nome: {{ props.item.name }}</strong></v-list-tile-title>
-                                                <v-list-tile-subtitle>Categoria: {{ props.item.category }}</v-list-tile-subtitle>
+                                                <v-list-tile-title><h3>Nome: {{ props.item.name }}</h3></v-list-tile-title>
+                                                <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
                                             </v-list-tile-content>
                                             <v-list-content>
                                                 <v-list-tile-action class="align-end">

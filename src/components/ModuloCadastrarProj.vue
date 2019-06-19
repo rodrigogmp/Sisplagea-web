@@ -20,6 +20,9 @@
 
 <script>
 import axios from 'axios'
+var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+}
 export default {
     data () {
         return {
@@ -35,16 +38,17 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/api/v1/projects.json',
+                headers: config.headers,
                 data: {
                     name: this.nome,
                     abstract: this.descricao,
                     
                 }
-            }).then((response) => {
+            }).then(() => {
                 
                 this.alerta = !this.alerta
                 
-            }).catch((err)=>{
+            }).catch(()=>{
                 this.erro = true
             })
         }

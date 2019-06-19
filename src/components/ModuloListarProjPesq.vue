@@ -12,9 +12,8 @@
                                     <v-list three-line>
                                         <v-list-tile>
                                             <v-list-tile-content>
-                                                <v-list-tile-title><h3>Tipo de Atividade: Projeto de Pesquisa</h3></v-list-tile-title>
-                                                <v-list-tile-subtitle><h3>Nome: {{ props.item.name }}</h3></v-list-tile-subtitle>
-                                                <v-list-tile-subtitle><strong>ID:</strong> {{ props.item.id }}</v-list-tile-subtitle>
+                                                <v-list-tile-title><h3>Nome: {{ props.item.name }}</h3></v-list-tile-title>
+                                                <v-list-tile-title><strong>ID:</strong> {{ props.item.id }}</v-list-tile-title>
                                             </v-list-tile-content>
                                             <v-list-content>
                                                 <v-list-tile-action class="align-end">

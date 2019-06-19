@@ -12,12 +12,9 @@
                                     <v-list two-line>
                                         <v-list-tile>
                                             <v-list-tile-content>
-                                                <v-list-tile-title>Título: {{ props.item.title }}</v-list-tile-title>
-                                                <v-list-tile-subtitle>Journal: {{ props.item.journal }}</v-list-tile-subtitle>
-                                                <v-list-tile-subtitle>Categoria: {{ props.item.category }}</v-list-tile-subtitle>
-                                                <v-list-tile-subtitle>Ano: {{ props.item.year }}</v-list-tile-subtitle>
-                                                <v-list-tile-subtitle>Volume: {{ props.item.volume }}</v-list-tile-subtitle>
-                                                <v-list-tile-subtitle>Autores: {{ props.item.authors }} </v-list-tile-subtitle>
+                                                <v-list-tile-title><h3>Título: {{ props.item.title }}</h3></v-list-tile-title>
+                                                <v-list-tile-title><strong>Journal:</strong> {{ props.item.journal }}</v-list-tile-title>
+                                                <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
                                             </v-list-tile-content>
                                             <v-list-content>
                                                 <v-list-tile-action class="align-end">
