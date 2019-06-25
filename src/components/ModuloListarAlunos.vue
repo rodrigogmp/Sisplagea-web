@@ -59,7 +59,7 @@
                                                     <v-text-field label="Informações" v-bind:value="props.item.relevant_informations" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <v-btn outline flat rigth @click="dialog= false,dialog2 = true">Editar</v-btn>
+                                                <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
                                                 <v-flex xs12 offset-xs3>
                                                     <v-subheader >Adicionar o aluno a um projeto</v-subheader>
                                                 </v-flex>
@@ -117,22 +117,22 @@
                                         <v-container grid-list-md>
                                             <v-layout wrap>
                                                 <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Nome" v-bind:value="props.item.name" ></v-text-field>
+                                                    <v-text-field label="Nome" v-model="name" v-bind:value="props.item.name"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Email" v-bind:value="props.item.email" ></v-text-field>
+                                                    <v-text-field label="Email" v-model="email" v-bind:value="props.item.email"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Matrícula" v-bind:value="props.item.registration" ></v-text-field>
+                                                    <v-text-field label="Matrícula" v-model="registration" v-bind:value="props.item.registration"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Categoria" v-bind:value="props.item.category" ></v-text-field>
+                                                    <v-text-field label="Categoria" v-model="category" v-bind:value="props.item.category"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Lattes" v-bind:value="props.item.lattes_link" ></v-text-field>
+                                                    <v-text-field label="Lattes" v-model="lattes_link" v-bind:value="props.item.lattes_link"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12>
-                                                    <v-text-field label="Informações" v-bind:value="props.item.relevant_informations" ></v-text-field>
+                                                    <v-text-field label="Informações" v-model="relevant_informations" v-bind:value="props.item.relevant_informations"></v-text-field>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -140,7 +140,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog2 = false, dialog = true">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog2 = false, dialog = true">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="atualizarAluno(props.item.id), dialog2 = false, dialog = true">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -170,8 +170,36 @@ export default {
             rowsPerPage: 4,
             sortBy: 'name'
         },
-        alunos: []
+        alunos: [],
+        name: '',
+        category: '',
+        email: '',
+        registration: '',
+        lattes_link: '',
+        relevant_informations: ''
     }),
+
+    methods : {
+        atualizarAluno(pk) {
+            axios({
+                method: 'put',
+                url: 'http://localhost:3000/api/v1/students/'+pk+'.json',
+                headers: config.headers,
+                data: {
+                    name: this.name,
+                    category: this.category,
+                    email: this.email,
+                    registration: this.registration,
+                    lattes_link: this.lattes_link,
+                    relevant_informations: this.relevant_informations
+                }
+            }).then(() => {                
+                this.alerta = !this.alerta   
+            }).catch(()=>{
+                this.erro = true
+            })
+        }
+    },
     
     mounted() {
         axios
