@@ -129,7 +129,7 @@ export default {
     }),
     mounted() {
         axios
-            .get('http://localhost:3000/api/v1/study_groups.json', config)
+            .get('https://sisplagea-api.herokuapp.com/api/v1/study_groups.json', config)
             .then((response) => {
                 this.gruposPesq = response.data.subjects
                 

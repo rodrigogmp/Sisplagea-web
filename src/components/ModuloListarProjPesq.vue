@@ -128,7 +128,7 @@ export default {
     }),
     mounted() {
         axios
-            .get('http://localhost:3000/api/v1/projects.json', config)
+            .get('https://sisplagea-api.herokuapp.com/api/v1/projects.json', config)
             .then((response) => {
                 this.projetos = response.data.projects
                 

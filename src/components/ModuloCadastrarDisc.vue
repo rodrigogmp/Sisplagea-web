@@ -64,7 +64,7 @@ export default {
         cadastrarDisciplina() {
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/v1/subjects.json',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/subjects.json',
                 headers: config.headers,
                 data: {
                     name: this.nome,

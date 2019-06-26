@@ -67,7 +67,7 @@ export default {
         cadastrarAluno() {
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/v1/students.json',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json',
                 headers: config.headers,
                 data: {
                     name: this.name,

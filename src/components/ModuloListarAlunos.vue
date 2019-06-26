@@ -60,7 +60,8 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-flex xs12 offset-xs3>
+                                                <v-btn color="error" outline flat >Deletar</v-btn>
+                                                <!-- <v-flex xs12 offset-xs3>
                                                     <v-subheader >Adicionar o aluno a um projeto</v-subheader>
                                                 </v-flex>
                                                 <v-flex xs12>
@@ -97,7 +98,7 @@
                                                     <v-card-text>
                                                         <input type="file">
                                                     </v-card-text>
-                                                </v-flex>
+                                                </v-flex> -->
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -207,7 +208,7 @@ export default {
         atualizarAluno(aluno) {
             axios({
                 method: 'put',
-                url: 'http://localhost:3000/api/v1/students/'+aluno.id+'.json',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/students/'+aluno.id+'.json',
                 headers: config.headers,
                 data: {
                     name: this.name || aluno.name,
@@ -228,7 +229,7 @@ export default {
     
     mounted() {
         axios
-            .get('http://localhost:3000/api/v1/students.json', config)
+            .get('https://sisplagea-api.herokuapp.com/api/v1/students.json', config)
             .then((response) => {
                 this.alunos = response.data.students
                 

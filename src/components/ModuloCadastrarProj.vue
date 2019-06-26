@@ -37,7 +37,7 @@ export default {
         cadastrarProjeto() {
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/v1/projects.json',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/projects.json',
                 headers: config.headers,
                 data: {
                     name: this.nome,

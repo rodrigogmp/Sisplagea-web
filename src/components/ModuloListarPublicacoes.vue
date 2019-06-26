@@ -129,7 +129,7 @@ export default {
     }),
     mounted() {
         axios
-            .get('http://localhost:3000/api/v1/publications.json', config)
+            .get('https://sisplagea-api.herokuapp.com/api/v1/publications.json', config)
             .then((response) => {
                 this.publicacoes = response.data.publications
                 

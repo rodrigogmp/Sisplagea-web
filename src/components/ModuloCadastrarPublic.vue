@@ -79,7 +79,7 @@ export default {
         cadastrarPublicacao() {
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/v1/publications.json',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/publications.json',
                 headers: config.headers,
                 data: {
                     title: this.titulo,
