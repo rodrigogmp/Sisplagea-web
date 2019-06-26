@@ -5,11 +5,11 @@
                 <h1>Cadastrar Projeto de Pesquisa</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="nome" :error-messages="nomeErrors" :counter="254" label="Nome do projeto" required
+                    <v-text-field v-model="nome" label="Nome do projeto" required
                     @input="$v.nome.$touch()"
                     @blur="$v.nome.$touch()"
                     ></v-text-field>
-                    <v-textarea name="input-7-1" label="Descrição" v-model="descricao" :error-messages="descricao" required></v-textarea>
+                    <v-textarea label="Descrição" v-model="descricao" required></v-textarea>
                     <v-btn @click="cadastrarProjeto" outline color="info" :right="true">Cadastrar</v-btn>
                     <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Projeto de pesquisa cadastrado com sucesso.</v-alert>
                 </form>
@@ -41,16 +41,23 @@ export default {
                 headers: config.headers,
                 data: {
                     name: this.nome,
-                    abstract: this.descricao,
+                    abstract: this.descricao
                     
                 }
             }).then(() => {
-                
                 this.alerta = !this.alerta
+
+                 this.nome = '',
+                 this.descricao = ''
+
+                 setTimeout(this.setAlertFalse, 5000);
                 
             }).catch(()=>{
                 this.erro = true
             })
+        },
+        setAlertFalse(){
+            this.alerta = false
         }
         
     }

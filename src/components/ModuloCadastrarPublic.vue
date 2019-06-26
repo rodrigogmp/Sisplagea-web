@@ -5,11 +5,11 @@
                 <h1>Cadastrar Publicações</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="titulo" :error-messages="tituloErrors" :counter="254" label="Título" required
+                    <v-text-field v-model="titulo" label="Título" required
                     @input="$v.titulo.$touch()"
                     @blur="$v.titulo.$touch()"
                     ></v-text-field>
-                    <v-text-field v-model="journal" :error-messages="journalErrors" label="Journal" required
+                    <v-text-field v-model="journal" label="Journal" required
                     @input="$v.journal.$touch()"
                     @blur="$v.journal.$touch()"
                     ></v-text-field>
@@ -20,27 +20,27 @@
                     </v-radio-group>
                     <v-layout row wrap>
                         <v-flex xs3 sm3 md2 lg2>
-                            <v-text-field v-model="anoPublicacao" :error-messages="anoPublicacaoErrors" label="Ano" required
+                            <v-text-field v-model="anoPublicacao" label="Ano" required
                             @input="$v.anoPublicacao.$touch()"
                             @blur="$v.anoPublicacao.$touch()"
                             ></v-text-field>
                         </v-flex>
 
                         <v-flex xs3 sm3 md2 lg2>
-                            <v-text-field v-model="volume" :error-messages="volumeErrors" label="Volume" required
+                            <v-text-field v-model="volume" label="Volume" required
                             @input="$v.volume.$touch()"
                             @blur="$v.volume.$touch()"
                             ></v-text-field>
                         </v-flex>
 
                         <v-flex xs3 sm3 md2 lg2>
-                            <v-text-field v-model="paginas" :error-messages="paginasErrors" label="Páginas" required
+                            <v-text-field v-model="paginas" label="Páginas" required
                             @input="$v.paginas.$touch()"
                             @blur="$v.paginas.$touch()"
                             ></v-text-field>
                         </v-flex>
                     </v-layout>
-                    <v-textarea name="input-7-1" label="Autores" v-model="autores" :error-messages="autores" required></v-textarea>
+                    <v-textarea label="Autores" v-model="autores" required></v-textarea>
                     <v-subheader >Carregar arquivos</v-subheader>
                     <input style="padding-left: 16px; padding-bottom: 10px;" type="file">
                     <v-divider class="grey" />
@@ -91,12 +91,24 @@ export default {
                     authors: this.autores
                 }
             }).then(() => {
-                
                 this.alerta = !this.alerta
+
+                this.titulo = '',
+                this.journal = '',
+                this.radioGroup = '',
+                this.anoPublicacao = '',
+                this.volume = '',
+                this.paginas = '',
+                this.autores = ''
+                
+                setTimeout(this.setAlertFalse, 5000);
                 
             }).catch(()=>{
                 this.erro = true
             })
+        },
+        setAlertFalse(){
+            this.alerta = false
         }
         
     }

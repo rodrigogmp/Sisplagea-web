@@ -5,17 +5,17 @@
                 <h1>Adicionar Aluno</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="name" :error-messages="nameErrors" :counter="254" label="Nome" required
+                    <v-text-field v-model="name" label="Nome" required
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="matricula" :error-messages="matriculaErrors" label="Matricula" required
+                        <v-text-field v-model="matricula" label="Matricula" required
                         @input="$v.matricula.$touch()"
                         @blur="$v.matricula.$touch()"
                         ></v-text-field>
                     </v-flex>
-                    <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
+                    <v-text-field v-model="email" label="E-mail" required
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
                     ></v-text-field>
@@ -26,13 +26,13 @@
                         <v-radio label="Pós-Doutorado" value="post_doctoral"></v-radio>
 
                     </v-radio-group>
-                    <v-text-field v-model="curriculo" :error-messages="curriculoErrors" 
+                    <v-text-field v-model="curriculo"
                     label="Adicionar referencia para o curriculo lattes:" required
                     @input="$v.curriculo.$touch()"
                     @blur="$v.curriculo.$touch()"
                     ></v-text-field>
                     <v-textarea name="input-7-1" label="Adicionar informações relevantes:" 
-                    v-model="informacoes" :error-messages="informacoes" required></v-textarea>
+                    v-model="informacoes" required></v-textarea>
                     <!-- <v-btn @click="alerta = !alerta" outline color="info" :right="true">Adicionar</v-btn> -->
                     <v-btn @click="cadastrarAluno" outline color="info" :right="true">Adicionar</v-btn>
                 </form>
@@ -78,12 +78,23 @@ export default {
                     relevant_informations: this.informacoes
                 }
             }).then(() => {
-                
                 this.alerta = !this.alerta
+
+                this.name = '',
+                this.radioGroup = '',
+                this.email = '',
+                this.matricula = '',
+                this.curriculo = '',
+                this.informacoes = ''
                 
+                setTimeout(this.setAlertFalse, 5000);
+
             }).catch(()=>{
                 this.erro = true
             })
+        },
+        setAlertFalse(){
+            this.alerta = false
         }
         
     }

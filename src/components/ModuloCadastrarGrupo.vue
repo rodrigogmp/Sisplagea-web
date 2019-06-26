@@ -5,20 +5,19 @@
                 <h1>Cadastrar Grupo de Pesquisa</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="nome" :error-messages="nomeErrors" :counter="254" label="Nome do Grupo" required
+                    <v-text-field v-model="nome" label="Nome do Grupo" required
                     @input="$v.nome.$touch()"
                     @blur="$v.nome.$touch()"
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="anoCriacao" :error-messages="anoCriacaoErrors" label="Ano de criação" required
+                        <v-text-field v-model="anoCriacao" label="Ano de criação" required
                         @input="$v.anoCriacao.$touch()"
                         @blur="$v.anoCriacao.$touch()"
                         ></v-text-field>
                     </v-flex>
-                    <v-textarea v-model="lideres" name="input-7-1" label="Líder(es)" :error-messages="lideres" 
-                    required></v-textarea>
-                    <v-text-field v-model="area" :error-messages="areaErrors" label="Área predominante" required></v-text-field>
-                    <v-textarea name="input-7-1" v-model="objetivos" :error-messages="objetivos" label="Objetivos"
+                    <v-textarea v-model="lideres" label="Líder(es)" required></v-textarea>
+                    <v-text-field v-model="area" label="Área predominante" required></v-text-field>
+                    <v-textarea v-model="objetivos" label="Objetivos"
                     required></v-textarea>
                     <v-btn @click="cadastrarGrupo" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
@@ -60,10 +59,21 @@ export default {
                 }
             }).then(() => {
                 this.alerta = !this.alerta
+
+                this.nome = '',
+                this.anoCriacao = '',
+                this.lideres = '',
+                this.area = '',
+                this.objetivos = ''
+
+                setTimeout(this.setAlertFalse, 5000);
                 
             }).catch(()=>{
                 this.erro = true
             })
+        },
+        setAlertFalse(){
+            this.alerta = false
         }
     }
 
