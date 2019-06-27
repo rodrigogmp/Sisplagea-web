@@ -63,44 +63,7 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-flex xs12 offset-xs3>
-                                                    <v-subheader >Adicionar o aluno a um projeto</v-subheader>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-text-field label="Nome do projeto"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-textarea auto-grow rows="4" label="Resumo do projeto:"></v-textarea>
-                                                </v-flex>
-                                                <v-flex xs3>
-                                                    <v-menu ref="menuInicio" v-model="menuInicio" :close-on-content-click="false" :nudge-right="40" :return-value.sync="dataInicio" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                                        <template v-slot:activator="{ on }">
-                                                            <v-text-field v-model="dataInicio" label="Inicio" prepend-icon="event" readonly v-on="on"></v-text-field>
-                                                        </template>
-                                                        <v-date-picker v-model="dataInicio" no-title scrollable>
-                                                            <v-spacer></v-spacer>
-                                                            <v-btn flat outline @click="menuInicio = false">Cancel</v-btn>
-                                                            <v-btn flat outline color="info" @click="$refs.menuInicio.save(dataInicio)">OK</v-btn>
-                                                        </v-date-picker>
-                                                    </v-menu>
-                                                </v-flex>
-                                                <v-flex xs3>
-                                                    <v-menu ref="menuFim" v-model="menuFim" :close-on-content-click="false" :nudge-right="40" :return-value.sync="dataFim" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                                        <template v-slot:activator="{ on }">
-                                                            <v-text-field v-model="dataFim" label="Fim" prepend-icon="event" readonly v-on="on"></v-text-field>
-                                                        </template>
-                                                        <v-date-picker v-model="dataFim" no-title scrollable>
-                                                            <v-spacer></v-spacer>
-                                                            <v-btn flat outline @click="menuFim = false">Cancel</v-btn>
-                                                            <v-btn flat outline color="info" @click="$refs.menuFim.save(dataFim)">OK</v-btn>
-                                                        </v-date-picker>
-                                                    </v-menu>
-                                                </v-flex>
-                                                <v-flex xs5 offset-xs1>
-                                                    <v-card-text>
-                                                        <input type="file">
-                                                    </v-card-text>
-                                                </v-flex>
+                                                <v-btn color="error" outline flat >Deletar</v-btn>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -140,25 +103,25 @@
                                                 <v-spacer></v-spacer>
                                                 <!-- <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn> -->
                                                 <v-flex xs12>
-                                                    <v-subheader >Área para editar aluno (Preencha apenas o que for editar)</v-subheader>
+                                                    <v-subheader >Área para editar aluno</v-subheader>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Nome" v-model="name" onChange=handleInputName></v-text-field>
+                                                    <v-text-field label="Nome" v-model="name"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Email" v-model="email" onChange=handleInputEmail></v-text-field>
+                                                    <v-text-field label="Email" v-model="email"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Matrícula" v-model="registration" onChange=handleInputRegistration></v-text-field>
+                                                    <v-text-field label="Matrícula" v-model="registration"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Categoria" v-model="category" onChange=handleInputCategory></v-text-field>
+                                                    <v-text-field label="Categoria" v-model="category"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Lattes" v-model="lattes_link" onChange=handleInputLattesLink></v-text-field>
+                                                    <v-text-field label="Lattes" v-model="lattes_link"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12>
-                                                    <v-text-field label="Informações" v-model="relevant_informations" onChange=handleInputRelevantInformations></v-text-field>
+                                                    <v-text-field label="Informações" v-model="relevant_informations"></v-text-field>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -186,10 +149,6 @@ var config = {
 }
 export default {
     data: () => ({
-        dataInicio: new Date().toISOString().substr(0, 10),
-        menuInicio: false,
-        dataFim: new Date().toISOString().substr(0, 10),
-        menuFim: false,
         dialog: false,
         dialog2: false,
         rowsPerPageItems: [4, 8, 12],
@@ -220,7 +179,7 @@ export default {
     },
 
     methods : {
-        atualizarAluno(aluno) {
+        atualizarAluno() {
             axios({
                 method: 'put',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/students/'+this.id+'.json',
@@ -233,24 +192,20 @@ export default {
                     lattes_link: this.lattes_link,
                     relevant_informations: this.relevant_informations
                 }
-            }).then(() => {
-                console.log(this.name)                
+            }).then(() => {              
                 document.location.reload()
-                console.log(response.status)
                 // this.alerta = !this.alerta
             }).catch(()=>{
                 this.erro = true
             })
         },
         buscarAluno(id) {
-            console.log(id)
             axios({
                 method: 'get',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/students/'+id+'.json',
                 headers: config.headers,
 
             }).then((response) => {
-                console.log(response.data.name)
                 this.id = response.data.id
                 this.name = response.data.name
                 this.category = response.data.category
@@ -258,14 +213,6 @@ export default {
                 this.registration = response.data.registration
                 this.lattes_link = response.data.lattes_link
                 this.relevant_informations = response.data.relevant_informations
-                // name: '',
-        // category: '',
-        // email: '',
-        // registration: '',
-        // lattes_link: '',
-        // relevant_informations: ''
-                // alert(this.name)
-                // console.log(this.props.name)
             }).catch (() => {
 
             })
@@ -284,10 +231,5 @@ export default {
             alert('erro')
         })
     },
-    // computed: {
-    //     returnName: function() {
-    //         return this.name
-    //     }
-    // }
 }
 </script>

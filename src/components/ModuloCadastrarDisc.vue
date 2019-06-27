@@ -5,33 +5,33 @@
                 <h1>Cadastrar Disciplina</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="nome" label="Nome" required
+                    <v-text-field v-model="name" label="Nome" required
                     @input="$v.nome.$touch()"
                     @blur="$v.nome.$touch()"
                     ></v-text-field>
                     <v-layout row wrap>
                         <v-flex xs6 sm5 md4 lg3>
-                            <v-text-field v-model="codigo" label="Código" required
-                            @input="$v.codigo.$touch()"
-                            @blur="$v.codigo.$touch()"
+                            <v-text-field v-model="code" label="Código" required
+                            @input="$v.code.$touch()"
+                            @blur="$v.code.$touch()"
                             ></v-text-field>
                         </v-flex>
                         <v-flex xs6 sm5 md4 lg3>
-                            <v-text-field v-model="horas" label="Horas/Aulas" required
+                            <v-text-field v-model="workload" label="Horas/Aulas" required
                             @input="$v.horas.$touch()"
                             @blur="$v.horas.$touch()"
                             ></v-text-field>
                         </v-flex>
                     </v-layout>
-                    <v-radio-group v-model="radioGroup" label="Turma:">
+                    <v-radio-group v-model="category" label="Turma:">
                         <v-radio label="Graduação" value="graduate"></v-radio>
                         <v-radio label="Pós-Graduação" value="postgraduate"></v-radio>
                     </v-radio-group>
-                    <v-text-field v-model="localAulas" label="Local das aulas" required
-                    @input="$v.localAulas.$touch()"
-                    @blur="$v.localAulas.$touch()"
+                    <v-text-field v-model="class_location" label="Local das aulas" required
+                    @input="$v.class_location.$touch()"
+                    @blur="$v.class_location.$touch()"
                     ></v-text-field>
-                    <v-textarea label="Descrição" v-model="descricao" required></v-textarea>
+                    <v-textarea label="Descrição" v-model="description" required></v-textarea>
                     <v-btn @click="cadastrarDisciplina" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
                 <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Disciplina cadastrada com sucesso.</v-alert>
@@ -51,12 +51,12 @@ export default {
         return {
             alerta: false,
             erro: false,
-            nome: '',
-            codigo: '',
-            horas: '',
-            radioGroup: '',
-            localAulas: '',
-            descricao: ''
+            name: '',
+            code: '',
+            workload: '',
+            category: '',
+            class_location: '',
+            description: ''
         }
     },
     methods: {
@@ -66,22 +66,22 @@ export default {
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/subjects.json',
                 headers: config.headers,
                 data: {
-                    name: this.nome,
-                    category: this.radioGroup,
-                    code: this.codigo,
-                    workload: this.horas,
-                    class_location: this.localAulas,
-                    description: this.descricao
+                    name: this.name,
+                    category: this.category,
+                    code: this.code,
+                    workload: this.workload,
+                    class_location: this.class_location,
+                    description: this.description
                 }
             }).then(() => {
                 this.alerta = !this.alerta
 
-                this.nome = '',
-                this.radioGroup = '',
-                this.codigo = '',
-                this.horas = '',
-                this.localAulas = '',
-                this.descricao = ''
+                this.name = '',
+                this.category = '',
+                this.code = '',
+                this.workload = '',
+                this.class_location = '',
+                this.description = ''
 
                 setTimeout(this.setAlertFalse, 5000);
                 

@@ -5,24 +5,24 @@
                 <h1>Cadastrar Publicações</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="titulo" label="Título" required
-                    @input="$v.titulo.$touch()"
-                    @blur="$v.titulo.$touch()"
+                    <v-text-field v-model="title" label="Título" required
+                    @input="$v.title.$touch()"
+                    @blur="$v.title.$touch()"
                     ></v-text-field>
                     <v-text-field v-model="journal" label="Journal" required
                     @input="$v.journal.$touch()"
                     @blur="$v.journal.$touch()"
                     ></v-text-field>
-                    <v-radio-group v-model="radioGroup" label="Tipo:">
+                    <v-radio-group v-model="category" label="Tipo:">
                         <v-radio label="Conferência" value="conference"></v-radio>
                         <v-radio label="Resumo" value="abstract"></v-radio>
                         <v-radio label="Periódico" value="periodic"></v-radio>
                     </v-radio-group>
                     <v-layout row wrap>
                         <v-flex xs3 sm3 md2 lg2>
-                            <v-text-field v-model="anoPublicacao" label="Ano" required
-                            @input="$v.anoPublicacao.$touch()"
-                            @blur="$v.anoPublicacao.$touch()"
+                            <v-text-field v-model="year" label="Ano" required
+                            @input="$v.year.$touch()"
+                            @blur="$v.year.$touch()"
                             ></v-text-field>
                         </v-flex>
 
@@ -34,13 +34,13 @@
                         </v-flex>
 
                         <v-flex xs3 sm3 md2 lg2>
-                            <v-text-field v-model="paginas" label="Páginas" required
-                            @input="$v.paginas.$touch()"
-                            @blur="$v.paginas.$touch()"
+                            <v-text-field v-model="pages" label="Páginas" required
+                            @input="$v.pages.$touch()"
+                            @blur="$v.pages.$touch()"
                             ></v-text-field>
                         </v-flex>
                     </v-layout>
-                    <v-textarea label="Autores" v-model="autores" required></v-textarea>
+                    <v-textarea label="authors" v-model="authors" required></v-textarea>
                     <v-subheader >Carregar arquivos</v-subheader>
                     <input style="padding-left: 16px; padding-bottom: 10px;" type="file">
                     <v-divider class="grey" />
@@ -65,13 +65,13 @@ export default {
         return {
             alerta: false,
             erro: false,
-            titulo: '',
+            title: '',
             journal: '',
-            radioGroup: '',
-            anoPublicacao: '',
+            category: '',
+            year: '',
             volume: '',
-            paginas: '',
-            autores: ''
+            pages: '',
+            authors: ''
             
         }
     },
@@ -82,24 +82,24 @@ export default {
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/publications.json',
                 headers: config.headers,
                 data: {
-                    title: this.titulo,
+                    title: this.title,
                     journal: this.journal,
-                    category: this.radioGroup,
-                    year: this.anoPublicacao,
+                    category: this.category,
+                    year: this.year,
                     volume: this.volume,
-                    pages: this.paginas,
-                    authors: this.autores
+                    pages: this.pages,
+                    authors: this.authors
                 }
             }).then(() => {
                 this.alerta = !this.alerta
 
-                this.titulo = '',
+                this.title = '',
                 this.journal = '',
-                this.radioGroup = '',
-                this.anoPublicacao = '',
+                this.category = '',
+                this.year = '',
                 this.volume = '',
-                this.paginas = '',
-                this.autores = ''
+                this.pages = '',
+                this.authors = ''
                 
                 setTimeout(this.setAlertFalse, 5000);
                 

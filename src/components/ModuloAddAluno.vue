@@ -10,29 +10,29 @@
                     @blur="$v.name.$touch()"
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="matricula" label="Matricula" required
-                        @input="$v.matricula.$touch()"
-                        @blur="$v.matricula.$touch()"
+                        <v-text-field v-model="registration" label="registration" required
+                        @input="$v.registration.$touch()"
+                        @blur="$v.registration.$touch()"
                         ></v-text-field>
                     </v-flex>
                     <v-text-field v-model="email" label="E-mail" required
                     @input="$v.email.$touch()"
                     @blur="$v.email.$touch()"
                     ></v-text-field>
-                    <v-radio-group v-model="radioGroup" label="Categoria:">
+                    <v-radio-group v-model="category" label="Categoria:">
                         <v-radio label="Iniciação Cientifica" value="scientific_research"></v-radio>
                         <v-radio label="Mestrado" value="masters_degree"></v-radio>
                         <v-radio label="Doutorado" value="doctorate_degree"></v-radio>
                         <v-radio label="Pós-Doutorado" value="post_doctoral"></v-radio>
 
                     </v-radio-group>
-                    <v-text-field v-model="curriculo"
-                    label="Adicionar referencia para o curriculo lattes:" required
-                    @input="$v.curriculo.$touch()"
-                    @blur="$v.curriculo.$touch()"
+                    <v-text-field v-model="lattes_link"
+                    label="Adicionar referencia para o lattes_link lattes:" required
+                    @input="$v.lattes_link.$touch()"
+                    @blur="$v.lattes_link.$touch()"
                     ></v-text-field>
                     <v-textarea name="input-7-1" label="Adicionar informações relevantes:" 
-                    v-model="informacoes" required></v-textarea>
+                    v-model="relevant_informations" required></v-textarea>
                     <!-- <v-btn @click="alerta = !alerta" outline color="info" :right="true">Adicionar</v-btn> -->
                     <v-btn @click="cadastrarAluno" outline color="info" :right="true">Adicionar</v-btn>
                 </form>
@@ -55,11 +55,11 @@ export default {
             alerta: false,
             erro: false,
             name: '',
-            radioGroup: '',
+            category: '',
             email: '',
-            curriculo: '',
-            informacoes: '',
-            matricula: ''
+            lattes_link: '',
+            relevant_informations: '',
+            registration: ''
 
         }
     },
@@ -71,21 +71,21 @@ export default {
                 headers: config.headers,
                 data: {
                     name: this.name,
-                    category: this.radioGroup,
+                    category: this.category,
                     email: this.email,
-                    registration: this.matricula,
-                    lattes_link: this.curriculo,
-                    relevant_informations: this.informacoes
+                    registration: this.registration,
+                    lattes_link: this.lattes_link,
+                    relevant_informations: this.relevant_informations
                 }
             }).then(() => {
                 this.alerta = !this.alerta
 
                 this.name = '',
-                this.radioGroup = '',
+                this.category = '',
                 this.email = '',
-                this.matricula = '',
-                this.curriculo = '',
-                this.informacoes = ''
+                this.registration = '',
+                this.lattes_link = '',
+                this.relevant_informations = ''
                 
                 setTimeout(this.setAlertFalse, 5000);
 

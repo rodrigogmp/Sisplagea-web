@@ -5,11 +5,11 @@
                 <h1>Cadastrar Projeto de Pesquisa</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="nome" label="Nome do projeto" required
-                    @input="$v.nome.$touch()"
-                    @blur="$v.nome.$touch()"
+                    <v-text-field v-model="name" label="Nome do projeto" required
+                    @input="$v.name.$touch()"
+                    @blur="$v.name.$touch()"
                     ></v-text-field>
-                    <v-textarea label="Descrição" v-model="descricao" required></v-textarea>
+                    <v-textarea label="Descrição" v-model="abstract" required></v-textarea>
                     <v-btn @click="cadastrarProjeto" outline color="info" :right="true">Cadastrar</v-btn>
                     <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Projeto de pesquisa cadastrado com sucesso.</v-alert>
                 </form>
@@ -28,8 +28,8 @@ export default {
         return {
             alerta: false,
             erro: false,
-            nome: '',
-            descricao: ''
+            name: '',
+            abstract: ''
             
         }
     },
@@ -40,17 +40,18 @@ export default {
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/projects.json',
                 headers: config.headers,
                 data: {
-                    name: this.nome,
-                    abstract: this.descricao
+                    name: this.name,
+                    abstract: this.abstract
                     
                 }
             }).then(() => {
+
                 this.alerta = !this.alerta
+                
+                this.name = '',
+                this.abstract = ''
 
-                 this.nome = '',
-                 this.descricao = ''
-
-                 setTimeout(this.setAlertFalse, 5000);
+                setTimeout(this.setAlertFalse, 5000);
                 
             }).catch(()=>{
                 this.erro = true
@@ -74,11 +75,11 @@ export default {
                 <h1>Cadastrar Projeto de Pesquisa</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="nome" :error-messages="nomeErrors" :counter="254" label="Nome do projeto" required
-                    @input="$v.nome.$touch()"
-                    @blur="$v.nome.$touch()"
+                    <v-text-field v-model="name" :error-messages="nameErrors" :counter="254" label="name do projeto" required
+                    @input="$v.name.$touch()"
+                    @blur="$v.name.$touch()"
                     ></v-text-field>
-                    <v-textarea name="input-7-1" label="Descrição" v-model="descricao" :error-messages="descricao" required></v-textarea>
+                    <v-textarea name="input-7-1" label="Descrição" v-model="abstract" :error-messages="abstract" required></v-textarea>
                 </form>
             </v-flex>
         </v-layout>
@@ -101,7 +102,7 @@ export default {
                                         <v-container grid-list-md>
                                             <v-layout column>
                                                 <v-flex xs12 sm12 md12>
-                                                    <v-text-field v-model="editedItem.nome" label="Nome"></v-text-field>
+                                                    <v-text-field v-model="editedItem.name" label="name"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm12 md12>
                                                     <v-text-field v-model="editedItem.titulacao" label="Titulação"></v-text-field>
@@ -119,7 +120,7 @@ export default {
                         </v-toolbar>
                         <v-data-table :headers="headers" :items="participantes" class="elevation-0" hide-actions>
                             <template v-slot:items="props">
-                                <td>{{ props.item.nome }}</td>
+                                <td>{{ props.item.name }}</td>
                                 <td>{{ props.item.titulacao }}</td>
                                 <td class="text-xs-right">
                                     <v-tooltip bottom>
@@ -149,18 +150,18 @@ export default {
       alerta: false,
       dialog: false,
       headers: [
-        { text: 'Nome', value: 'nome', sortable: false, align: 'left' },
+        { text: 'name', value: 'name', sortable: false, align: 'left' },
         { text: 'Titulação', value: 'titulacão', sortable: false, align: 'left'},
         { text: 'Ações', value: 'ação', sortable: false, align: 'right' }
       ],
       participantes: [],
       editedIndex: -1,
       editedItem: {
-        nome: '',
+        name: '',
         titulacao: '',
       },
       defaultItem: {
-        nome: '',
+        name: '',
         titulacao: '',
       }
     }),
@@ -176,43 +177,43 @@ export default {
       initialize () {
         this.participantes = [
           {
-            nome: 'Frozen Yogurt',
+            name: 'Frozen Yogurt',
             titulacao: 'mestre',
           },
           {
-            nome: 'Ice cream sandwich',
+            name: 'Ice cream sandwich',
             titulacao: 'mestre',
           },
           {
-            nome: 'Eclair',
+            name: 'Eclair',
             titulacao: 'mestre',
           },
           {
-            nome: 'Cupcake',
+            name: 'Cupcake',
             titulacao: 'mestre',
           },
           {
-            nome: 'Gingerbread',
+            name: 'Gingerbread',
             titulacao: 'mestre',
           },
           {
-            nome: 'Jelly bean',
+            name: 'Jelly bean',
             titulacao: 'lixo',
           },
           {
-            nome: 'Lollipop',
+            name: 'Lollipop',
             titulacao: 'aluno',
           },
           {
-            nome: 'Honeycomb',
+            name: 'Honeycomb',
             titulacao: 'doutor',
           },
           {
-            nome: 'Donut',
+            name: 'Donut',
             titulacao: 'mestre',
           },
           {
-            nome: 'KitKat',
+            name: 'KitKat',
             titulacao: 'mestre',
           }
         ]

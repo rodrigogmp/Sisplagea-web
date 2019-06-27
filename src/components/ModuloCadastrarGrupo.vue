@@ -5,19 +5,19 @@
                 <h1>Cadastrar Grupo de Pesquisa</h1>
                 <v-divider></v-divider>
                 <form>
-                    <v-text-field v-model="nome" label="Nome do Grupo" required
+                    <v-text-field v-model="name" label="Nome do Grupo" required
                     @input="$v.nome.$touch()"
                     @blur="$v.nome.$touch()"
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="anoCriacao" label="Ano de criação" required
+                        <v-text-field v-model="create_year" label="Ano de criação" required
                         @input="$v.anoCriacao.$touch()"
                         @blur="$v.anoCriacao.$touch()"
                         ></v-text-field>
                     </v-flex>
-                    <v-textarea v-model="lideres" label="Líder(es)" required></v-textarea>
-                    <v-text-field v-model="area" label="Área predominante" required></v-text-field>
-                    <v-textarea v-model="objetivos" label="Objetivos"
+                    <v-textarea v-model="leaders" label="Líder(es)" required></v-textarea>
+                    <v-text-field v-model="predominant_area" label="Área predominante" required></v-text-field>
+                    <v-textarea v-model="objective" label="Objetivos"
                     required></v-textarea>
                     <v-btn @click="cadastrarGrupo" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
@@ -37,11 +37,11 @@ export default {
         return {
             alerta: false,
             erro: false,
-            nome: '',
-            anoCriacao: '',
-            lideres: '',
-            area: '',
-            objetivos: ''
+            name: '',
+            create_year: '',
+            leaders: '',
+            predominant_area: '',
+            objective: ''
         }
     },
     methods: {
@@ -51,20 +51,20 @@ export default {
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/study_groups.json',
                 headers: config.headers,
                 data: {
-                    name: this.nome,
-                    create_year: this.anoCriacao,
-                    leaders: this.lideres,
-                    predominant_area: this.area,
-                    objective: this.objetivos
+                    name: this.name,
+                    create_year: this.create_year,
+                    leaders: this.leaders,
+                    predominant_area: this.predominant_area,
+                    objective: this.objective
                 }
             }).then(() => {
                 this.alerta = !this.alerta
 
-                this.nome = '',
-                this.anoCriacao = '',
-                this.lideres = '',
-                this.area = '',
-                this.objetivos = ''
+                this.name = '',
+                this.create_year = '',
+                this.leaders = '',
+                this.predominant_area = '',
+                this.objective = ''
 
                 setTimeout(this.setAlertFalse, 5000);
                 
