@@ -111,7 +111,7 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-model="objective"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12>
+                                                <v-flex xs10>
                                                     <v-combobox
                                                         v-model="select"
                                                         :items="alunos"
@@ -119,6 +119,13 @@
                                                         item-value="id"
                                                         label="Adicionar aluno ao grupo"
                                                     ></v-combobox>
+                                                </v-flex>
+                                                <v-flex xs2>
+                                                    <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Aluno vinculado com sucesso.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">Erro ao vincular aluno.</v-alert>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -146,6 +153,8 @@ var config = {
 }
 export default {
     data: () => ({
+        alerta: false,
+        erro: false,
         dialog: false,
         dialog2: false,
         rowsPerPageItems: [4, 8, 12],
@@ -167,6 +176,10 @@ export default {
             id: '',
             name: '',
 
+        }],
+        participantes: [{
+            id: '',
+            name: ''
         }]
     }),
 
@@ -216,6 +229,38 @@ export default {
 
             })
 
+        },
+        vincularAluno(){
+            axios({
+                method: 'post',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/link_participant`,
+                headers: config.headers,
+                data: {
+                    student_id: this.select.id
+                }
+            }).then(() => {
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 5000);
+            }).catch(()=>{
+                this.erro = true
+                setTimeout(this.setErroFalse, 5000);
+            })
+        },
+        listarParticipantes(){
+            axios({
+                method: 'get',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/participants`,
+                headers: config.headers
+            }).then((response)=>{
+                this.participantes = response.data
+                console.log(this.participantes)
+            })
+        },
+        setAlertaFalse(){
+            this.alerta = false
+        },
+        setErroFalse(){
+            this.erro = false
         }
     },  
     
