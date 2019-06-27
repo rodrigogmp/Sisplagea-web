@@ -18,11 +18,17 @@
                                                 </v-list-tile-content>
                                                 <v-list-content>
                                                     <v-list-tile-action class="align-end">
-                                                        <v-tooltip bottom>
+                                                        <v-tooltip bottom>                                                            
                                                             <template v-slot:activator="{ on }">
                                                                 <v-btn flat v-on="on" @click="dialog = true, buscarDisciplina(props.item.id)"><v-icon color="green lighten-1">info</v-icon>Info Disciplina</v-btn>
                                                             </template>
                                                             <span>Exibir/Editar Informações sobre a disciplina</span>
+                                                        </v-tooltip>
+                                                        <v-tooltip bottom>                                                            
+                                                            <template v-slot:activator="{ on }">
+                                                                <v-btn flat v-on="on" @click="redirecionarEspacoDisc()">Espaço da Disciplina</v-btn>
+                                                            </template>
+                                                            <span>Ir para o espaço da disciplina</span>
                                                         </v-tooltip>
                                                     </v-list-tile-action>
                                                 </v-list-content>
@@ -215,8 +221,11 @@ export default {
 
             })
 
+        },
+        redirecionarEspacoDisc(){
+            window.location.href = '/espacoDisciplina.html'
         }
-    },  
+    },
     
     mounted() {
         axios({
