@@ -21,7 +21,7 @@
                                                     <v-list-tile-action class="align-end">
                                                         <v-tooltip bottom>
                                                             <template v-slot:activator="{ on }">
-                                                                <v-btn flat v-on="on" @click="dialog = true, buscarGrupo(props.item.id)"><v-icon color="green lighten-1">info</v-icon>Info Grupo</v-btn>
+                                                                <v-btn flat v-on="on" @click="dialog = true, buscarGrupo(props.item.id), listarParticipantes(props.item.id)"><v-icon color="green lighten-1">info</v-icon>Info Grupo</v-btn>
                                                             </template>
                                                             <span>Exibir/Editar Informações sobre o grupo</span>
                                                         </v-tooltip>
@@ -54,6 +54,17 @@
                                                 </v-flex>
                                                 <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-bind:value="objective" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                   <v-combobox
+                                                        v-model="select"
+                                                        :items="participantes"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Alunos vinculados ao grupo"
+                                                        hint="Selecione e clique em Desvincular, caso queira desvincular um aluno."
+                                                        persistent-hint
+                                                    ></v-combobox>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
@@ -177,6 +188,7 @@ export default {
             name: '',
 
         }],
+        // qualquerCoisa: '',
         participantes: [{
             id: '',
             name: ''
@@ -190,6 +202,7 @@ export default {
         leaders: String,
         predominant_area: String,
         objective: String
+        
     },
 
     methods : {
@@ -246,13 +259,14 @@ export default {
                 setTimeout(this.setErroFalse, 5000);
             })
         },
-        listarParticipantes(){
+        listarParticipantes(id){
+            console.log('entrou')
             axios({
                 method: 'get',
-                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/participants`,
+                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${id}/participants.json`,
                 headers: config.headers
             }).then((response)=>{
-                this.participantes = response.data
+                this.participantes = response.data.participants
                 console.log(this.participantes)
             })
         },
