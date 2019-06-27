@@ -46,13 +46,13 @@
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Ano de criação" v-bind:value="create_year" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Líderes" v-bind:value="leaders" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Área predominate" v-bind:value="predominant_area" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-bind:value="objective" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
@@ -82,13 +82,13 @@
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Ano de criação" v-bind:value="create_year" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Líderes" v-bind:value="leaders" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Área predominate" v-bind:value="predominant_area" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-bind:value="objective" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
@@ -102,14 +102,23 @@
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Ano de criação" v-model="create_year"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Líderes" v-model="leaders"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Área predominate" v-model="predominant_area"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-model="objective"></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-combobox
+                                                        v-model="select"
+                                                        :items="alunos"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Adicionar aluno ao grupo"
+                                                    ></v-combobox>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -153,6 +162,12 @@ export default {
             objective: ''
 
         }],
+        select: '',
+        alunos: [{
+            id: '',
+            name: '',
+
+        }]
     }),
 
     props: {
@@ -211,6 +226,16 @@ export default {
             headers: config.headers,
         }).then((response) => {
             this.grupos = response.data.subjects
+        }).catch (() => {
+            alert('erro')
+        }),
+
+        axios({
+            method: 'get',
+            url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json',
+            headers: config.headers,
+        }).then((response) => {
+            this.alunos = response.data.students
         }).catch (() => {
             alert('erro')
         })

@@ -41,10 +41,10 @@
                                     <v-card-text>
                                         <v-container grid-list-md>
                                             <v-layout wrap>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Nome" v-bind:value="name" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Descrição" v-bind:value="abstract" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
@@ -68,10 +68,10 @@
                                     <v-card-text>
                                         <v-container grid-list-md>
                                             <v-layout wrap>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Nome" v-bind:value="name" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Descrição" v-bind:value="abstract" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
@@ -79,11 +79,20 @@
                                                 <v-flex xs12>
                                                     <v-subheader >Área para editar projeto</v-subheader>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Nome" v-model="name"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Descrição" v-model="abstract"></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-combobox
+                                                        v-model="select"
+                                                        :items="alunos"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Adicionar aluno ao projeto"
+                                                    ></v-combobox>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -122,6 +131,12 @@ export default {
             id: '',
             name: '',
             abstract: ''
+
+        }],
+        select: '',
+        alunos: [{
+            id: '',
+            name: '',
 
         }],
     }),
@@ -175,7 +190,17 @@ export default {
             this.projetos = response.data.projects
         }).catch (() => {
             alert('erro')
+        }),
+
+        axios({
+            method: 'get',
+            url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json',
+            headers: config.headers,
+        }).then((response) => {
+            this.alunos = response.data.students
+        }).catch (() => {
+            alert('erro')
         })
-    },
+    }
 }
 </script>
