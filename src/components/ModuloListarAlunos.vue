@@ -16,6 +16,7 @@
                                                     <v-list-tile-title><h3>Nome: {{ props.item.name }} </h3></v-list-tile-title>
                                                     <v-list-tile-title><strong>Matricula:</strong> {{ props.item.registration }}</v-list-tile-title>
                                                     <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
+                                                    <v-list-tile-title><strong>Categoria:</strong> {{ props.item.id }}</v-list-tile-title>
                                                 </v-list-tile-content>
                                                 <v-list-content>
                                                     <v-list-tile-action class="align-end">
@@ -40,19 +41,22 @@
                                     <v-card-text>
                                         <v-container grid-list-md>
                                             <v-layout wrap>
+                                                <v-flex xs12 md6 sm6 lg6>
+                                                    <v-layout justify-center column>
+                                                        <v-flex offset-xs3>
+                                                            <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Nome" v-bind:value="name" disabled></v-text-field>
+                                                    <v-text-field label="Matrícula" v-bind:value="registration" disabled></v-text-field>
+                                                    <v-text-field label="Categoria" v-bind:value="category" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Email" v-bind:value="email" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Matrícula" v-bind:value="registration" disabled></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Categoria" v-bind:value="category" disabled></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Lattes" v-bind:value="lattes_link" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12>
@@ -102,19 +106,22 @@
                                                 <v-flex xs12>
                                                     <v-subheader >Área para editar aluno</v-subheader>
                                                 </v-flex>
+                                                <v-flex xs12 md6 sm6 lg6>
+                                                    <v-layout justify-center>
+                                                        <v-flex offset-xs3>
+                                                            <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Nome" v-model="name"></v-text-field>
+                                                    <v-text-field label="Matrícula" v-model="registration"></v-text-field>
+                                                    <v-text-field label="Categoria" v-model="category"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Email" v-model="email"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Matrícula" v-model="registration"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Categoria" v-model="category"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Lattes" v-model="lattes_link"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12>
@@ -161,6 +168,7 @@ export default {
             registration: '',
             lattes_link: '',
             relevant_informations: '',
+            photo_url: ''
 
         }],
     }),
@@ -173,6 +181,7 @@ export default {
         registration: String,
         lattes_link: String,
         relevant_informations: String,
+        photo_url: String
     },
 
     methods : {
@@ -210,6 +219,7 @@ export default {
                 this.registration = response.data.registration
                 this.lattes_link = response.data.lattes_link
                 this.relevant_informations = response.data.relevant_informations
+                this.photo_url = 'https://sisplagea-api.herokuapp.com'+response.data.photo.url
             }).catch (() => {
 
             })

@@ -25,10 +25,10 @@
                     label="Adicionar referência para o curriculo lattes:" required
                   
                     ></v-text-field>
-                    <v-textarea name="input-7-1" label="Adicionar informações relevantes:" 
+                    <v-textarea label="Adicionar informações relevantes:" 
                     v-model="relevant_informations" required></v-textarea>
                     <picture-input
-                        v-model="imagem" 
+                        v-model="avatar" 
                         ref="pictureInput" 
                         @change="onChange"
                         width="150" 
@@ -37,13 +37,13 @@
                         accept="image/jpeg,image/png" 
                         size="5"
                         radius="50" 
-                        buttonClass="btn"
-                        removeButtonClass="btn-primary button"
+                        buttonClass="v-btn"
+                        removeButtonClass="v-btn"
                         :plain="false"
                         :removable="true"
                         :customStrings="{
                             upload: '<h1>Bummer!</h1>',
-                            drag: 'Drag a 😺 GIF or GTFO',
+                            drag: 'Adicione sua foto',
                         }">
                     </picture-input>
                     <!-- <v-btn @click="alerta = !alerta" outline color="info" :right="true">Adicionar</v-btn> -->
@@ -74,7 +74,7 @@ export default {
             lattes_link: '',
             relevant_informations: '',
             registration: '',
-            imagem: ''
+            avatar: ''
         }
     },
     components: {
@@ -89,7 +89,7 @@ export default {
             formData.append('registration', this.registration)
             formData.append('lattes_link', this.lattes_link)
             formData.append('relevant_informations', this.relevant_informations)
-            formData.append('photo', this.imagem)
+            formData.append('photo', this.avatar)
             axios({
                 method: 'post',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json', data: formData,
@@ -100,25 +100,28 @@ export default {
                 this.alerta = !this.alerta
 
                 this.name = '',
-                this.radioGroup = '',
+                this.category = '',
                 this.email = '',
                 this.registration = '',
                 this.lattes_link = '',
                 this.relevant_informations = '',
-                
+                this.$refs.pictureInput = null
+                this.avatar = null
                 setTimeout(this.setAlertFalse, 5000);
 
             }).catch(()=>{
                 this.erro = true
+                setTimeout(this.setErrorFalse, 5000);
             })
         },
         setAlertFalse(){
             this.alerta = false
         },
-        onChange () {
-            this.imagem = this.$refs.pictureInput.file
-        
-            
+        setErrorFalse(){
+            this.erro = false
+        },
+        onChange() {
+            this.avatar = this.$refs.pictureInput.file
         },
         
         

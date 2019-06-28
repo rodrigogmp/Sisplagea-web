@@ -6,22 +6,14 @@
                 <v-divider></v-divider>
                 <form>
                     <v-text-field v-model="name" :error-messages="nameErrors" :counter="254" label="Nome" required
-                    @input="$v.name.$touch()"
-                    @blur="$v.name.$touch()"
                     ></v-text-field>
                     <v-layout justify-center>
                         <v-flex xs12 md6 sm6 lg6>
                             <v-text-field v-model="formacao" :error-messages="formacaoErrors" label="Formacao" required
-                            @input="$v.formacao.$touch()"
-                            @blur="$v.formacao.$touch()"
                             ></v-text-field>
                             <v-text-field v-model="departamento" :error-messages="departamentoErrors" label="Departamento" required
-                            @input="$v.departamento.$touch()"
-                            @blur="$v.departamento.$touch()"
                             ></v-text-field>
                             <v-text-field v-model="sala" :error-messages="salaErrors" label="Sala" required
-                            @input="$v.sala.$touch()"
-                            @blur="$v.sala.$touch()"
                             ></v-text-field>
                         </v-flex>
                         <v-flex xs12 md6 sm6 lg6>
