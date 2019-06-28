@@ -20,7 +20,7 @@
                                                     <v-list-tile-action class="align-end">
                                                         <v-tooltip bottom>
                                                             <template v-slot:activator="{ on }">
-                                                                <v-btn flat v-on="on" @click="dialog = true, buscarProjeto(props.item.id)"><v-icon color="green lighten-1">info</v-icon>Info Projeto</v-btn>
+                                                                <v-btn flat v-on="on" @click="dialog = true, buscarProjeto(props.item.id), listarParticipantes(props.item.id)"><v-icon color="green lighten-1">info</v-icon>Info Projeto</v-btn>
                                                             </template>
                                                             <span>Exibir/Editar Informações sobre o projeto</span>
                                                         </v-tooltip>
@@ -32,8 +32,6 @@
                                 </v-flex>
                             </v-layout>
                             <v-dialog v-model="dialog" persistent max-width="680px">
-                                
-                    
                                 <v-card>
                                     <v-card-title>
                                         <span class="headline">Projeto: {{ name }} </span>
@@ -46,6 +44,19 @@
                                                 </v-flex>
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-bind:value="abstract" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs9>
+                                                    <v-combobox
+                                                        v-model="select"
+                                                        :items="participantes"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Alunos vinculados ao projeto"
+                                                        hint="Selecione e clique em Desvincular, caso queira desvincular um aluno."
+                                                    ></v-combobox>
+                                                </v-flex>
+                                                <v-flex xs3>
+                                                    <v-btn color="info" outline flat @click="desvincularAluno">Desvincular</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
@@ -85,7 +96,7 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-model="abstract"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12>
+                                                <v-flex xs10>
                                                     <v-combobox
                                                         v-model="select"
                                                         :items="alunos"
@@ -93,6 +104,9 @@
                                                         item-value="id"
                                                         label="Adicionar aluno ao projeto"
                                                     ></v-combobox>
+                                                </v-flex>
+                                                <v-flex xs2>
+                                                    <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -139,6 +153,10 @@ export default {
             name: '',
 
         }],
+        participantes: [{
+            id: '',
+            name: ''
+        }]
     }),
 
     props: {
@@ -177,7 +195,53 @@ export default {
             }).catch (() => {
 
             })
-
+        },
+        vincularAluno(){
+            axios({
+                method: 'post',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/link_participant`,
+                headers: config.headers,
+                data: {
+                    student_id: this.select.id
+                }
+            }).then(() => {
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 5000);
+            }).catch(()=>{
+                this.erro = true
+                setTimeout(this.setErroFalse, 5000);
+            })
+        },
+        desvincularAluno(){
+            axios({
+                method: 'delete',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/unlink_participant`,
+                headers: config.headers,
+                data: {
+                    student_id: this.select.id
+                }
+            }).then(() => {
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 5000);
+            }).catch(()=>{
+                this.erro = true
+                setTimeout(this.setErroFalse, 5000);
+            })
+        },
+        listarParticipantes(id){
+            axios({
+                method: 'get',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${id}/participants.json`,
+                headers: config.headers
+            }).then((response)=>{
+                this.participantes = response.data.participants
+            })
+        },
+        setAlertaFalse(){
+            this.alerta = false
+        },
+        setErroFalse(){
+            this.erro = false
         }
     },  
     

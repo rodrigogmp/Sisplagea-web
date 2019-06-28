@@ -6,13 +6,9 @@
                 <v-divider></v-divider>
                 <form>
                     <v-text-field v-model="name" label="Nome do Grupo" required
-                    @input="$v.nome.$touch()"
-                    @blur="$v.nome.$touch()"
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
                         <v-text-field v-model="create_year" label="Ano de criação" required
-                        @input="$v.anoCriacao.$touch()"
-                        @blur="$v.anoCriacao.$touch()"
                         ></v-text-field>
                     </v-flex>
                     <v-textarea v-model="leaders" label="Líder(es)" required></v-textarea>

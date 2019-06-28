@@ -55,8 +55,8 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-bind:value="objective" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12>
-                                                   <v-combobox
+                                                <v-flex xs9>
+                                                    <v-combobox
                                                         v-model="select"
                                                         :items="participantes"
                                                         item-text="name"
@@ -65,6 +65,9 @@
                                                         hint="Selecione e clique em Desvincular, caso queira desvincular um aluno."
                                                         persistent-hint
                                                     ></v-combobox>
+                                                </v-flex>
+                                                <v-flex xs3>
+                                                    <v-btn color="info" outline flat @click="desvincularAluno">Desvincular</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
@@ -188,7 +191,6 @@ export default {
             name: '',
 
         }],
-        // qualquerCoisa: '',
         participantes: [{
             id: '',
             name: ''
@@ -259,15 +261,29 @@ export default {
                 setTimeout(this.setErroFalse, 5000);
             })
         },
+        desvincularAluno(){
+            axios({
+                method: 'delete',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/unlink_participant`,
+                headers: config.headers,
+                data: {
+                    student_id: this.select.id
+                }
+            }).then(() => {
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 5000);
+            }).catch(()=>{
+                this.erro = true
+                setTimeout(this.setErroFalse, 5000);
+            })
+        },
         listarParticipantes(id){
-            console.log('entrou')
             axios({
                 method: 'get',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${id}/participants.json`,
                 headers: config.headers
             }).then((response)=>{
                 this.participantes = response.data.participants
-                console.log(this.participantes)
             })
         },
         setAlertaFalse(){

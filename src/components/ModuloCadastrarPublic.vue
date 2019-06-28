@@ -6,12 +6,8 @@
                 <v-divider></v-divider>
                 <form>
                     <v-text-field v-model="title" label="Título" required
-                    @input="$v.title.$touch()"
-                    @blur="$v.title.$touch()"
                     ></v-text-field>
                     <v-text-field v-model="journal" label="Journal" required
-                    @input="$v.journal.$touch()"
-                    @blur="$v.journal.$touch()"
                     ></v-text-field>
                     <v-radio-group v-model="category" label="Tipo:">
                         <v-radio label="Conferência" value="conference"></v-radio>
@@ -21,31 +17,20 @@
                     <v-layout row wrap>
                         <v-flex xs3 sm3 md2 lg2>
                             <v-text-field v-model="year" label="Ano" required
-                            @input="$v.year.$touch()"
-                            @blur="$v.year.$touch()"
                             ></v-text-field>
                         </v-flex>
 
                         <v-flex xs3 sm3 md2 lg2>
                             <v-text-field v-model="volume" label="Volume" required
-                            @input="$v.volume.$touch()"
-                            @blur="$v.volume.$touch()"
                             ></v-text-field>
                         </v-flex>
 
                         <v-flex xs3 sm3 md2 lg2>
                             <v-text-field v-model="pages" label="Páginas" required
-                            @input="$v.pages.$touch()"
-                            @blur="$v.pages.$touch()"
                             ></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-textarea label="authors" v-model="authors" required></v-textarea>
-                    <v-subheader >Carregar arquivos</v-subheader>
-                    <input style="padding-left: 16px; padding-bottom: 10px;" type="file">
-                    <v-divider class="grey" />
-                    <br />
-                    <br />
                     <v-btn @click="cadastrarPublicacao" outline color="info" :right="true">Cadastrar</v-btn>
                 </form>
                 <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Publicação cadastrada com sucesso.</v-alert>

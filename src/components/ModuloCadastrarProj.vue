@@ -6,8 +6,6 @@
                 <v-divider></v-divider>
                 <form>
                     <v-text-field v-model="name" label="Nome do projeto" required
-                    @input="$v.name.$touch()"
-                    @blur="$v.name.$touch()"
                     ></v-text-field>
                     <v-textarea label="Descrição" v-model="abstract" required></v-textarea>
                     <v-btn @click="cadastrarProjeto" outline color="info" :right="true">Cadastrar</v-btn>
