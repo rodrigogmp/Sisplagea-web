@@ -229,14 +229,12 @@ export default {
             })
         },
         listarParticipantes(id){
-            console.log('entrou')
             axios({
                 method: 'get',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${id}/participants.json`,
                 headers: config.headers
             }).then((response)=>{
                 this.participantes = response.data.participants
-                console.log(this.participantes)
             })
         },
         setAlertaFalse(){

@@ -284,7 +284,6 @@ export default {
                 headers: config.headers
             }).then((response)=>{
                 this.participantes = response.data.participants
-                console.log(this.participantes)
             })
         },
         setAlertaFalse(){
