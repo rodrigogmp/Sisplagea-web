@@ -6,33 +6,29 @@
                 <v-divider></v-divider>
                 <form>
                     <v-text-field v-model="name" label="Nome" required
-                    @input="$v.name.$touch()"
-                    @blur="$v.name.$touch()"
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="matricula" label="Matricula" required
-                        @input="$v.matricula.$touch()"
-                        @blur="$v.matricula.$touch()"
+                        <v-text-field v-model="registration" label="Matricula" required
+                
                         ></v-text-field>
                     </v-flex>
                     <v-text-field v-model="email" label="E-mail" required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
+
                     ></v-text-field>
-                    <v-radio-group v-model="radioGroup" label="Categoria:">
+                    <v-radio-group v-model="category" label="Categoria:">
                         <v-radio label="Iniciação Cientifica" value="scientific_research"></v-radio>
                         <v-radio label="Mestrado" value="masters_degree"></v-radio>
                         <v-radio label="Doutorado" value="doctorate_degree"></v-radio>
                         <v-radio label="Pós-Doutorado" value="post_doctoral"></v-radio>
                     </v-radio-group>
-                    <v-text-field v-model="curriculo"
+                    <v-text-field v-model="lattes_link"
                     label="Adicionar referência para o curriculo lattes:" required
-                    @input="$v.curriculo.$touch()"
-                    @blur="$v.curriculo.$touch()"
+                  
                     ></v-text-field>
                     <v-textarea name="input-7-1" label="Adicionar informações relevantes:" 
-                    v-model="informacoes" required></v-textarea>
-                    <picture-input 
+                    v-model="relevant_informations" required></v-textarea>
+                    <picture-input
+                        v-model="imagem" 
                         ref="pictureInput" 
                         @change="onChange"
                         width="150" 
@@ -63,8 +59,9 @@
 <script>
 import axios from 'axios';
 import PictureInput from 'vue-picture-input';
+import { format } from 'path';
 var config = {
-    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']"), 'Content-Type': 'multipart/form-data'}
 }
 
 export default {
@@ -73,11 +70,12 @@ export default {
             alerta: false,
             erro: false,
             name: '',
-            radioGroup: '',
+            category: '',
             email: '',
-            curriculo: '',
-            informacoes: '',
-            matricula: '',
+            lattes_link: '',
+            relevant_informations: '',
+            registration: '',
+            imagem: ''
         }
     },
     components: {
@@ -85,28 +83,29 @@ export default {
     },
     methods : {
         cadastrarAluno() {
+            let formData = new FormData()
+            formData.append('name', this.name)
+            formData.append('category', this.category)
+            formData.append('email', this.email)
+            formData.append('registration', this.registration)
+            formData.append('lattes_link', this.lattes_link)
+            formData.append('relevant_informations', this.relevant_informations)
+            formData.append('photo', this.imagem)
             axios({
                 method: 'post',
-                url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json',
-                headers: config.headers,
-                data: {
-                    name: this.name,
-                    category: this.radioGroup,
-                    email: this.email,
-                    registration: this.matricula,
-                    lattes_link: this.curriculo,
-                    relevant_informations: this.informacoes,
-                    //photo: this.image
-                }
+                url: 'http://localhost:3000/api/v1/students.json', data: formData,
+                headers: config.headers
+
             }).then(() => {
+
                 this.alerta = !this.alerta
 
                 this.name = '',
                 this.radioGroup = '',
                 this.email = '',
-                this.matricula = '',
-                this.curriculo = '',
-                this.informacoes = '',
+                this.registration = '',
+                this.lattes_link = '',
+                this.relevant_informations = '',
                 
                 setTimeout(this.setAlertFalse, 5000);
 
@@ -117,16 +116,12 @@ export default {
         setAlertFalse(){
             this.alerta = false
         },
-        onChange (image) {
-            //console.log('New picture selected!')
-            if (image) {
-                //console.log('Picture loaded.')
-                this.image = image
-                //console.log(image)
-            } else {
-                //console.log('FileReader API not supported: use the <form>, Luke!')
-            }
-        }
+        onChange () {
+            this.imagem = this.$refs.pictureInput.file
+        
+            
+        },
+        
         
     }
 }
