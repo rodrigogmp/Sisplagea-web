@@ -33,8 +33,6 @@
                                 </v-flex>
                             </v-layout>
                             <v-dialog v-model="dialog" persistent max-width="680px">
-                                
-                    
                                 <v-card>
                                     <v-card-title>
                                         <span class="headline">Aluno: {{ name }} </span>
@@ -43,7 +41,6 @@
                                         <v-container grid-list-md>
                                             <v-layout wrap>
                                                 <v-flex xs12 sm6 md6>
-                                                    
                                                     <v-text-field label="Nome" v-bind:value="name" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
@@ -163,7 +160,7 @@ export default {
             email: '',
             registration: '',
             lattes_link: '',
-            relevant_informations: ''
+            relevant_informations: '',
 
         }],
     }),
@@ -175,7 +172,7 @@ export default {
         email: String,
         registration: String,
         lattes_link: String,
-        relevant_informations: String
+        relevant_informations: String,
     },
 
     methods : {

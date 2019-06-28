@@ -59,7 +59,6 @@
 <script>
 import axios from 'axios';
 import PictureInput from 'vue-picture-input';
-import { format } from 'path';
 var config = {
     headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']"), 'Content-Type': 'multipart/form-data'}
 }
@@ -93,7 +92,7 @@ export default {
             formData.append('photo', this.imagem)
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/v1/students.json', data: formData,
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json', data: formData,
                 headers: config.headers
 
             }).then(() => {

@@ -43,8 +43,7 @@
             login() {
                 axios ({
                     method: 'post',
-                    // url: 'https://sisplagea-api.herokuapp.com/api/v1/auth/sign_in',
-                    url: 'http://localhost:3000//api/v1/auth/sign_in',
+                    url: 'https://sisplagea-api.herokuapp.com/api/v1/auth/sign_in',
                     data: {
                         email: this.email,
                         password: this.senha
