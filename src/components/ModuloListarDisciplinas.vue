@@ -26,7 +26,7 @@
                                                         </v-tooltip>
                                                         <v-tooltip bottom>                                                            
                                                             <template v-slot:activator="{ on }">
-                                                                <v-btn flat v-on="on" @click="redirecionarEspacoDisc()">Espaço da Disciplina</v-btn>
+                                                                <v-btn flat v-on="on" @click="redirecionarEspacoDisc(props.item.id)">Espaço da Disciplina</v-btn>
                                                             </template>
                                                             <span>Ir para o espaço da disciplina</span>
                                                         </v-tooltip>
@@ -241,7 +241,8 @@ export default {
                 setTimeout(this.setErrorFalse, 5000);
             })
         },
-        redirecionarEspacoDisc(){
+        redirecionarEspacoDisc(id){
+            localStorage.setItem('idDisciplina', id)
             window.location.href = '/espacoDisciplina.html'
         }
     },
