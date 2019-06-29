@@ -67,7 +67,10 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-btn color="error" outline flat >Deletar</v-btn>
+                                                <v-btn color="error" outline flat @click="deletarDisciplina">Deletar</v-btn>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -153,6 +156,8 @@ var config = {
 }
 export default {
     data: () => ({
+        erro: false,
+        erro_msg: '',
         dialog: false,
         dialog2: false,
         rowsPerPageItems: [4, 8, 12],
@@ -221,6 +226,20 @@ export default {
 
             })
 
+        },
+        deletarDisciplina(){
+            axios({
+                method: 'delete',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/subjects/'+this.id+'.json',
+                headers: config.headers,
+
+            }).then(() => {
+                document.location.reload()
+            }).catch((error) => {
+                this.erro_msg = error
+                this.erro = true
+                setTimeout(this.setErrorFalse, 5000);
+            })
         },
         redirecionarEspacoDisc(){
             window.location.href = '/espacoDisciplina.html'

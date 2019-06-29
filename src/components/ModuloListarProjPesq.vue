@@ -63,7 +63,10 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-btn color="error" outline flat >Deletar</v-btn>
+                                                <v-btn color="error" outline flat @click="deletarProjeto">Deletar</v-btn>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -206,8 +209,21 @@ export default {
                 setTimeout(this.setErroFalse, 5000);
             })
         },
+        deletarProjeto(){
+            axios({
+                method: 'delete',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/projects/'+this.id+'.json',
+                headers: config.headers,
+
+            }).then(() => {
+                document.location.reload()
+            }).catch ((error) => {
+                this.erro_msg = error
+                this.erro = true
+                setTimeout(this.setErrorFalse, 5000);
+            })
+        },
         vincularAluno(){
-            console.log(this.select.id)
             axios({
                 method: 'post',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/link_participant`,
@@ -226,7 +242,6 @@ export default {
             })
         },
         desvincularAluno(){
-            console.log(this.select.id)
             axios({
                 method: 'delete',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/unlink_participant/${this.select.id}`,

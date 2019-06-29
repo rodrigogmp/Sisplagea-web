@@ -74,7 +74,10 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-btn color="error" outline flat >Deletar</v-btn>
+                                                <v-btn color="error" outline flat @click="deletarGrupo">Deletar</v-btn>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -247,6 +250,20 @@ export default {
 
             })
 
+        },
+        deletarGrupo(){
+            axios({
+                method: 'delete',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/study_groups/'+this.id+'.json',
+                headers: config.headers,
+
+            }).then(() => {
+                document.location.reload()
+            }).catch ((error) => {
+                this.erro_msg = error
+                this.erro = true
+                setTimeout(this.setErrorFalse, 5000);
+            })
         },
         vincularAluno(){
             axios({

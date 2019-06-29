@@ -16,7 +16,6 @@
                                                     <v-list-tile-title><h3>Nome: {{ props.item.name }} </h3></v-list-tile-title>
                                                     <v-list-tile-title><strong>Matricula:</strong> {{ props.item.registration }}</v-list-tile-title>
                                                     <v-list-tile-title><strong>Categoria:</strong> {{ props.item.category }}</v-list-tile-title>
-                                                    <v-list-tile-title><strong>Categoria:</strong> {{ props.item.id }}</v-list-tile-title>
                                                 </v-list-tile-content>
                                                 <v-list-content>
                                                     <v-list-tile-action class="align-end">
@@ -64,7 +63,10 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-btn color="error" outline flat >Deletar</v-btn>
+                                                <v-btn color="error" outline flat @click="deletarAluno">Deletar</v-btn>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -153,6 +155,8 @@ var config = {
 }
 export default {
     data: () => ({
+        erro: false,
+        erro_msg: '',
         dialog: false,
         dialog2: false,
         rowsPerPageItems: [4, 8, 12],
@@ -224,6 +228,23 @@ export default {
 
             })
 
+        },
+        deletarAluno(){
+            axios({
+                method: 'delete',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/students/'+this.id+'.json',
+                headers: config.headers,
+
+            }).then(() => {
+                document.location.reload()
+            }).catch ((error) => {
+                this.erro_msg = error
+                this.erro = true
+                setTimeout(this.setErrorFalse, 5000);
+            })
+        },
+        setErrorFalse(){
+            this.erro = false
         }
     },  
     
