@@ -108,7 +108,7 @@ export default {
             }).then((response) => {
                 this.materiais.push(response.data)
                 this.$refs.form.reset();
-                this.file = null           
+                this.file = null          
                 // document.location.reload()
             }).catch(error => {
                 alert("Erro ao adicionar " + error)
