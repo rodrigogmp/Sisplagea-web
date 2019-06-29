@@ -58,6 +58,9 @@
                                                 <v-flex xs3>
                                                     <v-btn color="info" outline flat @click="desvincularAluno">Desvincular</v-btn>
                                                 </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
                                                 <v-btn color="error" outline flat >Deletar</v-btn>
@@ -108,6 +111,9 @@
                                                 <v-flex xs2>
                                                     <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
                                                 </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -134,6 +140,8 @@ var config = {
 }
 export default {
     data: () => ({
+        erro: false,
+        erro_msg: '',
         dialog: false,
         dialog2: false,
         rowsPerPageItems: [4, 8, 12],
@@ -192,38 +200,41 @@ export default {
                 this.id = response.data.id
                 this.name = response.data.name
                 this.abstract = response.data.abstract
-            }).catch (() => {
-
+            }).catch((error)=>{
+                this.erro_msg = error
+                this.erro = true
+                setTimeout(this.setErroFalse, 5000);
             })
         },
         vincularAluno(){
+            console.log(this.select.id)
             axios({
                 method: 'post',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/link_participant`,
                 headers: config.headers,
                 data: {
-                    student_id: this.select.id
+                    student_id: this.select.id,
+                    start_year: '2016',
+                    last_year: '2017'
                 }
             }).then(() => {
-                this.alerta = !this.alerta
-                setTimeout(this.setAlertaFalse, 5000);
-            }).catch(()=>{
+                document.location.reload()
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
                 setTimeout(this.setErroFalse, 5000);
             })
         },
         desvincularAluno(){
+            console.log(this.select.id)
             axios({
                 method: 'delete',
-                url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/unlink_participant`,
+                url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/unlink_participant/${this.select.id}`,
                 headers: config.headers,
-                data: {
-                    student_id: this.select.id
-                }
-            }).then(() => {
-                this.alerta = !this.alerta
-                setTimeout(this.setAlertaFalse, 5000);
-            }).catch(()=>{
+             }).then(() => {
+                document.location.reload()
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
                 setTimeout(this.setErroFalse, 5000);
             })
@@ -236,9 +247,6 @@ export default {
             }).then((response)=>{
                 this.participantes = response.data.participants
             })
-        },
-        setAlertaFalse(){
-            this.alerta = false
         },
         setErroFalse(){
             this.erro = false

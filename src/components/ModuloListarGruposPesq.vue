@@ -67,7 +67,10 @@
                                                     ></v-combobox>
                                                 </v-flex>
                                                 <v-flex xs3>
-                                                    <v-btn color="info" outline flat @click="desvincularAluno">Desvincular</v-btn>
+                                                    <v-btn color="info" outline flat @click="desvincularAluno()">Desvincular</v-btn>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
@@ -138,8 +141,7 @@
                                                     <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
                                                 </v-flex>
                                                 <v-flex xs12>
-                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">Aluno vinculado com sucesso.</v-alert>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">Erro ao vincular aluno.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -167,8 +169,8 @@ var config = {
 }
 export default {
     data: () => ({
-        alerta: false,
         erro: false,
+        erro_msg: '',
         dialog: false,
         dialog2: false,
         rowsPerPageItems: [4, 8, 12],
@@ -223,7 +225,8 @@ export default {
             }).then(() => {              
                 document.location.reload()
                 //this.alerta = !this.alerta
-            }).catch(()=>{
+            }).catch((response)=>{
+                this.erro_msg = response.data
                 this.erro = true
             })
         },
@@ -254,9 +257,9 @@ export default {
                     student_id: this.select.id
                 }
             }).then(() => {
-                this.alerta = !this.alerta
-                setTimeout(this.setAlertaFalse, 5000);
-            }).catch(()=>{
+                document.location.reload()
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
                 setTimeout(this.setErroFalse, 5000);
             })
@@ -264,15 +267,12 @@ export default {
         desvincularAluno(){
             axios({
                 method: 'delete',
-                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/unlink_participant`,
+                url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/unlink_participant/${this.select.id}`,
                 headers: config.headers,
-                data: {
-                    student_id: this.select.id
-                }
-            }).then(() => {
-                this.alerta = !this.alerta
-                setTimeout(this.setAlertaFalse, 5000);
-            }).catch(()=>{
+             }).then(() => {
+                document.location.reload()
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
                 setTimeout(this.setErroFalse, 5000);
             })
@@ -286,9 +286,6 @@ export default {
                 this.participantes = response.data.participants
             })
         },
-        setAlertaFalse(){
-            this.alerta = false
-        },
         setErroFalse(){
             this.erro = false
         }
@@ -300,7 +297,7 @@ export default {
             url: 'https://sisplagea-api.herokuapp.com/api/v1/study_groups.json',
             headers: config.headers,
         }).then((response) => {
-            this.grupos = response.data.subjects
+            this.grupos = response.data.study_groups
         }).catch (() => {
             alert('erro')
         }),
