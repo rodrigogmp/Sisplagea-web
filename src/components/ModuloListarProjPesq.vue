@@ -45,7 +45,7 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-bind:value="abstract" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs9>
+                                                <v-flex xs6>
                                                     <v-combobox
                                                         v-model="select"
                                                         :items="participantes"
@@ -55,16 +55,20 @@
                                                         hint="Selecione e clique em Desvincular, caso queira desvincular um aluno."
                                                     ></v-combobox>
                                                 </v-flex>
-                                                <v-flex xs3>
+                                                <v-flex xs6>
                                                     <v-btn color="info" outline flat @click="desvincularAluno">Desvincular</v-btn>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                    <v-btn outline flat @click="abrirEspaco">Abrir Espaço</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-btn color="error" outline flat @click="deletarProjeto">Deletar</v-btn>
+                                                <v-layout row>
+                                                    <v-flex xs12>
+                                                        <v-btn outline flat @click="dialog= false,dialog2 = true">Editar</v-btn>
+                                                        <v-btn color="error" outline flat @click="deletarProjeto">Deletar</v-btn>
+                                                        <v-btn color="info" outline flat @click="dialog = false, select = '', dialog5 = true">Vincular</v-btn>
+                                                    </v-flex>
+                                                </v-layout>
                                                 <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                             </v-layout>
@@ -72,7 +76,7 @@
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
+                                        <v-btn outline flat @click="dialog = false, select = ''">Cancelar</v-btn>
                                         <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -102,18 +106,6 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-model="abstract"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs10>
-                                                    <v-combobox
-                                                        v-model="select"
-                                                        :items="alunos"
-                                                        item-text="name"
-                                                        item-value="id"
-                                                        label="Adicionar aluno ao projeto"
-                                                    ></v-combobox>
-                                                </v-flex>
-                                                <v-flex xs2>
-                                                    <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
-                                                </v-flex>
                                                 <v-flex xs12>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
@@ -122,9 +114,126 @@
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn outline flat @click="dialog2 = false, dialog = true">Cancelar</v-btn>
+                                        <v-btn outline flat @click="dialog2 = false, dialog = true, select = ''">Cancelar</v-btn>
                                         <v-btn color="info" outline flat 
                                         @click="atualizarProjeto(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialog3" persistent max-width="680px">
+                                <v-card>
+                                    <v-card-title>
+                                        <span class="headline">Espaço do aluno vinculado</span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-container grid-list-md>
+                                            <v-layout wrap>
+                                                <v-flex xs12>
+                                                    <v-text-field label="Nome" v-bind:value="select.name" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-layout row wrap>
+                                                    <v-flex xs3>
+                                                        <v-text-field label="Ano de início" v-bind:value="select.start_year" disabled></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3>
+                                                        <v-text-field label="Ano de fim" v-bind:value="select.end_year" disabled></v-text-field>
+                                                    </v-flex>
+                                                </v-layout>
+                                                <v-spacer></v-spacer>
+                                                <v-flex xs12>
+                                                    <v-btn outline flat @click="dialog3= false,dialog4 = true" :right="true">Editar</v-btn>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn outline flat @click="dialog3 = false, dialog = true, select = ''">Cancelar</v-btn>
+                                        <v-btn color="info" outline flat 
+                                        @click="atualizarProjeto(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        <v-dialog v-model="dialog4" persistent max-width="680px">
+                               <v-card>
+                                    <v-card-text>
+                                        <v-container grid-list-md>
+                                            <v-layout wrap>
+                                                <v-flex xs12>
+                                                    <v-text-field label="Nome" v-bind:value="select.name" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-layout row wrap>
+                                                    <v-flex xs3>
+                                                        <v-text-field label="Ano de início" v-bind:value="select.start_year" disabled></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3>
+                                                        <v-text-field label="Ano de fim" v-bind:value="select.end_year" disabled></v-text-field>
+                                                    </v-flex>
+                                                </v-layout>
+                                                <v-spacer></v-spacer>
+                                                <v-flex xs12>
+                                                    <v-subheader >Área para editar informações aluno vinculado</v-subheader>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-text-field label="Nome" v-bind:value="select.name" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-layout row wrap>
+                                                    <v-flex xs3>
+                                                        <v-text-field label="Ano de início" v-model="select.start_year"></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3>
+                                                        <v-text-field label="Ano de fim" v-model="select.end_year"></v-text-field>
+                                                    </v-flex>
+                                                </v-layout>
+                                                <v-spacer></v-spacer>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn outline flat @click="dialog4 = false, dialog3 = true">Cancelar</v-btn>
+                                        <v-btn color="info" outline flat @click="atualizarAlunoVinculado(props.item.id)">Salvar</v-btn>
+                                    </v-card-actions>
+                                    <v-flex xs12>
+                                        <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                    </v-flex>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialog5" persistent max-width="680px">
+                                <v-card>
+                                    <v-card-text>
+                                        <v-container grid-list-md>
+                                            <v-layout wrap>
+                                                 <v-flex xs10>
+                                                    <v-combobox
+                                                        v-model="select"
+                                                        :items="alunos"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Adicionar aluno ao projeto"
+                                                    ></v-combobox>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-layout row wrap>
+                                                        <v-flex xs3>
+                                                            <v-text-field label="Ano de início" v-model="select.start_year"></v-text-field>
+                                                        </v-flex>
+                                                        <v-flex xs3>
+                                                            <v-text-field label="Ano de fim" v-model="select.end_year"></v-text-field>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn outline flat @click="dialog5 = false, dialog = true, select = ''">Cancelar</v-btn>
+                                        <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -143,10 +252,15 @@ var config = {
 }
 export default {
     data: () => ({
+        alerta: false,
+        alerta_msg: '',
         erro: false,
         erro_msg: '',
         dialog: false,
         dialog2: false,
+        dialog3: false,
+        dialog4: false,
+        dialog5: false,
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,
@@ -155,7 +269,9 @@ export default {
         projetos: [{
             id: '',
             name: '',
-            abstract: ''
+            abstract: '',
+            start_year: '',
+            end_year: ''
 
         }],
         select: '',
@@ -230,11 +346,16 @@ export default {
                 headers: config.headers,
                 data: {
                     student_id: this.select.id,
-                    start_year: '2016',
-                    last_year: '2017'
+                    start_year: this.select.start_year,
+                    end_year: this.select.end_year
                 }
             }).then(() => {
-                document.location.reload()
+                this.alerta_msg = 'Aluno vinculado com sucesso.'
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 3000);
+                this.participantes.push(this.select)
+                this.select.start_year = ''
+                this.select.end_year = ''
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
@@ -247,7 +368,11 @@ export default {
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${this.id}/unlink_participant/${this.select.id}`,
                 headers: config.headers,
              }).then(() => {
-                document.location.reload()
+                 this.select = ''
+                 this.alerta_msg = 'Aluno desvinculado com sucesso.'
+                 this.alerta = !this.alerta
+                 setTimeout(this.setAlertaFalse, 3000);
+                 this.participantes.push(this.select)
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
@@ -263,8 +388,37 @@ export default {
                 this.participantes = response.data.participants
             })
         },
+        atualizarAlunoVinculado(id){
+             axios({
+                method: 'put',
+                url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${id}/update_participant/${this.select.id}.json`,
+                headers: config.headers,
+                data: {
+                    start_year: this.select.start_year,
+                    end_year: this.select.end_year
+                }
+            }).then(() => {              
+                this.dialog4 = false
+                this.dialog3 = true
+                // this.alerta = !this.alerta
+            }).catch((error)=>{
+                this.erro_msg = error
+                this.erro = true
+                setTimeout(this.setErroFalse, 5000);
+
+            })  
+        },
+        abrirEspaco(){
+            if(this.select.id != undefined){
+                this.dialog3 = true
+                this.dialog = false
+            }
+        },
         setErroFalse(){
             this.erro = false
+        },
+        setAlertaFalse(){
+            this.alerta = false
         }
     },  
     

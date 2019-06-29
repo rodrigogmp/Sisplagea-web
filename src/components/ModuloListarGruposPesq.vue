@@ -69,13 +69,12 @@
                                                 <v-flex xs3>
                                                     <v-btn color="info" outline flat @click="desvincularAluno()">Desvincular</v-btn>
                                                 </v-flex>
-                                                <v-flex xs12>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
-                                                </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
+                                                <v-btn outline flat @click="dialog= false,dialog2 = true" >Editar</v-btn>
                                                 <v-btn color="error" outline flat @click="deletarGrupo">Deletar</v-btn>
+                                                <v-btn color="info" outline flat @click="dialog = false, select = '', dialog3 = true">Vincular</v-btn>
                                                 <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                             </v-layout>
@@ -83,7 +82,7 @@
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
+                                        <v-btn outline flat @click="dialog = false, select = ''">Cancelar</v-btn>
                                         <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -131,19 +130,8 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-model="objective"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs10>
-                                                    <v-combobox
-                                                        v-model="select"
-                                                        :items="alunos"
-                                                        item-text="name"
-                                                        item-value="id"
-                                                        label="Adicionar aluno ao grupo"
-                                                    ></v-combobox>
-                                                </v-flex>
-                                                <v-flex xs2>
-                                                    <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
-                                                </v-flex>
                                                 <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                             </v-layout>
@@ -151,9 +139,38 @@
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn outline flat @click="dialog2 = false, dialog = true">Cancelar</v-btn>
+                                        <v-btn outline flat @click="dialog2 = false, dialog = true, select = ''">Cancelar</v-btn>
                                         <v-btn color="info" outline flat 
                                         @click="atualizarGrupo(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialog3" persistent max-width="680px">
+                                <v-card>
+                                    <v-card-text>
+                                        <v-container grid-list-md>
+                                            <v-layout wrap>
+                                                 <v-flex xs10>
+                                                    <v-combobox
+                                                        v-model="select"
+                                                        :items="alunos"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Adicionar aluno ao projeto"
+                                                    ></v-combobox>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <!-- <v-btn outline flat @click="dialog3 = false, dialog = true, select = '', listarParticipantes(props.item.id)">Voltar</v-btn> -->
+                                        <v-btn outline flat @click="dialog3 = false, dialog = true, select = ''">Voltar</v-btn>
+                                        <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -172,10 +189,13 @@ var config = {
 }
 export default {
     data: () => ({
+        alerta: false,
+        alerta_msg:'',
         erro: false,
         erro_msg: '',
         dialog: false,
         dialog2: false,
+        dialog3: false,
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,
@@ -225,9 +245,9 @@ export default {
                     predominant_area: this.predominant_area,
                     objective: this.objective
                 }
-            }).then(() => {              
-                document.location.reload()
-                //this.alerta = !this.alerta
+            }).then(() => {      
+                this.alerta_msg = 'Informações de grupo atualizadas com sucesso.'
+                this.alerta = !this.alerta
             }).catch((response)=>{
                 this.erro_msg = response.data
                 this.erro = true
@@ -274,11 +294,14 @@ export default {
                     student_id: this.select.id
                 }
             }).then(() => {
-                document.location.reload()
+                this.alerta_msg = 'Aluno vinculado com sucesso.'
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 3000);
+                this.participantes.push(this.select)
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
-                setTimeout(this.setErroFalse, 5000);
+                setTimeout(this.setErroFalse, 3000);
             })
         },
         desvincularAluno(){
@@ -287,11 +310,15 @@ export default {
                 url: `https://sisplagea-api.herokuapp.com/api/v1/study_groups/${this.id}/unlink_participant/${this.select.id}`,
                 headers: config.headers,
              }).then(() => {
-                document.location.reload()
+                 this.select = ''
+                 this.alerta_msg = 'Aluno desvinculado com sucesso.'
+                 this.alerta = !this.alerta
+                 setTimeout(this.setAlertaFalse, 3000);
+                 this.participantes.push(this.select)
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
-                setTimeout(this.setErroFalse, 5000);
+                setTimeout(this.setErroFalse, 3000);
             })
         },
         listarParticipantes(id){
@@ -305,6 +332,9 @@ export default {
         },
         setErroFalse(){
             this.erro = false
+        },
+        setAlertaFalse(){
+            this.alerta = false
         }
     },  
     
