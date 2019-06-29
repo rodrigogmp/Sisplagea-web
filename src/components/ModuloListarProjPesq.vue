@@ -45,7 +45,7 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-bind:value="abstract" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs6>
+                                                <v-flex xs6 v-if="dialog5 == false">
                                                     <v-combobox
                                                         v-model="select"
                                                         :items="participantes"
@@ -55,18 +55,50 @@
                                                         hint="Selecione e clique em Desvincular, caso queira desvincular um aluno."
                                                     ></v-combobox>
                                                 </v-flex>
-                                                <v-flex xs6>
+                                                <v-flex xs6 v-if="select.id != undefined && dialog5 == false">
                                                     <v-btn color="info" outline flat @click="desvincularAluno">Desvincular</v-btn>
-                                                    <v-btn outline flat @click="abrirEspaco">Abrir Espaço</v-btn>
+                                                    <v-btn outline flat @click="dialog3 = true, dialog = false">Abrir Espaço</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <v-layout row>
-                                                    <v-flex xs12>
-                                                        <v-btn outline flat @click="dialog= false,dialog2 = true">Editar</v-btn>
-                                                        <v-btn color="error" outline flat @click="deletarProjeto">Deletar</v-btn>
-                                                        <v-btn color="info" outline flat @click="dialog = false, select = '', dialog5 = true">Vincular</v-btn>
-                                                    </v-flex>
-                                                </v-layout>
+                                                <v-flex xs12>
+                                                    <v-btn outline flat @click="dialog= false,dialog2 = true">Editar</v-btn>
+                                                    <v-btn color="error" outline flat @click="deletarProjeto">Deletar</v-btn>
+                                                    <v-btn color="info" outline flat @click="select = '', dialog5 = true">Vincular</v-btn>
+                                                </v-flex>
+                                                <div class="flex xs12" v-if="dialog5 == true">
+                                                    <v-card>
+                                                        <v-card-text>
+                                                            <v-container grid-list-md>
+                                                                <v-layout wrap>
+                                                                    <v-flex xs10>
+                                                                        <v-combobox
+                                                                            v-model="select"
+                                                                            :items="alunos"
+                                                                            item-text="name"
+                                                                            item-value="id"
+                                                                            label="Vincular aluno ao projeto"
+                                                                        ></v-combobox>
+                                                                    </v-flex>
+                                                                    <v-flex xs12>
+                                                                        <v-layout row wrap>
+                                                                            <v-flex xs3>
+                                                                                <v-text-field label="Ano de início" v-model="select.start_year"></v-text-field>
+                                                                            </v-flex>
+                                                                            <v-flex xs3>
+                                                                                <v-text-field label="Ano de fim" v-model="select.end_year"></v-text-field>
+                                                                            </v-flex>
+                                                                        </v-layout>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                            </v-container>
+                                                        </v-card-text>
+                                                        <v-card-actions>
+                                                            <v-spacer></v-spacer>
+                                                            <v-btn outline flat @click="dialog5 = false, dialog = true, select = '', listarParticipantes(props.item.id)">Cancelar</v-btn>
+                                                            <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
+                                                        </v-card-actions>
+                                                    </v-card>
+                                                </div>
                                                 <v-flex xs12>
                                                     <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
@@ -197,44 +229,6 @@
                                     <v-flex xs12>
                                         <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                     </v-flex>
-                                </v-card>
-                            </v-dialog>
-                            <v-dialog v-model="dialog5" persistent max-width="680px">
-                                <v-card>
-                                    <v-card-text>
-                                        <v-container grid-list-md>
-                                            <v-layout wrap>
-                                                 <v-flex xs10>
-                                                    <v-combobox
-                                                        v-model="select"
-                                                        :items="alunos"
-                                                        item-text="name"
-                                                        item-value="id"
-                                                        label="Adicionar aluno ao projeto"
-                                                    ></v-combobox>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-layout row wrap>
-                                                        <v-flex xs3>
-                                                            <v-text-field label="Ano de início" v-model="select.start_year"></v-text-field>
-                                                        </v-flex>
-                                                        <v-flex xs3>
-                                                            <v-text-field label="Ano de fim" v-model="select.end_year"></v-text-field>
-                                                        </v-flex>
-                                                    </v-layout>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn outline flat @click="dialog5 = false, dialog = true, select = ''">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
-                                    </v-card-actions>
                                 </v-card>
                             </v-dialog>
                         </template>
@@ -372,7 +366,7 @@ export default {
                  this.alerta_msg = 'Aluno desvinculado com sucesso.'
                  this.alerta = !this.alerta
                  setTimeout(this.setAlertaFalse, 3000);
-                 this.participantes.push(this.select)
+                 this.listarParticipantes(this.id)
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
@@ -407,12 +401,6 @@ export default {
                 setTimeout(this.setErroFalse, 5000);
 
             })  
-        },
-        abrirEspaco(){
-            if(this.select.id != undefined){
-                this.dialog3 = true
-                this.dialog = false
-            }
         },
         setErroFalse(){
             this.erro = false
