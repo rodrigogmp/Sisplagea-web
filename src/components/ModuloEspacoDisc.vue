@@ -6,14 +6,14 @@
                 <v-divider></v-divider>                            
                 <v-container fluid grid-list-md>
                     <h3>Nome: {{ disciplina.name }}</h3>
-                    <v-layout align-start>
+                    <v-layout align-start row>
                         <v-flex xs3>
                             <h3>Código: {{ disciplina.code }} </h3>
                         </v-flex>
-                        <v-radio-group label="Turma" class="ma-0" v-model="disciplina.category" readonly>
-                            <v-radio label="Graduação" value="graduate" color="black"></v-radio>
-                            <v-radio label="Pós-Graduação" value="postgraduate" color="black"></v-radio>
-                        </v-radio-group>
+                        <v-flex xs9>
+                            <h3>Turma: {{ disciplina.category == 'graduate' ? "Graduação" : "Pós-Graduação"}} </h3>
+                        </v-flex>
+
                     </v-layout>
                     
                     <v-layout align-center class="mb-5">
@@ -29,7 +29,7 @@
                         </div>
                         <div v-else>                            
                             <input type="file" id="file" ref="ementa" @change="onEmentaChange" required> 
-                            <v-btn flat icon @click="adicionarEmenta" :loading="loading2">
+                            <v-btn flat icon @click="adicionarEmenta" :loading="loading1">
                                 <v-icon>add_circle</v-icon>
                             </v-btn>                            
                         </div>
@@ -55,14 +55,14 @@
                             </v-layout>
                         </v-layout>
                     </v-card>
-                    <v-form ref="form" class="mt-5">
+                    <v-form ref="formulario" class="mt-5">
                         <v-layout align-center justify-space-around>
                             <v-flex xs8>
                                 <v-text-field v-model="name_file" label="Nome do arquivo" required></v-text-field>
                             </v-flex>
                             <v-flex> <input type="file" id="file" ref="file" @change="onFileChange" required>
                             </v-flex>                        
-                            <v-flex><v-btn @click="adicionarMaterial" outline color="info" >Adicionar</v-btn></v-flex>
+                            <v-flex><v-btn @click="adicionarMaterial" outline color="info" :loading="loading2">Adicionar</v-btn></v-flex>
                         </v-layout>
                     </v-form>
                 </v-container>
@@ -90,7 +90,8 @@ export default {
         file: null,
         url_base: 'https://sisplagea-api.herokuapp.com',
         loading1: false,
-        loading2: false
+        loading2: false,
+        uploadReady: true
     }),
 
     methods: {
@@ -113,30 +114,38 @@ export default {
         },
 
         adicionarMaterial(){
-            // console.log("File " + this.file + ' nameFile ' + this.name_file)
+            if(this.file != null && this.name_file.length > 0){
+                this.loading2 = true;
+                // console.log("File " + this.file + ' nameFile ' + this.name_file)
 
-            //https://stackoverflow.com/questions/52645358/vuetify-file-uploads
-            let formData = new FormData()
-            formData.append('subject_id', this.disciplina.id)
-            formData.append('file_to_upload', this.file, this.file.name)
-            formData.append('name', this.name_file)
-            // console.log(this.name_file)           
-            //console.log(configFile.headers)
-            axios({
-                method: 'post',
-                url: 'https://sisplagea-api.herokuapp.com/api/v1/attachments.json',
-                data: formData,
-                headers: configFile.headers,
-            }).then((response) => {
-                this.materiais.push(response.data)
-                this.$refs.form.reset();
-                this.$refs.file = null
-                // document.location.reload()
-            }).catch(error => {
-                alert("Erro ao adicionar " + error)
-            })
+                //https://stackoverflow.com/questions/52645358/vuetify-file-uploads
+                let formData = new FormData()
+                formData.append('subject_id', this.disciplina.id)
+                formData.append('file_to_upload', this.file, this.file.name)
+                formData.append('name', this.name_file)
+                // console.log(this.name_file)           
+                //console.log(configFile.headers)
+                axios({
+                    method: 'post',
+                    url: 'https://sisplagea-api.herokuapp.com/api/v1/attachments.json',
+                    data: formData,
+                    headers: configFile.headers,
+                }).then((response) => {
+                    this.materiais.push(response.data)
+                    this.$refs.formulario.reset()                    
+                    this.loading2 = false;
+                    
+                    const input = this.$refs.file
+                    input.type = 'text'
+                    input.type = 'file'
 
-            console.log(this.materiais.length)
+
+                    // document.location.reload()
+                }).catch(error => {
+                    alert("Erro ao adicionar " + error)
+                    this.loading2 = false;
+                })
+            }
         },
        
         removerMaterial(material){
@@ -146,9 +155,8 @@ export default {
                     method: 'delete',
                     url: 'https://sisplagea-api.herokuapp.com/api/v1/attachments/'+material.id+'.json',
                     headers: config.headers,
-                }).then((response) => {                                    
-                    // document.location.reload()
-                    this.materiais.splice(material)
+                }).then((response) => {                                     
+                    this.materiais.splice(this.materiais.indexOf(material), 1);
                 }).catch(error => {
                     alert("Erro ao remover" + error)
                 })
@@ -171,12 +179,23 @@ export default {
                     this.disciplina = response.data
                     // document.location.reload()
                     this.loading1 = false
+
+                    const input = this.$refs.ementa
+                    input.type = 'text'
+                    input.type = 'file'
+
                 }).catch(error => {
                     alert("Erro ao adicionar ementa " + error)
                     this.loading1 = false
                 })
             }
         },
+
+        reset() {
+            const input = this.$refs.file
+            //input.type = 'text'
+            input.type = 'file'
+        }
     },
 
     mounted() {        
