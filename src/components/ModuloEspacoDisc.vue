@@ -1,29 +1,40 @@
 <template>
     <v-container fluid fill-height>
-        <v-layout justify-center>
+        <v-layout>
             <v-flex xs12>                
                 <h1>Espaço da Disciplina</h1>
                 <v-divider></v-divider>                            
                 <v-container fluid grid-list-md>
                     <h3>Nome: {{ disciplina.name }}</h3>
-                    <v-layout row wrap>
-                        <h3>Código: {{ disciplina.code }} </h3>                
-                        <v-radio-group label="Turma" readonly v-model="disciplina.category">
-                            <v-radio label="Graduação" value="graduate"></v-radio>
-                            <v-radio label="Pós-Graduação" value="postgraduate"></v-radio>
+                    <v-layout align-start>
+                        <v-flex xs3>
+                            <h3>Código: {{ disciplina.code }} </h3>
+                        </v-flex>
+                        <v-radio-group label="Turma" class="ma-0" v-model="disciplina.category" readonly>
+                            <v-radio label="Graduação" value="graduate" color="black"></v-radio>
+                            <v-radio label="Pós-Graduação" value="postgraduate" color="black"></v-radio>
                         </v-radio-group>
                     </v-layout>
                     
-                    <v-layout row wrap>                                                       
-                        <h3>Ementa:</h3>
+                    <v-layout align-center class="mb-5">
+                        <v-flex xs1>                                                      
+                            <h3>Ementa:</h3>
+                        </v-flex>
                         <div v-if="disciplina.summary.url != null">
-                            <a href=""><v-icon>picture_as_pdf</v-icon></a>
+                             <v-btn icon flat :href="url_base+disciplina.summary.url" target="_blank"><v-icon>picture_as_pdf</v-icon></v-btn>                            
+                            <input type="file" id="file" ref="ementa" @change="onEmentaChange" required> 
+                            <v-btn flat icon @click="adicionarEmenta" :loading="loading1">
+                                <v-icon>cloud_upload</v-icon>
+                            </v-btn>                            
                         </div>
-                        <div v-else>
-                            <input type="file" required>
+                        <div v-else>                            
+                            <input type="file" id="file" ref="ementa" @change="onEmentaChange" required> 
+                            <v-btn flat icon @click="adicionarEmenta" :loading="loading2">
+                                <v-icon>add_circle</v-icon>
+                            </v-btn>                            
                         </div>
                     </v-layout>
-                    <v-card v-for="material in materiais" v-bind:key="material.id" min-height="30" hover>
+                    <v-card v-for="material in materiais" v-bind:key="material.id" min-height="30" hover class="mt-2">
                         <v-layout align-center>
                             <v-flex xs11>
                                 <v-card-text> 
@@ -43,16 +54,15 @@
                                 </v-flex>
                             </v-layout>
                         </v-layout>
-                    </v-card>                    
-                    <v-divider></v-divider>
-                    <v-form ref="form">
-                        <v-layout align-content-center>
-                            <v-flex xs6>
+                    </v-card>
+                    <v-form ref="form" class="mt-5">
+                        <v-layout align-center justify-space-around>
+                            <v-flex xs8>
                                 <v-text-field v-model="name_file" label="Nome do arquivo" required></v-text-field>
                             </v-flex>
-                            <v-flex xs4> <input type="file" id="file" ref="file" @change="onFileChange" required>
-                            </v-flex>
-                            <v-flex xs2> <v-btn @click="adicionarMaterial" outline color="info" :right="true">Adicionar</v-btn> </v-flex>        
+                            <v-flex> <input type="file" id="file" ref="file" @change="onFileChange" required>
+                            </v-flex>                        
+                            <v-flex><v-btn @click="adicionarMaterial" outline color="info" >Adicionar</v-btn></v-flex>
                         </v-layout>
                     </v-form>
                 </v-container>
@@ -74,10 +84,13 @@ var configFile = {
 export default {
     data: () => ({
         disciplina: null,
+        ementa: null,
         materiais: [],
         name_file: '',
         file: null,
-        url_base: 'https://sisplagea-api.herokuapp.com'
+        url_base: 'https://sisplagea-api.herokuapp.com',
+        loading1: false,
+        loading2: false
     }),
 
     methods: {
@@ -87,6 +100,15 @@ export default {
                 this.file = this.$refs.file.files[0]; 
             } else {
                 this.file = null
+            }
+        },
+
+        onEmentaChange(file){
+            var ementa = file.target.files
+            if(ementa.length == 1){
+                this.ementa = this.$refs.ementa.files[0]
+            } else {
+                this.ementa = null
             }
         },
 
@@ -108,27 +130,50 @@ export default {
             }).then((response) => {
                 this.materiais.push(response.data)
                 this.$refs.form.reset();
-                this.file = null          
+                this.$refs.file = null
                 // document.location.reload()
             }).catch(error => {
                 alert("Erro ao adicionar " + error)
             })
+
+            console.log(this.materiais.length)
         },
        
         removerMaterial(material){
             var confirmacao = confirm("Deseja mesmo remover esse material")
             if(confirmacao) {
-                console.log("Teste" + material.id)
                 axios({
                     method: 'delete',
                     url: 'https://sisplagea-api.herokuapp.com/api/v1/attachments/'+material.id+'.json',
                     headers: config.headers,
-                }).then((response) => {
-                    alert("Removido com sucesso")                    
+                }).then((response) => {                                    
                     // document.location.reload()
                     this.materiais.splice(material)
                 }).catch(error => {
                     alert("Erro ao remover" + error)
+                })
+            }
+        },
+
+        adicionarEmenta(){
+            if(this.ementa != null){
+                this.loading1 = true;
+                let formData = new FormData()
+                formData.append('summary', this.ementa)            
+                // console.log(this.name_file)           
+                //console.log(configFile.headers)
+                axios({
+                    method: 'put',
+                    url: 'https://sisplagea-api.herokuapp.com/api/v1/subjects/'+ this.disciplina.id +'.json',
+                    data: formData,
+                    headers: configFile.headers,
+                }).then((response) => {
+                    this.disciplina = response.data
+                    // document.location.reload()
+                    this.loading1 = false
+                }).catch(error => {
+                    alert("Erro ao adicionar ementa " + error)
+                    this.loading1 = false
                 })
             }
         },
