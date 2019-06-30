@@ -55,7 +55,7 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Objetivo" v-bind:value="objective" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs9>
+                                                <v-flex xs9 v-if="dialog3 == false">
                                                     <v-combobox
                                                         v-model="select"
                                                         :items="participantes"
@@ -66,13 +66,41 @@
                                                         persistent-hint
                                                     ></v-combobox>
                                                 </v-flex>
-                                                <v-flex xs3>
+                                                <v-flex xs3 v-if="select.id != undefined && dialog3 == false">
                                                     <v-btn color="info" outline flat @click="desvincularAluno()">Desvincular</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <v-btn outline flat @click="dialog= false,dialog2 = true" >Editar</v-btn>
-                                                <v-btn color="error" outline flat @click="deletarGrupo">Deletar</v-btn>
-                                                <v-btn color="info" outline flat @click="dialog = false, select = '', dialog3 = true">Vincular</v-btn>
+                                                <v-flex xs12>
+                                                    <v-btn outline flat @click="dialog= false,dialog2 = true" >Editar</v-btn>
+                                                    <v-btn color="error" outline flat @click="deletarGrupo">Deletar</v-btn>
+                                                    <v-btn color="info" outline flat @click="select = '', dialog3 = true">Vincular</v-btn>
+                                                </v-flex>
+                                                <div class="flex xs12" v-if="dialog3 == true">
+                                                    <v-flex xs12>
+                                                        <v-card>
+                                                            <v-card-text>
+                                                                <v-container grid-list-md>
+                                                                    <v-layout wrap>
+                                                                        <v-flex xs10>
+                                                                            <v-combobox
+                                                                                v-model="select"
+                                                                                :items="alunos"
+                                                                                item-text="name"
+                                                                                item-value="id"
+                                                                                label="Vincular aluno ao grupo"
+                                                                            ></v-combobox>
+                                                                        </v-flex>
+                                                                    </v-layout>
+                                                                </v-container>
+                                                            </v-card-text>
+                                                            <v-card-actions>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn outline flat @click="dialog3 = false, select = '', listarParticipantes(props.item.id)">Cancelar</v-btn>
+                                                                <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </v-flex>
+                                                </div>
                                                 <v-flex xs12>
                                                     <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
@@ -142,35 +170,6 @@
                                         <v-btn outline flat @click="dialog2 = false, dialog = true, select = ''">Cancelar</v-btn>
                                         <v-btn color="info" outline flat 
                                         @click="atualizarGrupo(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
-                            <v-dialog v-model="dialog3" persistent max-width="680px">
-                                <v-card>
-                                    <v-card-text>
-                                        <v-container grid-list-md>
-                                            <v-layout wrap>
-                                                 <v-flex xs10>
-                                                    <v-combobox
-                                                        v-model="select"
-                                                        :items="alunos"
-                                                        item-text="name"
-                                                        item-value="id"
-                                                        label="Adicionar aluno ao projeto"
-                                                    ></v-combobox>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <!-- <v-btn outline flat @click="dialog3 = false, dialog = true, select = '', listarParticipantes(props.item.id)">Voltar</v-btn> -->
-                                        <v-btn outline flat @click="dialog3 = false, dialog = true, select = ''">Voltar</v-btn>
-                                        <v-btn color="info" outline flat @click="vincularAluno">Vincular</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -314,7 +313,7 @@ export default {
                  this.alerta_msg = 'Aluno desvinculado com sucesso.'
                  this.alerta = !this.alerta
                  setTimeout(this.setAlertaFalse, 3000);
-                 this.participantes.push(this.select)
+                 this.listarParticipantes(this.id)
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
