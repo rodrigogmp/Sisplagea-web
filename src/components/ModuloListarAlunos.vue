@@ -117,15 +117,20 @@
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Nome" v-model="name"></v-text-field>
-                                                    <v-text-field label="Matrícula" v-model="registration"></v-text-field>
-                                                    <v-text-field label="Categoria" v-model="category"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                    <v-layout row>
+                                                        <v-text-field label="Matrícula" v-model="registration"></v-text-field>
+                                                        <v-text-field label="Lattes" v-model="lattes_link"></v-text-field>
+                                                    </v-layout>
                                                     <v-text-field label="Email" v-model="email"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Lattes" v-model="lattes_link"></v-text-field>
-                                                </v-flex>
+                                                <v-radio-group v-model="category" label="Categoria:">
+                                                    <v-layout row>
+                                                        <v-radio label="Iniciação Cientifica" value="scientific_research"></v-radio>
+                                                        <v-radio label="Mestrado" value="masters_degree"></v-radio>
+                                                        <v-radio label="Doutorado" value="doctorate_degree"></v-radio>
+                                                        <v-radio label="Pós-Doutorado" value="post_doctoral"></v-radio>
+                                                    </v-layout>
+                                                </v-radio-group>
                                                 <v-flex xs12>
                                                     <v-text-field label="Informações" v-model="relevant_informations"></v-text-field>
                                                 </v-flex>

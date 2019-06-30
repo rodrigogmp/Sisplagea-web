@@ -112,21 +112,27 @@
                                                 <v-flex xs12>
                                                     <v-subheader >Área para editar disciplina</v-subheader>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs9>
                                                     <v-text-field label="Nome" v-model="name"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Código" v-model="code"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs12 sm6 md3>
                                                     <v-text-field label="Horas" v-model="workload"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Categoria" v-model="category"></v-text-field>
+                                                <v-flex xs6>
+                                                    <v-text-field label="Código" v-model="code"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs6>
                                                     <v-text-field label="Sala" v-model="class_location"></v-text-field>
                                                 </v-flex>
+                                                <v-flex xs12>
+                                                    <v-layout row wrap>
+                                                        <v-radio-group v-model="category" label="Turma:">
+                                                            <v-radio label="Graduação" value="graduate"></v-radio>
+                                                            <v-radio label="Pós-Graduação" value="postgraduate"></v-radio>
+                                                        </v-radio-group>
+                                                    </v-layout>
+                                                </v-flex>
+                                                
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-model="description"></v-text-field>
                                                 </v-flex>

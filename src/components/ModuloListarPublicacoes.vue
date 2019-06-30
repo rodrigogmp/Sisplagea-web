@@ -40,21 +40,26 @@
                                     <v-card-text>
                                         <v-container grid-list-md>
                                             <v-layout wrap>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Título" v-bind:value="title" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Journal" v-bind:value="journal" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Ano" v-bind:value="year" disabled></v-text-field>
+                                                <v-flex xs12 sm6 md6>
+                                                    <v-text-field label="Tipo" v-bind:value="category" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Volume" v-bind:value="volume" disabled></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Páginas" v-bind:value="pages" disabled></v-text-field>
-                                                </v-flex>
+                                                <v-layout row wrap>
+                                                    <v-flex xs3 sm3 md2 lg2>
+                                                        <v-text-field label="Ano" v-bind:value="year" disabled></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3 sm3 md2 lg2>
+                                                        <v-text-field label="Volume" v-bind:value="volume" disabled></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3 sm3 md2 lg2>
+                                                        <v-text-field label="Páginas" v-bind:value="pages" disabled></v-text-field>
+                                                    </v-flex>
+                                                </v-layout>
                                                 <v-flex xs12>
                                                     <v-text-field label="Autores" v-bind:value="authors" disabled></v-text-field>
                                                 </v-flex>
@@ -82,43 +87,54 @@
                                     <v-card-text>
                                         <v-container grid-list-md>
                                             <v-layout wrap>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs12>
                                                     <v-text-field label="Título" v-bind:value="title" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Journal" v-bind:value="journal" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Ano" v-bind:value="year" disabled></v-text-field>
+                                                <v-flex xs12 sm6 md6>
+                                                    <v-text-field label="Tipo" v-bind:value="category" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Volume" v-bind:value="volume" disabled></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Páginas" v-bind:value="pages" disabled></v-text-field>
-                                                </v-flex>
+                                                <v-layout row wrap>
+                                                    <v-flex xs3 sm3 md2 lg2>
+                                                        <v-text-field label="Ano" v-bind:value="year" disabled></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3 sm3 md2 lg2>
+                                                        <v-text-field label="Volume" v-bind:value="volume" disabled></v-text-field>
+                                                    </v-flex>
+                                                    <v-flex xs3 sm3 md2 lg2>
+                                                        <v-text-field label="Páginas" v-bind:value="pages" disabled></v-text-field>
+                                                    </v-flex>
+                                                </v-layout>
                                                 <v-flex xs12>
                                                     <v-text-field label="Autores" v-bind:value="authors" disabled></v-text-field>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <!-- <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn> -->
                                                 <v-flex xs12>
-                                                    <v-subheader >Área para editar publicação</v-subheader>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Título" v-model="title"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
+                                                <v-flex xs6>
                                                     <v-text-field label="Journal" v-model="journal"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs2>
                                                     <v-text-field label="Ano" v-model="year"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs2>
                                                     <v-text-field label="Volume" v-model="volume"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
+                                                <v-flex xs2>
                                                     <v-text-field label="Páginas" v-model="pages"></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-radio-group v-model="category" label="Tipo:">
+                                                        <v-layout row>
+                                                            <v-radio label="Conferência" value="conference"></v-radio>
+                                                            <v-radio label="Resumo" value="abstract"></v-radio>
+                                                            <v-radio label="Periódico" value="periodic"></v-radio>
+                                                        </v-layout>
+                                                    </v-radio-group>
                                                 </v-flex>
                                                 <v-flex xs12>
                                                     <v-text-field label="Autores" v-model="authors"></v-text-field>
