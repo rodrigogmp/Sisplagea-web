@@ -109,7 +109,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false, select = ''">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -139,6 +139,7 @@
                                                     <v-text-field label="Descrição" v-model="abstract"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                             </v-layout>
@@ -148,7 +149,7 @@
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog2 = false, dialog = true, select = ''">Cancelar</v-btn>
                                         <v-btn color="info" outline flat 
-                                        @click="atualizarProjeto(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
+                                        @click="atualizarProjeto(props.item)">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -296,11 +297,14 @@ export default {
                     name: this.name,
                     abstract: this.abstract
                 }
-            }).then(() => {              
-                document.location.reload()
-                // this.alerta = !this.alerta
-            }).catch(()=>{
+            }).then(() => {
+                this.alerta_msg = 'Informações de projeto atualizadas com sucesso.'
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 3000);
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
+                setTimeout(this.setErroFalse, 5000);
             })
         },
         buscarProjeto(id) {
@@ -392,21 +396,23 @@ export default {
                     end_year: this.select.end_year
                 }
             }).then(() => {              
-                this.dialog4 = false
-                this.dialog3 = true
-                // this.alerta = !this.alerta
+                this.alerta_msg = 'Informações de aluno vinculado atualizada com sucesso.'
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 3000);
             }).catch((error)=>{
                 this.erro_msg = error
                 this.erro = true
                 setTimeout(this.setErroFalse, 5000);
-
-            })  
+            })
         },
         setErroFalse(){
             this.erro = false
         },
         setAlertaFalse(){
             this.alerta = false
+        },
+        reload(){
+            document.location.reload()
         }
     },  
     

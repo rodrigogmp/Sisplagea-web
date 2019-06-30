@@ -55,15 +55,18 @@
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Email" v-bind:value="email" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md6>
-                                                    <v-text-field label="Lattes" v-bind:value="lattes_link" disabled></v-text-field>
-                                                </v-flex>
                                                 <v-flex xs12>
                                                     <v-text-field label="Informações" v-bind:value="relevant_informations" disabled></v-text-field>
                                                 </v-flex>
+                                                <v-flex xs12>
+                                                    <v-btn color="info" outline flat :href="redirecionarLattes()"
+                                                    target="_blank">Lattes</v-btn>
+                                                </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn>
-                                                <v-btn color="error" outline flat @click="deletarAluno">Deletar</v-btn>
+                                                <v-flex xs12>
+                                                    <v-btn outline flat @click="dialog= false,dialog2 = true">Editar</v-btn>
+                                                    <v-btn color="error" outline flat @click="deletarAluno">Deletar</v-btn>
+                                                </v-flex>
                                                 <v-flex xs12>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
@@ -73,7 +76,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -97,11 +100,12 @@
                                                 <v-flex xs12 sm6 md4>
                                                     <v-text-field label="Categoria" v-bind:value="category" disabled></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4>
-                                                    <v-text-field label="Lattes" v-bind:value="lattes_link" disabled></v-text-field>
-                                                </v-flex>
                                                 <v-flex xs12>
                                                     <v-text-field label="Informações" v-bind:value="relevant_informations" disabled></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-btn color="info" outline flat :href="redirecionarLattes()"
+                                                    target="_blank">Lattes</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <!-- <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn> -->
@@ -134,6 +138,10 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Informações" v-model="relevant_informations"></v-text-field>
                                                 </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -141,7 +149,7 @@
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog2 = false, dialog = true">Cancelar</v-btn>
                                         <v-btn color="info" outline flat 
-                                        @click="atualizarAluno(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
+                                        @click="atualizarAluno(props.item)">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -160,6 +168,8 @@ var config = {
 }
 export default {
     data: () => ({
+        alerta: false,
+        alerta_msg: '',
         erro: false,
         erro_msg: '',
         dialog: false,
@@ -208,10 +218,13 @@ export default {
                     relevant_informations: this.relevant_informations
                 }
             }).then(() => {              
-                document.location.reload()
-                // this.alerta = !this.alerta
-            }).catch(()=>{
+                this.alerta_msg = 'Informações do aluno atualizadas com sucesso.'
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 3000);
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
+                setTimeout(this.setErroFalse, 5000);
             })
         },
         buscarAluno(id) {
@@ -248,8 +261,17 @@ export default {
                 setTimeout(this.setErrorFalse, 5000);
             })
         },
+        redirecionarLattes(){
+            return this.lattes_link
+        },
         setErrorFalse(){
             this.erro = false
+        },
+        setAlertaFalse(){
+            this.alerta = false
+        },
+        reload(){
+            document.location.reload()
         }
     },  
     

@@ -77,7 +77,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -136,6 +136,10 @@
                                                 <v-flex xs12>
                                                     <v-text-field label="Descrição" v-model="description"></v-text-field>
                                                 </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -143,7 +147,7 @@
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog2 = false, dialog = true">Cancelar</v-btn>
                                         <v-btn color="info" outline flat 
-                                        @click="atualizarDisciplina(props.item), dialog2 = false, dialog= false">Salvar</v-btn>
+                                        @click="atualizarDisciplina(props.item)">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -162,6 +166,8 @@ var config = {
 }
 export default {
     data: () => ({
+        alerta: false,
+        alerta: '',
         erro: false,
         erro_msg: '',
         dialog: false,
@@ -208,10 +214,13 @@ export default {
                     description: this.description
                 }
             }).then(() => {              
-                document.location.reload()
-                // this.alerta = !this.alerta
-            }).catch(()=>{
+                this.alerta_msg = 'Informações da disciplina atualizadas com sucesso.'
+                this.alerta = !this.alerta
+                setTimeout(this.setAlertaFalse, 3000);
+            }).catch((error)=>{
+                this.erro_msg = error
                 this.erro = true
+                setTimeout(this.setErroFalse, 5000);
             })
         },
         buscarDisciplina(id) {
@@ -250,6 +259,15 @@ export default {
         redirecionarEspacoDisc(id){
             localStorage.setItem('idDisciplina', id)
             window.location.href = '/espacoDisciplina.html'
+        },
+        setErrorFalse(){
+            this.erro = false
+        },
+        setAlertaFalse(){
+            this.alerta = false
+        },
+        reload(){
+            document.location.reload()
         }
     },
     
