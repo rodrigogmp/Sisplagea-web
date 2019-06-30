@@ -22,7 +22,7 @@
                         <v-radio label="Pós-Doutorado" value="post_doctoral"></v-radio>
                     </v-radio-group>
                     <v-text-field v-model="lattes_link"
-                    label="Adicionar referência para o curriculo lattes:" required
+                    label="Adicionar referência para o curriculo lattes: (Ex: https://lattes.cnpq.br/1234567890123456)" required
                   
                     ></v-text-field>
                     <v-textarea label="Adicionar informações relevantes:" 
