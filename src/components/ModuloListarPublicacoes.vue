@@ -128,12 +128,10 @@
                                                     <v-text-field label="Páginas" v-model="pages"></v-text-field>
                                                 </v-flex>
                                                 <v-flex xs12>
-                                                    <v-radio-group v-model="category" label="Tipo:">
-                                                        <v-layout row>
-                                                            <v-radio label="Conferência" value="conference"></v-radio>
-                                                            <v-radio label="Resumo" value="abstract"></v-radio>
-                                                            <v-radio label="Periódico" value="periodic"></v-radio>
-                                                        </v-layout>
+                                                    <v-radio-group v-model="category" label="Tipo:" row>
+                                                        <v-radio label="Conferência" value="conference"></v-radio>
+                                                        <v-radio label="Resumo" value="abstract"></v-radio>
+                                                        <v-radio label="Periódico" value="periodic"></v-radio>
                                                     </v-radio-group>
                                                 </v-flex>
                                                 <v-flex xs12>
