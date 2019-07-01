@@ -8,12 +8,10 @@
                     <v-text-field v-model="name" label="Nome" required
                     ></v-text-field>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-text-field v-model="registration" label="Matricula" required
-                
+                        <v-text-field v-model="registration" label="Matricula" required                
                         ></v-text-field>
                     </v-flex>
                     <v-text-field v-model="email" label="E-mail" required
-
                     ></v-text-field>
                     <v-radio-group v-model="category" label="Categoria:">
                         <v-radio label="Iniciação Cientifica" value="scientific_research"></v-radio>
@@ -22,8 +20,7 @@
                         <v-radio label="Pós-Doutorado" value="post_doctoral"></v-radio>
                     </v-radio-group>
                     <v-text-field v-model="lattes_link"
-                    label="Adicionar referência para o curriculo lattes: (Ex: https://lattes.cnpq.br/1234567890123456)" required
-                  
+                    label="Adicionar referência para o curriculo lattes: (Ex: https://lattes.cnpq.br/1234567890123456)" required                  
                     ></v-text-field>
                     <v-textarea label="Adicionar informações relevantes:" 
                     v-model="relevant_informations" required></v-textarea>
