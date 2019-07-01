@@ -8,7 +8,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn v-if="estaLogado" flat href="/index.html">
+        <v-btn v-if="estaLogado" flat @click="logout">
             <span class="mr-2">Sair</span>
             <v-icon>input</v-icon>
         </v-btn>
@@ -20,10 +20,36 @@
 </template>
 
 <script>
+import axios from 'axios'
+var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+}
 export default {
+    
   name: 'Navbar',
   props: {
     estaLogado: Boolean
-  }
+  },
+    methods: {
+        logout() {
+            axios ({
+                method: 'delete',
+                url: 'https://sisplagea-api.herokuapp.com/api/v1/auth/sign_out',
+                headers: config.headers
+            }).then((response) => {
+                if(response.status == 200){
+                    console.log('aqui')
+                    localStorage.removeItem("data['at']")
+                    localStorage.removeItem("data['c']")
+                    localStorage.removeItem("data['ct']")
+                    localStorage.removeItem("data['rt']")
+                    localStorage.removeItem("data['uid']")
+                    window.location.href = '/index.html'
+                }
+            }).catch(()=>{
+
+            })
+        }
+    }
 }
 </script>
