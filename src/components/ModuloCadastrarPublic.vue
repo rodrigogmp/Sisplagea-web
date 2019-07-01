@@ -52,6 +52,10 @@
 <script>
 import axios from 'axios'
 var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+}
+
+var configFile = {
     headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': 'multipart/form-data', 'uid': localStorage.getItem("data['uid']")}
 }
 export default {
@@ -113,7 +117,7 @@ export default {
             axios({
                 method: 'post',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/publications/create_from_bibtex.json',
-                headers: config.headers,
+                headers: configFile.headers,
                 data: formData
             }).then(() => {
                 this.alerta = !this.alerta
@@ -130,10 +134,14 @@ export default {
                 setTimeout(this.setErrorFalse, 5000);
             })
         },
-        onFileChange(file){            
-            var files = file.target.files            
+        onFileChange(file){
+            var files = file.target.files
+            console.log(files)     
             if(files.length >= 1){
+                console.log(this.file)
                 this.file = this.$refs.file.files[0]; 
+                console.log(this.file)
+                console.log(this.$refs.file.files[0])
             } else {
                 this.file = null
             }
