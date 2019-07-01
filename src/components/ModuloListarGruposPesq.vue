@@ -71,8 +71,8 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-flex xs12>
-                                                    <v-btn outline flat @click="dialog= false,dialog2 = true" >Editar</v-btn>
-                                                    <v-btn color="error" outline flat @click="deletarGrupo">Deletar</v-btn>
+                                                    <v-btn outline flat @click="dialog= false,dialog2 = true" >Editar Grupo</v-btn>
+                                                    <v-btn color="error" outline flat @click="deletarGrupo">Deletar Grupo</v-btn>
                                                     <v-btn color="info" outline flat @click="select = '', dialog3 = true">Vincular</v-btn>
                                                 </v-flex>
                                                 <div class="flex xs12" v-if="dialog3 == true">
@@ -111,7 +111,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false, select = ''">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -244,7 +244,7 @@ export default {
                     predominant_area: this.predominant_area,
                     objective: this.objective
                 }
-            }).then(() => {      
+            }).then(() => {
                 this.alerta_msg = 'Informações do grupo atualizadas com sucesso.'
                 this.alerta = !this.alerta
                 setTimeout(this.setAlertaFalse, 3000);
@@ -336,9 +336,6 @@ export default {
         },
         setAlertaFalse(){
             this.alerta = false
-        },
-        reload(){
-            document.location.reload()
         }
     },  
     

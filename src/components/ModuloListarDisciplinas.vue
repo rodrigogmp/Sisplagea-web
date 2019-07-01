@@ -77,7 +77,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -213,7 +213,7 @@ export default {
                     class_location: this.class_location,
                     description: this.description
                 }
-            }).then(() => {              
+            }).then(() => {    
                 this.alerta_msg = 'Informações da disciplina atualizadas com sucesso.'
                 this.alerta = !this.alerta
                 setTimeout(this.setAlertaFalse, 3000);
@@ -265,9 +265,6 @@ export default {
         },
         setAlertaFalse(){
             this.alerta = false
-        },
-        reload(){
-            document.location.reload()
         }
     },
     

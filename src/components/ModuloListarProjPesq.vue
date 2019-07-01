@@ -61,9 +61,13 @@
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
                                                 <v-flex xs12>
-                                                    <v-btn outline flat @click="dialog= false,dialog2 = true">Editar</v-btn>
-                                                    <v-btn color="error" outline flat @click="deletarProjeto">Deletar</v-btn>
+                                                    <v-btn outline flat @click="dialog= false,dialog2 = true">Editar Projeto</v-btn>
+                                                    <v-btn color="error" outline flat @click="deletarProjeto">Deletar Projeto</v-btn>
                                                     <v-btn color="info" outline flat @click="select = '', dialog5 = true">Vincular</v-btn>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                                 <div class="flex xs12" v-if="dialog5 == true">
                                                     <v-card>
@@ -99,17 +103,13 @@
                                                         </v-card-actions>
                                                     </v-card>
                                                 </div>
-                                                <v-flex xs12>
-                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
-                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false, select = ''">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -171,11 +171,16 @@
                                                     <v-flex xs3>
                                                         <v-text-field label="Ano de fim" v-bind:value="select.end_year" disabled></v-text-field>
                                                     </v-flex>
+                                                    <v-flex xs3>
+                                                        <v-btn v-if="select.file_url != null" icon flat :href="url_base+select.file_url" target="_blank">
+                                                            <v-icon> picture_as_pdf</v-icon>
+                                                        </v-btn>
+                                                    </v-flex>
+                                                    <v-flex xs12>
+                                                        <v-btn outline flat @click="dialog3= false,dialog4 = true">Editar aluno vinculado</v-btn>
+                                                    </v-flex>
                                                 </v-layout>
                                                 <v-spacer></v-spacer>
-                                                <v-flex xs12>
-                                                    <v-btn outline flat @click="dialog3= false,dialog4 = true" :right="true">Editar</v-btn>
-                                                </v-flex>
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
@@ -202,10 +207,15 @@
                                                     <v-flex xs3>
                                                         <v-text-field label="Ano de fim" v-bind:value="select.end_year" disabled></v-text-field>
                                                     </v-flex>
+                                                    <v-flex xs3>
+                                                        <v-btn v-if="select.file_url != null" icon flat :href="url_base+select.file_url" target="_blank">
+                                                            <v-icon> picture_as_pdf</v-icon>
+                                                        </v-btn>
+                                                    </v-flex>
                                                 </v-layout>
                                                 <v-spacer></v-spacer>
                                                 <v-flex xs12>
-                                                    <v-subheader >Área para editar informações aluno vinculado</v-subheader>
+                                                    <v-subheader >Área para editar informações do aluno vinculado</v-subheader>
                                                 </v-flex>
                                                 <v-flex xs12>
                                                     <v-text-field label="Nome" v-bind:value="select.name" disabled></v-text-field>
@@ -218,6 +228,14 @@
                                                         <v-text-field label="Ano de fim" v-model="select.end_year"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
+                                                <v-flex xs12>
+                                                    <v-subheader >Adicionar ou atualizar documento</v-subheader>
+                                                    <input class="mt-4" type="file" id="file" ref="file" @change="onFileChange" required>
+                                                </v-flex>
+                                                <v-flex xs12>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                </v-flex>
                                                 <v-spacer></v-spacer>
                                             </v-layout>
                                         </v-container>
@@ -225,11 +243,8 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog4 = false, dialog3 = true">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="atualizarAlunoVinculado(props.item.id)">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="atualizarAlunoVinculado(props.item.id)" :loading="loading">Salvar</v-btn>
                                     </v-card-actions>
-                                    <v-flex xs12>
-                                        <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
-                                    </v-flex>
                                 </v-card>
                             </v-dialog>
                         </template>
@@ -242,20 +257,29 @@
 
 <script>
 import axios from 'axios'
+
 var config = {
     headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
 }
+
+var configFile = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': 'multipart/form-data', 'uid': localStorage.getItem("data['uid']")}
+}
+
 export default {
     data: () => ({
         alerta: false,
         alerta_msg: '',
         erro: false,
         erro_msg: '',
+        file: null,
         dialog: false,
         dialog2: false,
         dialog3: false,
         dialog4: false,
         dialog5: false,
+        loading: false,
+        url_base: 'https://sisplagea-api.herokuapp.com',
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,
@@ -265,8 +289,6 @@ export default {
             id: '',
             name: '',
             abstract: '',
-            start_year: '',
-            end_year: ''
 
         }],
         select: '',
@@ -277,7 +299,11 @@ export default {
         }],
         participantes: [{
             id: '',
-            name: ''
+            student_id: '',
+            name: '',
+            start_year: '',
+            end_year: '',
+            file_url: null
         }]
     }),
 
@@ -381,38 +407,56 @@ export default {
             axios({
                 method: 'get',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${id}/participants.json`,
-                headers: config.headers
+                headers: configFile.headers
             }).then((response)=>{
                 this.participantes = response.data.participants
+                console.log(this.participantes[0].file_url)
             })
         },
         atualizarAlunoVinculado(id){
+            this.loading = true
+            let formData = new FormData();
+            console.log(id)
+            console.log(this.select.id)
+            console.log(this.select.start_year)
+            console.log(this.select.end_year)
+            console.log(this.file)
+            console.log(this.select.file_url)
+            formData.append('start_year', this.select.start_year);
+            formData.append('end_year', this.select.end_year);
+            formData.append('file_to_upload', this.file);
              axios({
                 method: 'put',
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${id}/update_participant/${this.select.id}.json`,
-                headers: config.headers,
-                data: {
-                    start_year: this.select.start_year,
-                    end_year: this.select.end_year
-                }
-            }).then(() => {              
-                this.alerta_msg = 'Informações de aluno vinculado atualizada com sucesso.'
+                headers: configFile.headers,
+                data: formData
+            }).then(() => {
+                this.loading = false     
+                this.alerta_msg = 'Informações de aluno vinculado atualizadas com sucesso.'
                 this.alerta = !this.alerta
                 setTimeout(this.setAlertaFalse, 3000);
+                this.select.file_url = this.file
             }).catch((error)=>{
+                this.loading = false
                 this.erro_msg = error
                 this.erro = true
                 setTimeout(this.setErroFalse, 5000);
             })
+        },
+        onFileChange(file){    
+            var files = file.target.files
+            if(files.length >= 1){
+                this.file = files[0]; 
+            } else {
+                this.file = null
+            }
+            console.log(this.file)
         },
         setErroFalse(){
             this.erro = false
         },
         setAlertaFalse(){
             this.alerta = false
-        },
-        reload(){
-            document.location.reload()
         }
     },  
     

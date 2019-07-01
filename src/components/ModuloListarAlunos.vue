@@ -76,7 +76,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn outline flat @click="dialog = false">Cancelar</v-btn>
-                                        <v-btn color="info" outline flat @click="dialog = false, reload()">Salvar</v-btn>
+                                        <v-btn color="info" outline flat @click="dialog = false">Salvar</v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
@@ -110,6 +110,10 @@
                                                 <v-spacer></v-spacer>
                                                 <!-- <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn> -->
                                                 <v-flex xs12>
+                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
+                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
+                                                </v-flex>
+                                                <v-flex xs12>
                                                     <v-subheader >Área para editar aluno</v-subheader>
                                                 </v-flex>
                                                 <v-flex xs12 md6 sm6 lg6>
@@ -137,10 +141,6 @@
                                                 </v-radio-group>
                                                 <v-flex xs12>
                                                     <v-text-field label="Informações" v-model="relevant_informations"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12>
-                                                    <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
-                                                    <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>
@@ -269,9 +269,6 @@ export default {
         },
         setAlertaFalse(){
             this.alerta = false
-        },
-        reload(){
-            document.location.reload()
         }
     },  
     
