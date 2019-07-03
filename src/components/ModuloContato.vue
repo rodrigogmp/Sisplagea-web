@@ -92,16 +92,24 @@ export default {
 
                     this.alertaSucesso = !this.alertaSucesso
                     this.loading = false;
+                    setTimeout(this.setAlertaSucessoFalse, 5000);
                 }).catch((error) => {                    
                     this.alertaError = !this.alertaError
                     this.mensagemErro = "Erro ao enviar a mensagem, por favor tente novamente. Se o erro persistir contate o administrador do sistema" + error
                     this.loading = false
+                    setTimeout(this.setAlertaSucessoFalse, 5000);
                 })
             } else {
                 this.alertaError = !this.alertaError
                 this.mensagemErro = "Por favor, preencha os campos de 'email', 'assunto' e 'mensagem' para contactar o professor"
+                setTimeout(this.setAlertaSucessoFalse, 5000);
             }
-
+        },
+        setAlertaSucessoFalse(){
+            this.alertaSucesso = false
+        },
+        setAlertaErroFalse(){
+            this.alertaError = false
         }
     }
 }
