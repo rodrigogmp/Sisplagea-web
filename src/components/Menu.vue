@@ -4,10 +4,10 @@
             <v-list>
                 <v-list-tile avatar>
                     <v-list-tile-avatar color="white">
-                        <img contain src="@/assets/durelli.png">
+                        <v-img contain :src="photo_url" />
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title class="title">Rafael Durelli</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ informacoes.name }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -52,8 +52,12 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default {
     data: () => ({
+      informacoes: '',
+      photo_url: '',
+      url_base: 'https://sisplagea-api.herokuapp.com/',
       opcoes: [
         { titulo: 'Home', icone: 'home', para: '/home.html' },
         { titulo: 'Adicionar Aluno', icone: 'person_add', para: '/adicionarAluno.html' },
@@ -73,6 +77,18 @@
         { titulo: 'Projeto pesq.', icone: 'attachment', para: '/listarProjPesq.html' },
         { titulo: 'Disciplina', icone: 'border_color', para: '/listarDisciplinas.html' }
       ]
-    })
+    }),
+
+    mounted() {      
+        axios({
+            method: 'get',
+            url: 'https://sisplagea-api.herokuapp.com/api/v1/users/info.json',
+        }).then((response) => {
+            this.informacoes = response.data
+            this.photo_url = this.url_base+this.informacoes.photo.url
+        }).catch (() => {
+            alert('erro')
+        });
+    }
   }
 </script>
