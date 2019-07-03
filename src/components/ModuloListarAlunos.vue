@@ -80,7 +80,7 @@
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
-                            <v-dialog v-model="dialog2" persistent max-width="680px">
+                            <v-dialog v-model="dialog2" persistent max-width="860px">
                                 <v-card>
                                     <v-card-title>
                                         <span class="headline">Aluno: {{ name }} </span>
@@ -108,7 +108,6 @@
                                                     target="_blank">Lattes</v-btn>
                                                 </v-flex>
                                                 <v-spacer></v-spacer>
-                                                <!-- <v-btn outline flat @click="dialog= false,dialog2 = true" :right="true">Editar</v-btn> -->
                                                 <v-flex xs12>
                                                     <v-alert :value="alerta" type="success" transition="scale-transition" dismissible @click="alerta = false">{{ alerta_msg }}.</v-alert>
                                                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">{{ erro_msg }}</v-alert>
@@ -116,20 +115,19 @@
                                                 <v-flex xs12>
                                                     <v-subheader >Área para editar aluno</v-subheader>
                                                 </v-flex>
-                                                <v-flex xs12 md6 sm6 lg6>
-                                                    <v-layout justify-center>
-                                                        <v-flex offset-xs3>
-                                                            <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
-                                                        </v-flex>
-                                                    </v-layout>
-                                                </v-flex>
                                                 <v-flex xs12 sm6 md6>
                                                     <v-text-field label="Nome" v-model="name"></v-text-field>
-                                                    <v-layout row>
-                                                        <v-text-field label="Matrícula" v-model="registration"></v-text-field>
-                                                        <v-text-field label="Lattes" v-model="lattes_link"></v-text-field>
-                                                    </v-layout>
+                                                    <v-text-field label="Matrícula" v-model="registration"></v-text-field>
+                                                    <v-text-field label="Lattes" v-model="lattes_link"></v-text-field>
                                                     <v-text-field label="Email" v-model="email"></v-text-field>
+                                                </v-flex>
+                                                <v-flex xs6>
+                                                    <v-flex offset-xs3>
+                                                        <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
+                                                    </v-flex>
+                                                    <v-layout justify-center>
+                                                        <input type="file" id="file" ref="file" @change="onFileChange" accept="image/x-png,image/gif,image/jpeg">
+                                                    </v-layout>
                                                 </v-flex>
                                                 <v-radio-group v-model="category" label="Categoria:">
                                                     <v-layout row>
@@ -163,8 +161,9 @@
 
 <script>
 import axios from 'axios'
+import PictureInput from 'vue-picture-input'
 var config = {
-    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'Content-Type': 'multipart/form-data', 'uid': localStorage.getItem("data['uid']")}
 }
 export default {
     data: () => ({
@@ -174,6 +173,10 @@ export default {
         erro_msg: '',
         dialog: false,
         dialog2: false,
+        url_base: "https://sisplagea-api.herokuapp.com",
+        photo_url: '',
+        photo_update: '',
+        file: null,
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,
@@ -188,9 +191,12 @@ export default {
             lattes_link: '',
             relevant_informations: '',
             photo_url: ''
-
-        }],
+        }]
     }),
+
+    components: {
+        PictureInput
+    },
 
     props: {
         id: Number,
@@ -205,18 +211,19 @@ export default {
 
     methods : {
         atualizarAluno() {
+            let formData = new FormData();
+            formData.append('name', this.name)
+            formData.append('category', this.category)
+            formData.append('email', this.email)
+            formData.append('registration', this.registration)
+            formData.append('lattes_link', this.lattes_link)
+            formData.append('relevant_informations', this.relevant_informations)
+            formData.append('photo', this.photo_update)
             axios({
                 method: 'put',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/students/'+this.id+'.json',
                 headers: config.headers,
-                data: {
-                    name: this.name,
-                    category: this.category,
-                    email: this.email,
-                    registration: this.registration,
-                    lattes_link: this.lattes_link,
-                    relevant_informations: this.relevant_informations
-                }
+                data: formData
             }).then(() => {              
                 this.alerta_msg = 'Informações do aluno atualizadas com sucesso.'
                 this.alerta = !this.alerta
@@ -241,7 +248,7 @@ export default {
                 this.registration = response.data.registration
                 this.lattes_link = response.data.lattes_link
                 this.relevant_informations = response.data.relevant_informations
-                this.photo_url = 'https://sisplagea-api.herokuapp.com'+response.data.photo.url
+                this.photo_url = this.url_base+response.data.photo.url
             }).catch (() => {
 
             })
@@ -264,6 +271,11 @@ export default {
         redirecionarLattes(){
             return this.lattes_link
         },
+        onFileChange(file){            
+            var files = file.target.files[0];  
+            this.photo_update = files
+            this.photo_url = URL.createObjectURL(files)
+        },
         setErrorFalse(){
             this.erro = false
         },
@@ -279,8 +291,9 @@ export default {
             headers: config.headers,
         }).then((response) => {
             this.alunos = response.data.students
+            console.log(this.alunos[20].photo.url)
         }).catch (() => {
-            alert('erro')
+            // alert('erro')
         })
     },
 }
