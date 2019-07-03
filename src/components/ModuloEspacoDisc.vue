@@ -116,15 +116,11 @@ export default {
         adicionarMaterial(){
             if(this.file != null && this.name_file.length > 0){
                 this.loading2 = true;
-                // console.log("File " + this.file + ' nameFile ' + this.name_file)
-
                 //https://stackoverflow.com/questions/52645358/vuetify-file-uploads
                 let formData = new FormData()
                 formData.append('subject_id', this.disciplina.id)
                 formData.append('file_to_upload', this.file, this.file.name)
                 formData.append('name', this.name_file)
-                // console.log(this.name_file)           
-                //console.log(configFile.headers)
                 axios({
                     method: 'post',
                     url: 'https://sisplagea-api.herokuapp.com/api/v1/attachments.json',
@@ -168,8 +164,6 @@ export default {
                 this.loading1 = true;
                 let formData = new FormData()
                 formData.append('summary', this.ementa)            
-                // console.log(this.name_file)           
-                //console.log(configFile.headers)
                 axios({
                     method: 'put',
                     url: 'https://sisplagea-api.herokuapp.com/api/v1/subjects/'+ this.disciplina.id +'.json',
@@ -205,7 +199,6 @@ export default {
             headers: config.headers,
         }).then((response) => {
             this.disciplina = response.data
-            //console.log(this.disciplina)
         }).catch (() => {
             alert('erro')
         });
@@ -216,7 +209,6 @@ export default {
             headers: config.headers,
         }).then((response) => {
             this.materiais = response.data.materials
-            // console.log(this.materiais)
         }).catch(() => {
             alert("Erro ao buscar os materiais")
         });

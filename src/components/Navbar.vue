@@ -41,7 +41,6 @@ export default {
                 headers: config.headers
             }).then((response) => {
                 if(response.status == 200){
-                    console.log('aqui')
                     localStorage.removeItem("data['at']")
                     localStorage.removeItem("data['c']")
                     localStorage.removeItem("data['ct']")

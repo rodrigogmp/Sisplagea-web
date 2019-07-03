@@ -291,7 +291,6 @@ export default {
             headers: config.headers,
         }).then((response) => {
             this.alunos = response.data.students
-            console.log(this.alunos[20].photo.url)
         }).catch (() => {
             // alert('erro')
         })

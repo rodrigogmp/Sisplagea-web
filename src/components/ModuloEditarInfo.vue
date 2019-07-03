@@ -104,8 +104,6 @@ export default {
         }).then((response) => {
             this.informacoes = response.data
             this.photo_url = this.url_base+this.informacoes.photo.url
-            //console.log(this.disciplina)
-            //console.log(base_url+this.informacoes.photo.url)
         }).catch (() => {
             alert('erro')
         });

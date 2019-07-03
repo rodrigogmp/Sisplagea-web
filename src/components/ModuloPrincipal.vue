@@ -72,8 +72,6 @@ export default {
             url: 'https://sisplagea-api.herokuapp.com/api/v1/users/info.json',
         }).then((response) => {
             this.informacoes = response.data    
-            //console.log(this.disciplina)
-            //console.log(base_url+this.informacoes.photo.url)
         }).catch (() => {
             alert('erro')
         });

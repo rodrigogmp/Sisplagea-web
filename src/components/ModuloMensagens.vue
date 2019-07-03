@@ -82,7 +82,6 @@ export default {
             this.message = mensagem
         },
         deletarMensagem(){
-            console.log('aa')
             axios({
                 method: 'delete',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/contacts/'+this.message.id,

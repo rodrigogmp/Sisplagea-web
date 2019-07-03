@@ -410,18 +410,11 @@ export default {
                 headers: configFile.headers
             }).then((response)=>{
                 this.participantes = response.data.participants
-                console.log(this.participantes[0].file_url)
             })
         },
         atualizarAlunoVinculado(id){
             this.loading = true
             let formData = new FormData();
-            console.log(id)
-            console.log(this.select.id)
-            console.log(this.select.start_year)
-            console.log(this.select.end_year)
-            console.log(this.file)
-            console.log(this.select.file_url)
             formData.append('start_year', this.select.start_year);
             formData.append('end_year', this.select.end_year);
             formData.append('file_to_upload', this.file);
@@ -450,7 +443,6 @@ export default {
             } else {
                 this.file = null
             }
-            console.log(this.file)
         },
         setErroFalse(){
             this.erro = false
