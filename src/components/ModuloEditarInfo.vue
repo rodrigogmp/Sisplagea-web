@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-layout justify-center>
-            <v-flex xs12 sm10 md8 lg6>
+            <v-flex xs12 sm10 md8 lg8>
                 <h1>Editar informações</h1>
                 <v-divider></v-divider>
                 <form>
@@ -17,43 +17,17 @@
                             ></v-text-field>
                             <v-text-field v-model="informacoes.phone_number" label="Telefone" required />
                         </v-flex>
-                        <v-flex xs12 md6 sm6 lg6>
-                            <v-layout justify-center column>
-                                <v-flex xs6>
-                                    <picture-input
-                                        ref="pictureInput" 
-                                        @change="onChangeImage"
-                                        width="150" 
-                                        height="150" 
-                                        margin="1"
-                                        accept="image/jpeg,image/png" 
-                                        size="5"
-                                        radius="50" 
-                                        buttonClass="v-btn"
-                                        removeButtonClass="v-btn"                                        
-                                        :plain="false"
-                                        :removable="true"
-                                        :prefill="url_base"
-                                        :prefillOptions="{
-                                            fileType: 'png',
-                                            mediaType: 'image/png'
-                                        }"
-                                        :customStrings="{
-                                            upload: '<h1>Bummer!</h1>',
-                                            drag: 'Adicione sua foto',
-                                        }">
-                                    </picture-input>
-                                    <v-avatar size="180"><v-img :src="url_base+informacoes.photo.url" contain></v-img></v-avatar>
-                                </v-flex>
-                                <!--
-                                <v-flex offset-xs3>
-                                    <input type="file" accept="image/x-png,image/gif,image/jpeg">
-                                </v-flex>
-                                -->
-                            </v-layout>
-                        </v-flex>
+                        <v-layout justify-center>
+                            <v-flex xs6 align-self-center>
+                                <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
+                                <v-spacer></v-spacer>
+                                <v-layout justify-center>
+                                    <input type="file" id="file" ref="file" @change="onChangeImage" accept="image/x-png,image/gif,image/jpeg">
+                                </v-layout>
+                            </v-flex>
+                        </v-layout>
                     </v-layout>
-                    <v-textarea name="input-7-1" label="Sobre"></v-textarea>
+                    <v-textarea name="input-7-1" label="Sobre" v-model="informacoes.about"></v-textarea>
                     <v-btn @click="atualizarInformacoes" outline color="info" right :loading="loading">Atualizar</v-btn>
                 </form>
                 <v-alert :value="alertaSucess" type="success" transition="scale-transition" dismissible @click="alertaSucess = false">Informações pessoais alteradas com sucesso.</v-alert>
@@ -77,9 +51,10 @@ export default {
         loading: false,
         alertaSucess: false,
         alertaError: false,
-        // url_base: "https://sisplagea-api.herokuapp.com",
-        url_base: "https://dsj9gd804o60w.cloudfront.net/wp-content/uploads/2016/02/11_02.png",
-        avatar: ''
+        url_base: "https://sisplagea-api.herokuapp.com",
+        photo_update: '',
+        photo_url: '',
+        file: null
     }), 
 
     components: {
@@ -87,8 +62,10 @@ export default {
     },
 
     methods: {
-        onChangeImage(){
-            this.avatar = this.$refs.pictureInput.file
+        onChangeImage(file){
+            var files = file.target.files[0];  
+            this.photo_update = files
+            this.photo_url = URL.createObjectURL(files)
         },
 
         atualizarInformacoes(){
@@ -100,7 +77,8 @@ export default {
             formData.append('department', this.informacoes.department)
             formData.append('room', this.informacoes.room)
             formData.append('phone_number', this.informacoes.phone_number)
-            formData.append('photo', this.avatar)
+            formData.append('about', this.informacoes.about)
+            formData.append('photo', this.photo_update)
 
             axios({
                 method: 'put',
@@ -125,6 +103,7 @@ export default {
             url: 'https://sisplagea-api.herokuapp.com/api/v1/users/info.json',
         }).then((response) => {
             this.informacoes = response.data
+            this.photo_url = this.url_base+this.informacoes.photo.url
             //console.log(this.disciplina)
             //console.log(base_url+this.informacoes.photo.url)
         }).catch (() => {

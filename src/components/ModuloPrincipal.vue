@@ -3,16 +3,17 @@
         <v-layout align-center justify-center fill-height row>
             <v-flex xs2 offset-xs1>
                 <strong class="title" wrap>Nome:</strong>
-                <p>Lorem ipsum dolor sit amet consectetus</p>
+                <p> {{ informacoes.name }} </p>
                 <strong class="title" wrap>Formação:</strong>
-                <p>Lorem ipsum dolor sit amet consectetus Lorem ipsum</p>
+                <p> {{ informacoes.formation }} </p>
                 <strong class="title" wrap>Departamento:</strong>
-                <p>DCC</p>
+                <p> {{ informacoes.department }} </p>
                 <strong class="title" wrap>Sala:</strong>
-                <p>04</p>
+                <p> {{ informacoes.room }} </p>
             </v-flex>
             <v-flex xs4 shrink>
-                <v-img :src="require('@/assets/durelli.png')" contain height="280"></v-img>
+                <!-- <v-img :src="require('@/assets/durelli.png')" contain height="280"></v-img> -->
+                <v-img :src="url_base+informacoes.photo.url" contain height="280" />
             </v-flex>
         </v-layout>
         <br />
@@ -23,6 +24,8 @@
                         <v-layout align-center mb-4>
                                 <strong class="title">Sobre:</strong>
                         </v-layout>
+                        <p> {{ informacoes.about }} </p>
+                        <!--
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
@@ -38,6 +41,7 @@
                             nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
                             fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </p>
+                        -->
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -47,3 +51,32 @@
         </v-layout>
   </v-container>
 </template>
+
+<script>
+import axios from 'axios';
+import PictureInput from 'vue-picture-input';
+
+var config = {
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'Content-Type': 'multipart/form-data', 'uid': localStorage.getItem("data['uid']")}
+}
+
+export default {
+    data: () => ({
+        informacoes: '',
+        url_base: 'https://sisplagea-api.herokuapp.com',
+    }), 
+
+    mounted() {      
+        axios({
+            method: 'get',
+            url: 'https://sisplagea-api.herokuapp.com/api/v1/users/info.json',
+        }).then((response) => {
+            this.informacoes = response.data    
+            //console.log(this.disciplina)
+            //console.log(base_url+this.informacoes.photo.url)
+        }).catch (() => {
+            alert('erro')
+        });
+    }
+}
+</script>
