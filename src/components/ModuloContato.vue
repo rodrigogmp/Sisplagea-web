@@ -64,7 +64,7 @@ export default {
 
         submit(){
             if(this.email && this.assunto && this.mensagem){
-                loading = true;
+                this.loading = true;
 
                 let formData = new FormData()
                 formData.append('email', this.email)
@@ -92,9 +92,9 @@ export default {
 
                     this.alertaSucesso = !this.alertaSucesso
                     this.loading = false;
-                }).catch((error) => {
+                }).catch((error) => {                    
                     this.alertaError = !this.alertaError
-                    this.mensagemErro = "Erro ao enviar a mensagem, por favor tente novamente. Se o erro persistir contate o administrador do sistema"
+                    this.mensagemErro = "Erro ao enviar a mensagem, por favor tente novamente. Se o erro persistir contate o administrador do sistema" + error
                     this.loading = false
                 })
             } else {
