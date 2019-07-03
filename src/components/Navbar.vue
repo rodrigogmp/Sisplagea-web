@@ -7,7 +7,10 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-
+        <v-btn v-if="estaLogado" flat href="/mensagens.html">
+            <span class="mr-2">Mensagens</span>
+            <v-icon>email</v-icon>
+        </v-btn>
         <v-btn v-if="estaLogado" flat @click="logout">
             <span class="mr-2">Sair</span>
             <v-icon>input</v-icon>

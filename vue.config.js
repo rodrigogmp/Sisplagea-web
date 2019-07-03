@@ -101,6 +101,12 @@ module.exports = {
             template: 'public/index.html',
             title: 'Listar Publicações',
             chunks: ['chunk-vendors', 'chunk-common', 'listarDisciplinas']
+        },
+        'mensagens': {
+            entry: './src/pages/mensagens/main.js',
+            template: 'public/index.html',
+            title: 'Mensagens',
+            chunk: ['chunk-vendors', 'chunk-common', 'mensagens']
         }
     }
 }

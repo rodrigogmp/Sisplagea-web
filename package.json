@@ -15,7 +15,6 @@
     "vue-picture-input": "^2.1.6",
     "vuetify": "^1.5.14"
   },
-  
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-eslint": "^3.5.0",

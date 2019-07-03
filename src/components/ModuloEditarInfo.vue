@@ -33,12 +33,17 @@
                                         removeButtonClass="v-btn"                                        
                                         :plain="false"
                                         :removable="true"
+                                        :prefill="url_base"
+                                        :prefillOptions="{
+                                            fileType: 'png',
+                                            mediaType: 'image/png'
+                                        }"
                                         :customStrings="{
                                             upload: '<h1>Bummer!</h1>',
                                             drag: 'Adicione sua foto',
                                         }">
                                     </picture-input>
-                                    <!-- <v-avatar size="180"><v-img :src="require('@/assets/durelli.png')" contain></v-img></v-avatar> -->
+                                    <v-avatar size="180"><v-img :src="url_base+informacoes.photo.url" contain></v-img></v-avatar>
                                 </v-flex>
                                 <!--
                                 <v-flex offset-xs3>
@@ -63,7 +68,7 @@ import axios from 'axios';
 import PictureInput from 'vue-picture-input';
 
 var config = {
-    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'content-type': localStorage.getItem("data['ct']"), 'uid': localStorage.getItem("data['uid']")}
+    headers: {'access-token': localStorage.getItem("data['at']"), 'client': localStorage.getItem("data['c']"), 'Content-Type': 'multipart/form-data', 'uid': localStorage.getItem("data['uid']")}
 }
 
 export default {
@@ -72,7 +77,8 @@ export default {
         loading: false,
         alertaSucess: false,
         alertaError: false,
-        url_base: "https://sisplagea-api.herokuapp.com",
+        // url_base: "https://sisplagea-api.herokuapp.com",
+        url_base: "https://dsj9gd804o60w.cloudfront.net/wp-content/uploads/2016/02/11_02.png",
         avatar: ''
     }), 
 
@@ -82,7 +88,7 @@ export default {
 
     methods: {
         onChangeImage(){
-            alert("U.u")
+            this.avatar = this.$refs.pictureInput.file
         },
 
         atualizarInformacoes(){
@@ -94,6 +100,7 @@ export default {
             formData.append('department', this.informacoes.department)
             formData.append('room', this.informacoes.room)
             formData.append('phone_number', this.informacoes.phone_number)
+            formData.append('photo', this.avatar)
 
             axios({
                 method: 'put',
@@ -112,13 +119,14 @@ export default {
         }
     },
 
-    mounted() {        
+    mounted() {      
         axios({
             method: 'get',
             url: 'https://sisplagea-api.herokuapp.com/api/v1/users/info.json',
         }).then((response) => {
             this.informacoes = response.data
             //console.log(this.disciplina)
+            //console.log(base_url+this.informacoes.photo.url)
         }).catch (() => {
             alert('erro')
         });
