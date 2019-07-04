@@ -24,25 +24,14 @@
                     ></v-text-field>
                     <v-textarea label="Adicionar informações relevantes:" 
                     v-model="relevant_informations" required></v-textarea>
-                    <picture-input
-                        v-model="avatar" 
-                        ref="pictureInput" 
-                        @change="onChange"
-                        width="150" 
-                        height="150" 
-                        margin="16"
-                        accept="image/jpeg,image/png" 
-                        size="5"
-                        radius="50" 
-                        buttonClass="v-btn"
-                        removeButtonClass="v-btn"
-                        :plain="false"
-                        :removable="true"
-                        :customStrings="{
-                            upload: '<h1>Bummer!</h1>',
-                            drag: 'Adicione sua foto',
-                        }">
-                    </picture-input>
+                    <v-flex xs12>
+                        <v-flex offset-xs3 class="mb-3">
+                            <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
+                        </v-flex>
+                        <v-layout justify-center class="mb-4">
+                            <input type="file" id="file" ref="file" @change="onFileChange" accept="image/x-png,image/gif,image/jpeg">
+                        </v-layout>
+                    </v-flex>
                     <!-- <v-btn @click="alerta = !alerta" outline color="info" :right="true">Adicionar</v-btn> -->
                     <v-btn @click="cadastrarAluno" outline color="info" :right="true">Adicionar</v-btn>
                 </form>
@@ -71,11 +60,9 @@ export default {
             lattes_link: '',
             relevant_informations: '',
             registration: '',
-            avatar: ''
+            photo_url: '',
+            photo_create: '',
         }
-    },
-    components: {
-        PictureInput
     },
     methods : {
         cadastrarAluno() {
@@ -86,7 +73,7 @@ export default {
             formData.append('registration', this.registration)
             formData.append('lattes_link', this.lattes_link)
             formData.append('relevant_informations', this.relevant_informations)
-            formData.append('photo', this.avatar)
+            formData.append('photo', this.photo_create)
             axios({
                 method: 'post',
                 url: 'https://sisplagea-api.herokuapp.com/api/v1/students.json', data: formData,
@@ -102,8 +89,13 @@ export default {
                 this.registration = '',
                 this.lattes_link = '',
                 this.relevant_informations = '',
-                this.$refs.pictureInput = null
-                this.avatar = null
+                this.photo_url = '',
+                this.photo_create = ''
+
+                const input = this.$refs.file
+                input.type = 'text'
+                input.type = 'file'
+                
                 setTimeout(this.setAlertFalse, 5000);
 
             }).catch(()=>{
@@ -117,9 +109,11 @@ export default {
         setErrorFalse(){
             this.erro = false
         },
-        onChange() {
-            this.avatar = this.$refs.pictureInput.file
-        },
+        onFileChange(file){            
+            var files = file.target.files[0];  
+            this.photo_create = files
+            this.photo_url = URL.createObjectURL(files)
+        }
         
         
     }

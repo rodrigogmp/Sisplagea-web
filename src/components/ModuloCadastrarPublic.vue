@@ -135,8 +135,7 @@ export default {
             })
         },
         onFileChange(file){
-            var files = file.target.files
-            console.log(files)     
+            var files = file.target.files   
             if(files.length >= 1){
                 this.file = this.$refs.file.files[0]; 
             } else {

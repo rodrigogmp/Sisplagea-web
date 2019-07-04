@@ -19,7 +19,7 @@
                     <v-card-actions>
                         <v-btn color="secundary" outline depressed href="/paginaPrincipal.html">Voltar</v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" depressed  @click="login">Logar</v-btn>
+                        <v-btn color="primary" depressed  @click="login" :loading="loading">Logar</v-btn>
                     </v-card-actions>
                     <v-alert :value="erro" type="error" transition="scale-transition" dismissible @click="erro = false">Usuário ou senha incorreto.</v-alert>
                 </v-card>
@@ -34,6 +34,7 @@
     export default {
         data: () => ({
             erro: false,
+            loading: false,
             email: '',
             senha: '',
         
@@ -41,6 +42,7 @@
     
         methods: {
             login() {
+                this.loading = true;
                 axios ({
                     method: 'post',
                     url: 'https://sisplagea-api.herokuapp.com/api/v1/auth/sign_in',
@@ -57,7 +59,9 @@
                         localStorage.setItem("data['uid']", response.headers["uid"]);
                         window.location.href = '/home.html'
                     }
+                    this.loading = false;
                 }).catch(()=>{
+                    this.loading = false;
                     this.erro = true
                     setTimeout(this.setErrorFalse, 5000);
                 })

@@ -20,8 +20,7 @@
                         <v-layout justify-center>
                             <v-flex xs6 align-self-center>
                                 <v-avatar size="180"><v-img :src="photo_url" /></v-avatar>
-                                <v-spacer></v-spacer>
-                                <v-layout justify-center>
+                                <v-layout justify-center class="mb-3">
                                     <input type="file" id="file" ref="file" @change="onChangeImage" accept="image/x-png,image/gif,image/jpeg">
                                 </v-layout>
                             </v-flex>
@@ -56,10 +55,6 @@ export default {
         photo_url: '',
         file: null
     }), 
-
-    components: {
-        PictureInput
-    },
 
     methods: {
         onChangeImage(file){
