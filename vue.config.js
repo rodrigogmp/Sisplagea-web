@@ -72,12 +72,6 @@ module.exports = {
             title: 'Informações da disciplina',
             chunks: ['chunk-vendors', 'chunk-common', 'espacoDisciplina']
         },
-        'buscarAtividades': {
-            entry: './src/pages/buscarAtividades/main.js',
-            template: 'public/index.html',
-            title: 'Buscar atividades do professor',
-            chunks: ['chunk-vendors', 'chunk-common', 'buscarAtividades']
-        },
         'listarPublicacoes': {
             entry: './src/pages/listarPublicacoes/main.js',
             template: 'public/index.html',

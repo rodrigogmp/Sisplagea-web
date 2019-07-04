@@ -61,7 +61,6 @@ import axios from 'axios'
       opcoes: [
         { titulo: 'Home', icone: 'home', para: '/home.html' },
         { titulo: 'Adicionar Aluno', icone: 'person_add', para: '/adicionarAluno.html' },
-        { titulo: 'Buscar atividades', icone: 'search', para: '/buscarAtividades.html' },
         { titulo: 'Editar Info Pessoais', icone: 'settings', para: '/infoPessoais.html' }
       ],
       cadastros: [
