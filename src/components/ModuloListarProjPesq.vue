@@ -280,6 +280,7 @@ export default {
         dialog5: false,
         loading: false,
         url_base: 'https://sisplagea-api.herokuapp.com',
+        url_base2: 'https://sisplagea-api.https://sisplagea-api.herokuapp.com/uploads/project_participant/file_to_upload/',
         rowsPerPageItems: [4, 8, 12],
         pagination: {
             rowsPerPage: 4,
@@ -423,12 +424,13 @@ export default {
                 url: `https://sisplagea-api.herokuapp.com/api/v1/projects/${id}/update_participant/${this.select.id}.json`,
                 headers: configFile.headers,
                 data: formData
-            }).then(() => {
+            }).then((response) => {
                 this.loading = false     
                 this.alerta_msg = 'Informações de aluno vinculado atualizadas com sucesso.'
                 this.alerta = !this.alerta
                 setTimeout(this.setAlertaFalse, 3000);
-                this.select.file_url = this.file
+                this.select.file_url = ''
+                this.listarParticipantes(id)
             }).catch((error)=>{
                 this.loading = false
                 this.erro_msg = error
@@ -437,9 +439,9 @@ export default {
             })
         },
         onFileChange(file){    
-            var files = file.target.files
+            var files = file.target.files            
             if(files.length >= 1){
-                this.file = files[0]; 
+                this.file = this.$refs.file.files[0]; 
             } else {
                 this.file = null
             }
