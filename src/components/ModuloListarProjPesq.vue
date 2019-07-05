@@ -429,8 +429,9 @@ export default {
                 this.alerta_msg = 'Informações de aluno vinculado atualizadas com sucesso.'
                 this.alerta = !this.alerta
                 setTimeout(this.setAlertaFalse, 3000);
-                this.select.file_url = ''
+                this.participantes.push(response.data)
                 this.listarParticipantes(id)
+                
             }).catch((error)=>{
                 this.loading = false
                 this.erro_msg = error
@@ -439,9 +440,9 @@ export default {
             })
         },
         onFileChange(file){    
-            var files = file.target.files            
+            var files = file.target.files
             if(files.length >= 1){
-                this.file = this.$refs.file.files[0]; 
+                this.file = files[0]; 
             } else {
                 this.file = null
             }
